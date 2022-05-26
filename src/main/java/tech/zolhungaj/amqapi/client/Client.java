@@ -1,5 +1,7 @@
 package tech.zolhungaj.amqapi.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.util.HttpCookieStore;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -146,16 +148,24 @@ public class Client implements AutoCloseable{
         throw new AuthenticationFailedException("Account already logged in");
     }
 
-    private void getTokenAndPort(){
+    private void getTokenAndPort() {
         LOG.info("Getting token and port...");
-        TokenResponse tokenResponse = webClient
+        String response = webClient
                 .get()
                 .uri(TOKEN_URL)
-                .accept(MediaType.APPLICATION_JSON)
+                .accept(MediaType.ALL)
                 .retrieve()
-                .bodyToMono(TokenResponse.class)
+                .bodyToMono(String.class)
                 .log(WEB_CLIENT_LOG_CATEGORY, WEB_CLIENT_LOG_LEVEL)
                 .block(TIMEOUT);
+        //workaround because the server returns "Content type 'text/html;charset=UTF-8'"
+        TokenResponse tokenResponse;
+                try{
+                    ObjectMapper mapper = new ObjectMapper();
+                    tokenResponse = mapper.readValue(response, TokenResponse.class);
+                }catch(JsonProcessingException e){
+                    throw new UnexpectedResponseException(e);
+                }
         if(tokenResponse == null){
             throw new AuthenticationFailedException("Token response is null");
         }
