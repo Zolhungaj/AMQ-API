@@ -2,6 +2,7 @@ package tech.zolhungaj.amqapi.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -20,7 +21,7 @@ public class Client implements AutoCloseable{
     private static final String SIGN_IN_URL = "/signIn";
     private static final String ABORT_SIGN_IN_URL = "/alreadyOnlineLogin";
     private static final String TOKEN_URL = "/socketToken";
-    private static final String LOGOUT_URL = "/signout";
+    private static final String SIGN_OUT_URL = "/signout";
     private static final URI SOCKET_URL = URI.create("https://socket.animemusicquiz.com");
 
     private static final WebClient webClient = WebClient.builder()
@@ -82,13 +83,14 @@ public class Client implements AutoCloseable{
                 .block(TIMEOUT);
 
         if(authenticationResponse == null){
-            throw new AuthenticationFailedException("authentication response is null");
+            throw new AuthenticationFailedException("Authentication response is null");
         }
         if(!authenticationResponse.verified()){
-            throw new AuthenticationFailedException("verified is false");
+            throw new AuthenticationFailedException("Verified is false");
         }
         LOG.info("Authentication successful!");
         if(!forceConnect && authenticationResponse.alreadyOnline()){
+            LOG.info("Account already logged in");
             abortAuthentication();
         }
     }
@@ -109,14 +111,20 @@ public class Client implements AutoCloseable{
     }
 
     private void abortAuthentication(){
+        LOG.info("Aborting authentication");
         webClient
                 .post()
                 .uri(ABORT_SIGN_IN_URL)
                 .bodyValue(new AbortAuthentication(false))
                 .retrieve()
                 .toBodilessEntity()
+                .onErrorResume(
+                        WebClientResponseException.class,
+                        ex -> ex.getStatusCode() == HttpStatus.GATEWAY_TIMEOUT ? Mono.empty() : Mono.error(ex))
+                        //handles error where server fails to handle abort.
                 .log(WEB_CLIENT_LOG_CATEGORY, WEB_CLIENT_LOG_LEVEL)
                 .block(TIMEOUT);
+        throw new AuthenticationFailedException("Account already logged in");
     }
 
     private void getTokenAndPort(){
@@ -130,10 +138,10 @@ public class Client implements AutoCloseable{
                 .log(WEB_CLIENT_LOG_CATEGORY, WEB_CLIENT_LOG_LEVEL)
                 .block(TIMEOUT);
         if(tokenResponse == null){
-            throw new AuthenticationFailedException("token response is null");
+            throw new AuthenticationFailedException("Token response is null");
         }
         if(tokenResponse.token().isBlank()){
-            throw new AuthenticationFailedException("token is blank");
+            throw new AuthenticationFailedException("Token is blank");
         }
         this.token = tokenResponse.token();
         this.port = Integer.parseInt(tokenResponse.port());
@@ -145,8 +153,22 @@ public class Client implements AutoCloseable{
                     """, token, port);
     }
 
-    @Override
-    public void close() throws Exception {
 
+    @Override
+    public void close() {
+        signOut();
+    }
+    private void signOut(){
+        LOG.info("Signing out...");
+        webClient
+                .get()
+                .uri(SIGN_OUT_URL)
+                .retrieve()
+                .toBodilessEntity()
+                .log(WEB_CLIENT_LOG_CATEGORY, WEB_CLIENT_LOG_LEVEL)
+                .block(TIMEOUT);
+        this.token = null;
+        this.port = 0;
+        LOG.info("Signed out!");
     }
 }
