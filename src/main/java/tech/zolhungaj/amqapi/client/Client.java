@@ -1,9 +1,14 @@
 package tech.zolhungaj.amqapi.client;
 
+import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.util.HttpCookieStore;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.JettyClientHttpConnector;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
@@ -32,16 +37,11 @@ public class Client implements AutoCloseable{
     private static final String SIGN_OUT_URL = "/signout";
     private static final URI SOCKET_URL = URI.create("https://socket.animemusicquiz.com");
 
-    private static final WebClient webClient = WebClient.builder()
-            .baseUrl(BASE_URL)
-            .defaultHeader("User-Agent", "AMQ-API Client")
-            .build();
 
     private static final String WEB_CLIENT_LOG_CATEGORY = "Client";
     private static final Level WEB_CLIENT_LOG_LEVEL = Level.ALL;
 
-    private static final boolean DEFAULT_FORCE_CONNECT = false;
-
+    private final WebClient webClient;
     private String token = null;
     private int port = 0;
 
@@ -49,11 +49,22 @@ public class Client implements AutoCloseable{
     private final boolean forceConnect;
 
 
-    public Client(String username, String password){
-        this(username, password, DEFAULT_FORCE_CONNECT);
-    }
-
     public Client(String username, String password, boolean forceConnect){
+
+        var httpClient = new HttpClient(new SslContextFactory.Client.Client());
+        httpClient.setCookieStore(new HttpCookieStore());
+
+        this.webClient = WebClient.builder()
+                .baseUrl(BASE_URL)
+                .defaultHeader("User-Agent", "AMQ-API Client")
+                .clientConnector(new JettyClientHttpConnector(httpClient))
+                .exchangeStrategies(ExchangeStrategies
+                        .builder()
+                        .codecs(
+                                clientCodecConfigurer ->
+                                clientCodecConfigurer.defaultCodecs().maxInMemorySize(50_000_000))
+                        .build())
+                .build();
         this.authentication = new Authentication(username, password);
         this.forceConnect = forceConnect;
         this.connect();
@@ -140,7 +151,7 @@ public class Client implements AutoCloseable{
         TokenResponse tokenResponse = webClient
                 .get()
                 .uri(TOKEN_URL)
-                .accept(MediaType.ALL)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(TokenResponse.class)
                 .log(WEB_CLIENT_LOG_CATEGORY, WEB_CLIENT_LOG_LEVEL)

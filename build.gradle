@@ -27,6 +27,7 @@ dependencies {
 		// excluding org.json because the one imported in socket-io has flaws
 		exclude group: 'org.json', module: 'json'
 	}
+	implementation 'org.eclipse.jetty:jetty-reactive-httpclient'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
