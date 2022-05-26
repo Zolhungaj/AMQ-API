@@ -41,15 +41,24 @@ public class Client implements AutoCloseable{
     }
 
     private void connect(){
-        final String category = "Login";
+        loadWebpage();
+        authenticate();
+        getTokenAndPort();
+    }
+
+    private void loadWebpage(){
+        LOG.info("Loading webpage...");
         webClient
                 .get()
                 .retrieve()
                 .toBodilessEntity()
                 .log(WEB_CLIENT_LOG_CATEGORY, WEB_CLIENT_LOG_LEVEL)
                 .block(TIMEOUT);
+        LOG.info("Webpage loaded!");
+    }
 
-
+    private void authenticate(){
+        LOG.info("Starting authentication...");
         AuthenticationResponse authenticationResponse = webClient
                 .post()
                 .uri(SIGN_IN_URL)
@@ -66,7 +75,11 @@ public class Client implements AutoCloseable{
         if(!authenticationResponse.verified()){
             throw new AuthenticationFailedException("verified is false");
         }
+        LOG.info("Authentication successful!");
+    }
 
+    private void getTokenAndPort(){
+        LOG.info("Getting token and port...");
         TokenResponse tokenResponse = webClient
                 .get()
                 .uri(TOKEN_URL)
@@ -83,10 +96,12 @@ public class Client implements AutoCloseable{
         }
         this.token = tokenResponse.token();
         this.port = Integer.parseInt(tokenResponse.port());
-    }
 
-    private void loadWebpage(){
-
+        LOG.info("""
+                    Token and port acquired!
+                        Token: {},
+                        Port: {}
+                    """, token, port);
     }
 
     @Override
