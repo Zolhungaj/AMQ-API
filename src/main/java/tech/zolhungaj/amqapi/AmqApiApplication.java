@@ -23,6 +23,11 @@ public class AmqApiApplication implements ApplicationRunner {
 		boolean force = args.getOptionValues("force") != null;
 		try(var client = new Client(username, password, force)){
 			LOG.info("logged in");
+			try{
+				Thread.sleep(5000);
+			}catch (InterruptedException e){
+
+			}
 		}
 	}
 }

@@ -2,6 +2,8 @@ package tech.zolhungaj.amqapi.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.util.HttpCookieStore;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -14,10 +16,7 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
-import tech.zolhungaj.amqapi.client.exceptions.AuthenticationFailedException;
-import tech.zolhungaj.amqapi.client.exceptions.ServerUnavailableException;
-import tech.zolhungaj.amqapi.client.exceptions.TooManyRequestsException;
-import tech.zolhungaj.amqapi.client.exceptions.UnexpectedResponseException;
+import tech.zolhungaj.amqapi.client.exceptions.*;
 import tech.zolhungaj.amqapi.client.requests.AbortAuthentication;
 import tech.zolhungaj.amqapi.client.requests.Authentication;
 import tech.zolhungaj.amqapi.client.responses.AuthenticationResponse;
@@ -50,6 +49,8 @@ public class Client implements AutoCloseable{
     private final Authentication authentication;
     private final boolean forceConnect;
 
+    private int sessionId;
+
 
     public Client(String username, String password, boolean forceConnect){
 
@@ -76,6 +77,39 @@ public class Client implements AutoCloseable{
         loadWebpage();
         authenticate();
         getTokenAndPort();
+        IO.Options options = new IO.Options();
+        options.reconnection = true;
+        options.reconnectionAttempts = 5;
+        options.reconnectionDelay = 1000;
+        options.reconnectionDelayMax = 3000;
+        options.query = "token=%s".formatted(this.token);
+        Socket socket = IO.socket(SOCKET_URL.resolve("/:%d".formatted(this.port)), options);
+        socket.on("sessionId", args -> {
+            Object sessionId = args[0];
+            LOG.info("Received sessionId {}", sessionId);
+            if(sessionId instanceof Integer i){
+                this.sessionId = i;
+            }
+        });
+        socket.on("command", args -> {
+            Object payload = args[0];//object with two entries: "command" and "data"
+            LOG.info("Command: {}", payload);
+        });
+        socket.on("disconnect", args -> LOG.info("Socket disconnected..."));
+        socket.on("reconnect", args -> LOG.info("Successfully reconnected! {}", this.sessionId));
+        socket.on("reconnect_failed", args -> {
+            throw new SocketDisconnectedException("Unable to reconnect to the server");
+        });
+        socket.on("reconnection_attempt", args -> LOG.info("Attempting to reconnect: {}", this.sessionId));
+        socket.on("error", args -> {
+            throw new SocketDisconnectedException("error");
+        });
+        socket.on("connect_error", args -> {
+            throw new SocketDisconnectedException("connect_error");
+        });
+
+        socket.connect();
+
     }
 
     private void loadWebpage(){
