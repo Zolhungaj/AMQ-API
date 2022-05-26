@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.client;
+package tech.zolhungaj.amqapi.client.exceptions;
 
 public class AuthenticationFailedException extends RuntimeException{
     public AuthenticationFailedException(String cause){

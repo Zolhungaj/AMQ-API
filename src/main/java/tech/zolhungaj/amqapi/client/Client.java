@@ -7,6 +7,14 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
+import tech.zolhungaj.amqapi.client.exceptions.AuthenticationFailedException;
+import tech.zolhungaj.amqapi.client.exceptions.ServerUnavailableException;
+import tech.zolhungaj.amqapi.client.exceptions.TooManyRequestsException;
+import tech.zolhungaj.amqapi.client.exceptions.UnexpectedResponseException;
+import tech.zolhungaj.amqapi.client.requests.AbortAuthentication;
+import tech.zolhungaj.amqapi.client.requests.Authentication;
+import tech.zolhungaj.amqapi.client.responses.AuthenticationResponse;
+import tech.zolhungaj.amqapi.client.responses.TokenResponse;
 
 import java.net.URI;
 import java.time.Duration;
