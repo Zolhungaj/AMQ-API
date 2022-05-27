@@ -82,7 +82,7 @@ public class Client implements AutoCloseable{
         options.reconnectionAttempts = 5;
         options.reconnectionDelay = 1000;
         options.reconnectionDelayMax = 3000;
-        options.query = "token=%s".formatted(this.token);
+        options.query = "{'token': '%s'}".formatted(this.token);
         Socket socket = IO.socket(SOCKET_URL.resolve("/:%d".formatted(this.port)), options);
         socket.on("sessionId", args -> {
             Object sessionId = args[0];
@@ -95,17 +95,28 @@ public class Client implements AutoCloseable{
             Object payload = args[0];//object with two entries: "command" and "data"
             LOG.info("Command: {}", payload);
         });
-        socket.on("disconnect", args -> LOG.info("Socket disconnected..."));
-        socket.on("reconnect", args -> LOG.info("Successfully reconnected! {}", this.sessionId));
-        socket.on("reconnect_failed", args -> {
+        socket.on(Socket.EVENT_CONNECT, args -> LOG.info("Connected!"));
+        socket.on(Socket.EVENT_CONNECTING, args -> LOG.info("Connecting..."));
+        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> LOG.info("Connect timed out..."));
+        socket.on(Socket.EVENT_CONNECT_ERROR, args -> {
+            LOG.info("Connection error");
+//            throw new SocketDisconnectedException("connect_error");
+        });
+        socket.on(Socket.EVENT_PING, args -> LOG.info("ping"));
+        socket.on(Socket.EVENT_PONG, args -> LOG.info("pong"));
+
+        socket.on(Socket.EVENT_MESSAGE, args -> LOG.info("message"));
+
+        socket.on(Socket.EVENT_DISCONNECT, args -> LOG.info("Socket disconnected..."));
+        socket.on(Socket.EVENT_RECONNECT_ERROR, args -> LOG.info("Reconnection error"));
+        socket.on(Socket.EVENT_RECONNECT, args -> LOG.info("Successfully reconnected! {}", this.sessionId));
+        socket.on(Socket.EVENT_RECONNECTING, args -> LOG.info("Reconnecting..."));
+        socket.on(Socket.EVENT_RECONNECT_FAILED, args -> {
             throw new SocketDisconnectedException("Unable to reconnect to the server");
         });
-        socket.on("reconnection_attempt", args -> LOG.info("Attempting to reconnect: {}", this.sessionId));
-        socket.on("error", args -> {
+        socket.on(Socket.EVENT_RECONNECT_ATTEMPT, args -> LOG.info("Attempting to reconnect: {}", this.sessionId));
+        socket.on(Socket.EVENT_ERROR, args -> {
             throw new SocketDisconnectedException("error");
-        });
-        socket.on("connect_error", args -> {
-            throw new SocketDisconnectedException("connect_error");
         });
 
         socket.connect();
@@ -119,6 +130,15 @@ public class Client implements AutoCloseable{
                 .retrieve()
                 .toBodilessEntity()
                 .log(WEB_CLIENT_LOG_CATEGORY, WEB_CLIENT_LOG_LEVEL)
+                .onErrorResume(WebClientResponseException.class,
+                        ex -> Mono.error(
+                                ex.getStatusCode().is5xxServerError()
+                                        ?
+                                        new ServerUnavailableException(ex)
+                                        :
+                                        new UnexpectedResponseException(ex)
+                        )
+                )
                 .block(TIMEOUT);
         LOG.info("Webpage loaded!");
     }
