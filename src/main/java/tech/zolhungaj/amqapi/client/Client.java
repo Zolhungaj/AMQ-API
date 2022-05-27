@@ -36,7 +36,7 @@ public class Client implements AutoCloseable{
     private static final String ABORT_SIGN_IN_URL = "/alreadyOnlineLogin";
     private static final String TOKEN_URL = "/socketToken";
     private static final String SIGN_OUT_URL = "/signout";
-    private static final URI SOCKET_URL = URI.create("https://socket.animemusicquiz.com");
+    private static final String SOCKET_URL = "https://socket.animemusicquiz.com";
 
 
     private static final String WEB_CLIENT_LOG_CATEGORY = "Client";
@@ -82,8 +82,8 @@ public class Client implements AutoCloseable{
         options.reconnectionAttempts = 5;
         options.reconnectionDelay = 1000;
         options.reconnectionDelayMax = 3000;
-        options.query = "{'token': '%s'}".formatted(this.token);
-        Socket socket = IO.socket(SOCKET_URL.resolve("/:%d".formatted(this.port)), options);
+        options.query = "token=%s".formatted(this.token);
+        Socket socket = IO.socket(URI.create(SOCKET_URL +":%d".formatted(this.port)), options);
         socket.on("sessionId", args -> {
             Object sessionId = args[0];
             LOG.info("Received sessionId {}", sessionId);
@@ -100,7 +100,7 @@ public class Client implements AutoCloseable{
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> LOG.info("Connect timed out..."));
         socket.on(Socket.EVENT_CONNECT_ERROR, args -> {
             LOG.info("Connection error");
-//            throw new SocketDisconnectedException("connect_error");
+            throw new SocketDisconnectedException("connect_error");
         });
         socket.on(Socket.EVENT_PING, args -> LOG.info("ping"));
         socket.on(Socket.EVENT_PONG, args -> LOG.info("pong"));
