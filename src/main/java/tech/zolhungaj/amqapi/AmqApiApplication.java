@@ -24,7 +24,7 @@ public class AmqApiApplication implements ApplicationRunner {
 		try(var client = new Client(username, password, force)){
 			LOG.info("logged in");
 			try{
-				Thread.sleep(5000);
+				Thread.sleep(60_000);
 			}catch (InterruptedException e){
 
 			}

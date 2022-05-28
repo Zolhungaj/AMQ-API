@@ -46,6 +46,8 @@ public class Client implements AutoCloseable{
     private String token = null;
     private int port = 0;
 
+    private Socket socket;
+
     private final Authentication authentication;
     private final boolean forceConnect;
 
@@ -77,50 +79,7 @@ public class Client implements AutoCloseable{
         loadWebpage();
         authenticate();
         getTokenAndPort();
-        IO.Options options = new IO.Options();
-        options.reconnection = true;
-        options.reconnectionAttempts = 5;
-        options.reconnectionDelay = 1000;
-        options.reconnectionDelayMax = 3000;
-        options.query = "token=%s".formatted(this.token);
-        Socket socket = IO.socket(URI.create(SOCKET_URL +":%d".formatted(this.port)), options);
-        socket.on("sessionId", args -> {
-            Object sessionId = args[0];
-            LOG.info("Received sessionId {}", sessionId);
-            if(sessionId instanceof Integer i){
-                this.sessionId = i;
-            }
-        });
-        socket.on("command", args -> {
-            Object payload = args[0];//object with two entries: "command" and "data"
-            LOG.info("Command: {}", payload);
-        });
-        socket.on(Socket.EVENT_CONNECT, args -> LOG.info("Connected!"));
-        socket.on(Socket.EVENT_CONNECTING, args -> LOG.info("Connecting..."));
-        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> LOG.info("Connect timed out..."));
-        socket.on(Socket.EVENT_CONNECT_ERROR, args -> {
-            LOG.info("Connection error");
-            throw new SocketDisconnectedException("connect_error");
-        });
-        socket.on(Socket.EVENT_PING, args -> LOG.info("ping"));
-        socket.on(Socket.EVENT_PONG, args -> LOG.info("pong"));
-
-        socket.on(Socket.EVENT_MESSAGE, args -> LOG.info("message"));
-
-        socket.on(Socket.EVENT_DISCONNECT, args -> LOG.info("Socket disconnected..."));
-        socket.on(Socket.EVENT_RECONNECT_ERROR, args -> LOG.info("Reconnection error"));
-        socket.on(Socket.EVENT_RECONNECT, args -> LOG.info("Successfully reconnected! {}", this.sessionId));
-        socket.on(Socket.EVENT_RECONNECTING, args -> LOG.info("Reconnecting..."));
-        socket.on(Socket.EVENT_RECONNECT_FAILED, args -> {
-            throw new SocketDisconnectedException("Unable to reconnect to the server");
-        });
-        socket.on(Socket.EVENT_RECONNECT_ATTEMPT, args -> LOG.info("Attempting to reconnect: {}", this.sessionId));
-        socket.on(Socket.EVENT_ERROR, args -> {
-            throw new SocketDisconnectedException("error");
-        });
-
-        socket.connect();
-
+        connectSocket();
     }
 
     private void loadWebpage(){
@@ -236,10 +195,80 @@ public class Client implements AutoCloseable{
                     """, token, port);
     }
 
+    private void connectSocket(){
+        IO.Options options = new IO.Options();
+        options.reconnection = true;
+        options.reconnectionAttempts = 5;
+        options.reconnectionDelay = 1000;
+        options.reconnectionDelayMax = 3000;
+        options.query = "token=%s".formatted(this.token);
+        socket = IO.socket(URI.create(SOCKET_URL +":%d".formatted(this.port)), options);
+        socket.on("sessionId", args -> {
+            socketDebug("sessionId", args);
+            Object sessionId = args[0];
+            if(sessionId instanceof Integer i){
+                this.sessionId = i;
+            }
+        });
+        socket.on("command", args -> {
+            socketDebug("command", args);
+            Object payload = args[0];//object with two entries: "command" and "data"
+
+        });
+        socket.on(Socket.EVENT_CONNECT, args -> socketInfo("Connected!", args));
+        socket.on(Socket.EVENT_CONNECTING, args -> socketInfo("Connecting...", args));
+        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> socketInfo("Connect timed out...", args));
+        socket.on(Socket.EVENT_CONNECT_ERROR, args -> {
+            socketInfo("Connection error", args);
+            throw new SocketDisconnectedException("connect_error");
+        });
+        socket.on(Socket.EVENT_PING, args -> socketDebug("ping", args));
+        socket.on(Socket.EVENT_PONG, args -> socketDebug("pong", args));
+
+        socket.on(Socket.EVENT_MESSAGE, args -> socketDebug("message", args));
+
+        socket.on(Socket.EVENT_DISCONNECT, args -> socketInfo("Socket disconnected...", args));
+        socket.on(Socket.EVENT_RECONNECT_ERROR, args -> socketInfo("Reconnection error", args));
+        socket.on(Socket.EVENT_RECONNECT, args -> socketInfo("Successfully reconnected! " + this.sessionId, args));
+        socket.on(Socket.EVENT_RECONNECTING, args -> socketInfo("Reconnecting...", args));
+        socket.on(Socket.EVENT_RECONNECT_FAILED, args -> {
+            socketInfo("reconnect failed", args);
+            throw new SocketDisconnectedException("Unable to reconnect to the server");
+        });
+        socket.on(Socket.EVENT_RECONNECT_ATTEMPT, args -> socketInfo("Attempting to reconnect: " + this.sessionId, args));
+        socket.on(Socket.EVENT_ERROR, args -> {
+            socketInfo("socket error", args);
+            throw new SocketDisconnectedException("error");
+        });
+
+        socket.connect();
+    }
+
+    private void socketDebug(String event, Object... args){
+        if(LOG.isDebugEnabled()){
+            LOG.debug(event);
+            for(Object o : args){
+                LOG.debug("    {}", o);
+            }
+        }else{
+            socketInfo(event, args);//replace later
+        }
+    }
+
+    private void socketInfo(String event, Object... args){
+        if(LOG.isInfoEnabled()){
+            LOG.info(event);
+            for(Object o : args){
+                LOG.info("    {}", o);
+            }
+        }
+    }
+
 
     @Override
     public void close() {
         signOut();
+        closeSocket();
     }
     private void signOut(){
         LOG.info("Signing out...");
@@ -253,5 +282,15 @@ public class Client implements AutoCloseable{
         this.token = null;
         this.port = 0;
         LOG.info("Signed out!");
+    }
+
+    private void closeSocket(){
+        if(socket == null){
+            return;
+        }
+        socket.off();
+        socket.disconnect();
+        socket.close();
+        socket = null;
     }
 }
