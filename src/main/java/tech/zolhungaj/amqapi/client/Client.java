@@ -7,6 +7,7 @@ import io.socket.client.Socket;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.util.HttpCookieStore;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,9 @@ import tech.zolhungaj.amqapi.client.responses.TokenResponse;
 
 import java.net.URI;
 import java.time.Duration;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class Client implements AutoCloseable{
@@ -52,6 +56,10 @@ public class Client implements AutoCloseable{
     private final boolean forceConnect;
 
     private int sessionId;
+
+    private final BlockingQueue<JSONObject> commandQueue = new ArrayBlockingQueue<>(500);
+
+    private Long currentPing = 0L;
 
 
     public Client(String username, String password, boolean forceConnect){
@@ -212,8 +220,12 @@ public class Client implements AutoCloseable{
         });
         socket.on("command", args -> {
             socketDebug("command", args);
-            Object payload = args[0];//object with two entries: "command" and "data"
-
+            if(args[0] instanceof JSONObject payload){
+                //object with two entries: "command" and "data"
+                addCommand(payload);
+            }else{
+                LOG.error("Malformed command, {} of type {}", args[0], args[0].getClass());
+            }
         });
         socket.on(Socket.EVENT_CONNECT, args -> socketInfo("Connected!", args));
         socket.on(Socket.EVENT_CONNECTING, args -> socketInfo("Connecting...", args));
@@ -223,7 +235,12 @@ public class Client implements AutoCloseable{
             throw new SocketDisconnectedException("connect_error");
         });
         socket.on(Socket.EVENT_PING, args -> socketDebug("ping", args));
-        socket.on(Socket.EVENT_PONG, args -> socketDebug("pong", args));
+        socket.on(Socket.EVENT_PONG, args -> {
+            if(args[0] instanceof Long l) {
+                currentPing = l;
+            }
+            socketDebug("pong", args);
+        }); //args[0] here is a Long
 
         socket.on(Socket.EVENT_MESSAGE, args -> socketDebug("message", args));
 
@@ -244,6 +261,27 @@ public class Client implements AutoCloseable{
         socket.connect();
     }
 
+    private void addCommand(JSONObject command){
+        boolean success;
+        try{
+            success = commandQueue.offer(command, 1, TimeUnit.MINUTES);
+        }catch(InterruptedException e){
+            Thread.currentThread().interrupt();
+            throw new UncheckedInterruptedException(e);
+        }
+        if(!success){
+            throw new CommandBufferFullException();
+        }
+    }
+
+    public JSONObject pollCommand(Duration timeout) throws InterruptedException{
+        return commandQueue.poll(timeout.toNanos(), TimeUnit.NANOSECONDS);
+    }
+
+    public long getCurrentPing(){
+        return currentPing;
+    }
+
     private void socketDebug(String event, Object... args){
         if(LOG.isDebugEnabled()){
             LOG.debug(event);
@@ -259,7 +297,7 @@ public class Client implements AutoCloseable{
         if(LOG.isInfoEnabled()){
             LOG.info(event);
             for(Object o : args){
-                LOG.info("    {}", o);
+                LOG.info("    {}, {}", o, o.getClass());
             }
         }
     }
