@@ -1,18 +1,14 @@
 package tech.zolhungaj.amqapi.client;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tech.zolhungaj.amqapi.client.exceptions.*;
 import tech.zolhungaj.amqapi.client.requests.Authentication;
 
-import java.net.URI;
+import java.io.UncheckedIOException;
 import java.time.Duration;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public class Client implements AutoCloseable{
 
@@ -31,9 +27,23 @@ public class Client implements AutoCloseable{
         LOG.info("Started Client!");
     }
 
+    public void sendCommand(String command, Object data){
+        try{
+            var mapper = new ObjectMapper();
+            String dataString = mapper.writeValueAsString(data);
+            String completeCommand = """
+                                        {"command":"%s","data":%s}\
+                                        """.formatted(command, dataString);
+            var jsonObject = new JSONObject(completeCommand);
+            socketHandler.sendCommand(jsonObject);
+        }catch (JsonProcessingException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 
-
-
+    public long getCurrentPing(){
+        return socketHandler.getCurrentPing();
+    }
 
     @Override
     public void close() {

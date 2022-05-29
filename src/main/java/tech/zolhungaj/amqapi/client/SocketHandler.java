@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SocketHandler implements Closeable {
     private static final Logger LOG = LoggerFactory.getLogger(SocketHandler.class);
+    private static final String EVENT_COMMAND = "command";
 
     private static final String SOCKET_URL = "https://socket.animemusicquiz.com";
 
@@ -47,8 +48,8 @@ public class SocketHandler implements Closeable {
                 this.sessionId = i;
             }
         });
-        socket.on("command", args -> {
-            socketDebug("command", args);
+        socket.on(EVENT_COMMAND, args -> {
+            socketDebug(EVENT_COMMAND, args);
             if(args[0] instanceof JSONObject payload){
                 //object with two entries: "command" and "data"
                 addCommand(payload);
@@ -105,6 +106,10 @@ public class SocketHandler implements Closeable {
 
     public JSONObject pollCommand(Duration timeout) throws InterruptedException{
         return commandQueue.poll(timeout.toNanos(), TimeUnit.NANOSECONDS);
+    }
+
+    public void sendCommand(JSONObject payload){
+        socket.emit(EVENT_COMMAND, payload);
     }
 
     public long getCurrentPing(){
