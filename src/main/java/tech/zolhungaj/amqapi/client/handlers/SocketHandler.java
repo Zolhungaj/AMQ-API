@@ -37,6 +37,7 @@ public class SocketHandler implements Closeable {
         options.reconnectionDelayMax = 3000;
         options.query = "token=%s".formatted(token);
         this.socket = IO.socket(URI.create(SOCKET_URL +":%d".formatted(port)), options);
+        LOG.debug("Created socket {}", socket);
     }
 
     public void connect(){
@@ -95,6 +96,7 @@ public class SocketHandler implements Closeable {
         boolean success;
         try{
             success = commandQueue.offer(command, 1, TimeUnit.MINUTES);
+            LOG.debug("Added command to queue: {}", command);
         }catch(InterruptedException e){
             Thread.currentThread().interrupt();
             throw new UncheckedInterruptedException(e);
@@ -110,6 +112,7 @@ public class SocketHandler implements Closeable {
 
     public void sendCommand(JSONObject payload){
         socket.emit(EVENT_COMMAND, payload);
+        LOG.debug("Sent command: {}", payload);
     }
 
     public long getCurrentPing(){
