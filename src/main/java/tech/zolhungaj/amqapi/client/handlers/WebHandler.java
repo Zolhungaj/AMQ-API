@@ -65,12 +65,15 @@ public class WebHandler implements Closeable {
                                         clientCodecConfigurer.defaultCodecs().maxInMemorySize(50_000_000))
                         .build())
                 .build();
+        LOG.debug("WebHandler initialised");
     }
 
     public void connect(){
+        LOG.info("Connecting for authentication...");
         loadWebpage();
         authenticate();
         fetchTokenAndPort();
+        LOG.info("Authentication complete!");
     }
 
     private void loadWebpage(){
@@ -121,6 +124,7 @@ public class WebHandler implements Closeable {
     }
 
     private Mono<AuthenticationResponse> authenticationErrorHandling(WebClientResponseException exception){
+        LOG.debug("Authentication error handling started", exception);
         return switch(exception.getStatusCode()){
             //endpoint returns "Unauthorized" on incorrect password, so we construct our own response
             case UNAUTHORIZED -> Mono.just(new AuthenticationResponse(false, null, false));
@@ -211,6 +215,4 @@ public class WebHandler implements Closeable {
         this.port = 0;
         LOG.info("Signed out!");
     }
-
-
 }
