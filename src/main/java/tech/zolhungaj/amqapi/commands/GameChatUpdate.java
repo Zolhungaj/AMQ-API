@@ -1,5 +1,8 @@
 package tech.zolhungaj.amqapi.commands;
 
+import tech.zolhungaj.amqapi.commands.messages.Buble;
+import tech.zolhungaj.amqapi.commands.messages.Message;
+
 import java.util.List;
 
 public record GameChatUpdate(
