@@ -5,11 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tech.zolhungaj.amqapi.client.handlers.SocketHandler;
-import tech.zolhungaj.amqapi.client.handlers.WebHandler;
+import tech.zolhungaj.amqapi.client.exceptions.handlers.SocketHandler;
+import tech.zolhungaj.amqapi.client.exceptions.handlers.WebHandler;
 import tech.zolhungaj.amqapi.client.requests.Authentication;
 
 import java.io.UncheckedIOException;
+import java.time.Duration;
 
 public class Client implements AutoCloseable{
 
@@ -46,9 +47,23 @@ public class Client implements AutoCloseable{
         return socketHandler.getCurrentPing();
     }
 
+    public ServerCommand pollCommand(Duration duration) throws InterruptedException{
+        JSONObject jsonObject = socketHandler.pollCommand(duration);
+        return new ServerCommand(
+            jsonObject.getString("command"),
+            jsonObject.getJSONObject("data")
+        );
+    }
+
     @Override
     public void close() {
         webHandler.close();
         socketHandler.close();
+    }
+
+    public record ServerCommand(
+            String command,
+            JSONObject data
+    ) {
     }
 }

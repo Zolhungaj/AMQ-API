@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.client.handlers;
+package tech.zolhungaj.amqapi.client.exceptions.handlers;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;

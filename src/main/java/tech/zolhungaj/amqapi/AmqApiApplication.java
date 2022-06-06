@@ -6,7 +6,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import tech.zolhungaj.amqapi.client.Client;
+import tech.zolhungaj.amqapi.commands.GameChatUpdate;
 
 @SpringBootApplication
 public class AmqApiApplication implements ApplicationRunner {
@@ -17,17 +17,24 @@ public class AmqApiApplication implements ApplicationRunner {
 	}
 
 	@Override
-	public void run(ApplicationArguments args) {
+	public void run(ApplicationArguments args) throws InterruptedException{
 		String username = args.getOptionValues("username").get(0);
 		String password = args.getOptionValues("password").get(0);
 		boolean force = args.getOptionValues("force") != null;
-		try(var client = new Client(username, password, force)){
-			LOG.info("logged in");
-			try{
-				Thread.sleep(60_000);
-			}catch (InterruptedException e){
-
-			}
+		AmqApi api = new AmqApi(username, password, force);
+		api.on((EventHandler<GameChatUpdate>) event -> {
+			LOG.info("GameChatUpdate handled: {}", event);
+			return true;
+		});
+		Thread apiThread = new Thread(api);
+		apiThread.start();
+		try{
+			Thread.sleep(60_000);
+		}catch (InterruptedException e){
+			apiThread.interrupt();
+			throw e;
 		}
+		apiThread.join();
+		System.exit(0);
 	}
 }

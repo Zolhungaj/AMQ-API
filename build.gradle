@@ -23,6 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.json:json:20220320'
+	implementation("com.squareup.moshi:moshi:1.13.0")
 	implementation ('io.socket:socket.io-client:1.0.1') {
 		// excluding org.json because the one imported in socket-io has flaws
 		exclude group: 'org.json', module: 'json'
