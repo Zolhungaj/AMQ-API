@@ -11,6 +11,6 @@ public record GameChatUpdate(
 ) implements Command{
     @Override
     public String getName() {
-        return CommandType.CHAT_MESSAGES.name();
+        return CommandType.CHAT_MESSAGES.commandName;
     }
 }

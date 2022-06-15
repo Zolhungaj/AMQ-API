@@ -6,6 +6,7 @@ import java.util.Map;
 public enum CommandType {
 
     CHAT_MESSAGES("game chat update"),
+    GAME_INVITE("game invite"),
     ONLINE_PLAYERS("online player count change");
 
     public final String commandName;

@@ -6,10 +6,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.zolhungaj.amqapi.client.Client;
-import tech.zolhungaj.amqapi.commands.Command;
-import tech.zolhungaj.amqapi.commands.CommandType;
-import tech.zolhungaj.amqapi.commands.GameChatUpdate;
-import tech.zolhungaj.amqapi.commands.OnlinePlayerCountChange;
+import tech.zolhungaj.amqapi.commands.*;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -69,9 +66,11 @@ public class AmqApi implements Runnable{
         var moshi = new Moshi
                 .Builder()
                 .build();
+        String dataAsString = data.toString();
         return switch(commandType){
-            case CHAT_MESSAGES -> moshi.adapter(GameChatUpdate.class).fromJson(data.toString());
-            case ONLINE_PLAYERS -> moshi.adapter(OnlinePlayerCountChange.class).fromJson(data.toString());
+            case CHAT_MESSAGES -> moshi.adapter(GameChatUpdate.class).fromJson(dataAsString);
+            case GAME_INVITE -> moshi.adapter(GameInvite.class).fromJson(dataAsString);
+            case ONLINE_PLAYERS -> moshi.adapter(OnlinePlayerCountChange.class).fromJson(dataAsString);
         };
     }
 
