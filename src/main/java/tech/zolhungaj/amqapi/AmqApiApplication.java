@@ -7,6 +7,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tech.zolhungaj.amqapi.commands.GameChatUpdate;
+import tech.zolhungaj.amqapi.commands.OnlinePlayerCountChange;
 
 @SpringBootApplication
 public class AmqApiApplication implements ApplicationRunner {
@@ -22,9 +23,26 @@ public class AmqApiApplication implements ApplicationRunner {
 		String password = args.getOptionValues("password").get(0);
 		boolean force = args.getOptionValues("force") != null;
 		AmqApi api = new AmqApi(username, password, force);
-		api.on((EventHandler<GameChatUpdate>) event -> {
-			LOG.info("GameChatUpdate handled: {}", event);
-			return true;
+		api.on(command -> {
+			if(command instanceof GameChatUpdate g){
+				LOG.info("GameChatUpdate handled: {}", g);
+				return true;
+			}
+			return false;
+		});
+		api.on(command -> {
+			if(command instanceof OnlinePlayerCountChange o){
+				LOG.info("OnlinePlayerCountChange handled: {}", o.count());
+				return true;
+			}
+			return false;
+		});
+		api.once(command -> {
+			if(command instanceof OnlinePlayerCountChange o){
+				LOG.info("THIS ONLY HAPPENS ONCE {}", o.count());
+				return true;
+			}
+			return false;
 		});
 		Thread apiThread = new Thread(api);
 		apiThread.start();

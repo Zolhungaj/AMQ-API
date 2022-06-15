@@ -19,8 +19,8 @@ import java.util.List;
 
 public class AmqApi implements Runnable{
     private static final Logger LOG = LoggerFactory.getLogger(AmqApi.class);
-    private final List<EventHandler<? extends Command>> onList = new ArrayList<>();
-    private final List<EventHandler<? extends Command>> onceList = new ArrayList<>();
+    private final List<EventHandler> onList = new ArrayList<>();
+    private final List<EventHandler> onceList = new ArrayList<>();
 
     private final String username;
 
@@ -34,20 +34,19 @@ public class AmqApi implements Runnable{
         this.forceConnect = forceConnect;
     }
 
-    public void on(EventHandler<? extends Command> event){
+    public void on(EventHandler event){
         this.onList.add(event);
     }
-    public void once(EventHandler<? extends Command> event){
+    public void once(EventHandler event){
         this.onceList.add(event);
     }
 
     private void handle(Command command){
         LOG.info("{}, {}, {}", command, command.getClass(), command.getName());
+
         onList
-                .forEach(commandEventHandler -> LOG.info("{}, {}", commandEventHandler, commandEventHandler.getClass()));
-                //.forEach(c -> c.call(command));
-        onceList
-                .forEach(commandEventHandler -> LOG.info("{}, {}", commandEventHandler, commandEventHandler.getClass()));
+                .forEach(c -> c.call(command));
+        onceList.removeIf(eventHandler -> eventHandler.call(command));
     }
 
     private Command serverCommandToCommand(Client.ServerCommand serverCommand) throws IOException {
