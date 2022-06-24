@@ -2,17 +2,18 @@ package tech.zolhungaj.amqapi.commands;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONPropertyName;
-
-import java.util.Date;
+import java.text.DateFormat;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public record LoginComplete(
     Boolean gameAdmin,
     List<QuestDescription> questDescriptions,
     List<SavedQuizSetting> savedQuizSettings,
     PatreonBadgeInfo patreonBadgeInfo,
-    Object rewardAlert, //TODO get example to figure out type
+    RewardAlert rewardAlert,
     Integer driveTotal,
     List<DriveContribution> top5AllTime,
     Boolean displayArtContestPopUp,
@@ -22,7 +23,7 @@ public record LoginComplete(
     Map<String, Map<String, Boolean>> unlockedDesign,
     List<TicketReward> recentTicketRewards,
     Integer rankedSerie, //TODO: figure out meaning
-    Date aniListLastUpdate, //String
+    String aniListLastUpdate,
     List<SuperAvatar> defaultAvatars,
     Integer backerLevel,
     UserSettings settings,
@@ -31,10 +32,10 @@ public record LoginComplete(
     @JSONPropertyName("malName") String mal,
     String kitsu,
     List<FriendEntry> friends,
-    Date kitsuLastUpdate,
+    String kitsuLastUpdate,
     RankedChampions rankedChampions,
     Integer nameChangeTokens,
-    List<Void> blockedPlayers, //TODO: get example of content
+    //List<Void> blockedPlayers, //TODO: get example of content
     List<EmoteGroup> emoteGroups,
     Integer tickets,
     @JSONPropertyName("top5Montly") List<CumulativeAvatarDonation> top5Monthly,
@@ -49,7 +50,7 @@ public record LoginComplete(
     XPInfo xpInfo,
     Integer credits,
     @JSONPropertyName("genreInfo") List<AnimeGenre> genres,
-    Date malLastUpdate,
+    String malLastUpdate,
     Boolean tutorial,
     Boolean canReconnectGame,
     List<AvatarDonation> recentDonations,
@@ -75,6 +76,18 @@ public record LoginComplete(
     TutorialState tutorialState
 )
 implements Command{
+    private DateFormat dateFormat(){
+        return DateFormat.getDateInstance(1);
+    }
+    public Instant anilistLastUpdateInstant(){
+        return Instant.parse(aniListLastUpdate);
+    }
+    public Instant kitsuLastUpdateInstant(){
+        return Instant.parse(kitsuLastUpdate);
+    }
+    public Instant malLastUpdateInstant(){
+        return Instant.parse(malLastUpdate);
+    }
 
     @Override
     public String getName() {
@@ -148,7 +161,7 @@ implements Command{
             Integer characterId
     ){}
 
-    private record SuperAvatar(
+    public record SuperAvatar(
             Integer characterId,
             List<Avatar> avatars
     ){}
@@ -156,7 +169,7 @@ implements Command{
     public record Avatar (
             String colorName,
             Integer outfitId,
-            Integer patreonTierToUnlock, //TODO: figure out
+            Optional<Integer> patreonTierToUnlock,
             Integer notePrice,
             String lore,
             Boolean limited,
@@ -220,7 +233,7 @@ implements Command{
     ){}
 
     public record FriendEntry (
-            Boolean avatarProfileImage,
+            Optional<Boolean> avatarProfileImage,
             String avatarName,
             String colorName,
             Integer profileEmoteId,
@@ -229,6 +242,7 @@ implements Command{
             String outfitName,
             Boolean optionActive,
             String optionName,
+            Optional<PlayerGameState> gameState,
             Integer status //TODO: verify
     ){}
 
@@ -374,5 +388,18 @@ implements Command{
             Boolean rankedPlayed,
             Boolean lootingPlayed,
             Boolean speedPlayed
+    ){}
+
+    public record RewardAlert (
+            String fileName,
+            String name,
+            Integer userRewardAlertId
+    ){}
+
+    public record PlayerGameState (
+            Integer gameId,
+            Boolean isSpectator,
+            @JSONPropertyName("private") Boolean isPrivateRoom,
+            Boolean inLobby
     ){}
 }
