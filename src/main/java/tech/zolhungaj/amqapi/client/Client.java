@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tech.zolhungaj.amqapi.client.exceptions.handlers.SocketHandler;
-import tech.zolhungaj.amqapi.client.exceptions.handlers.WebHandler;
+import tech.zolhungaj.amqapi.client.handlers.SocketHandler;
+import tech.zolhungaj.amqapi.client.handlers.WebHandler;
 import tech.zolhungaj.amqapi.client.requests.Authentication;
 
 import java.io.UncheckedIOException;

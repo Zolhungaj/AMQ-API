@@ -2,7 +2,9 @@ package tech.zolhungaj.amqapi.commands;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONPropertyName;
-import java.text.DateFormat;
+import tech.zolhungaj.amqapi.Emojis;
+
+import java.net.URI;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -23,16 +25,18 @@ public record LoginComplete(
     Map<String, Map<String, Boolean>> unlockedDesign,
     List<TicketReward> recentTicketRewards,
     Integer rankedSerie, //TODO: figure out meaning
-    String aniListLastUpdate,
     List<SuperAvatar> defaultAvatars,
     Integer backerLevel,
     UserSettings settings,
     Integer level,
     List<Integer> unlockedEmoteIds,
-    @JSONPropertyName("malName") String mal,
-    String kitsu,
+    @JSONPropertyName("malName") Optional<String> mal,
+    Optional<String> anilist,
+    Optional<String> kitsu,
+    Optional<String> malLastUpdate,
+    Optional<String> aniListLastUpdate,
+    Optional<String> kitsuLastUpdate,
     List<FriendEntry> friends,
-    String kitsuLastUpdate,
     RankedChampions rankedChampions,
     Integer nameChangeTokens,
     //List<Void> blockedPlayers, //TODO: get example of content
@@ -41,7 +45,6 @@ public record LoginComplete(
     @JSONPropertyName("top5Montly") List<CumulativeAvatarDonation> top5Monthly,
     List<ServerStatus> serverStatuses,
     Boolean topAdmin,
-    String anilist,
     Boolean useRomajiName,
     Integer questTokenProgress,
     @JSONPropertyName("tagInfo") List<AnimeTag> tags,
@@ -50,7 +53,6 @@ public record LoginComplete(
     XPInfo xpInfo,
     Integer credits,
     @JSONPropertyName("genreInfo") List<AnimeGenre> genres,
-    String malLastUpdate,
     Boolean tutorial,
     Boolean canReconnectGame,
     List<AvatarDonation> recentDonations,
@@ -76,17 +78,14 @@ public record LoginComplete(
     TutorialState tutorialState
 )
 implements Command{
-    private DateFormat dateFormat(){
-        return DateFormat.getDateInstance(1);
+    public Optional<Instant> anilistLastUpdateInstant(){
+        return aniListLastUpdate.map(Instant::parse);
     }
-    public Instant anilistLastUpdateInstant(){
-        return Instant.parse(aniListLastUpdate);
+    public Optional<Instant> kitsuLastUpdateInstant(){
+        return kitsuLastUpdate.map(Instant::parse);
     }
-    public Instant kitsuLastUpdateInstant(){
-        return Instant.parse(kitsuLastUpdate);
-    }
-    public Instant malLastUpdateInstant(){
-        return Instant.parse(malLastUpdate);
+    public Optional<Instant> malLastUpdateInstant(){
+        return malLastUpdate.map(Instant::parse);
     }
 
     @Override
@@ -147,7 +146,7 @@ implements Command{
             String name,
             Integer emoteId,
             String colorName,
-            String editor,
+            Optional<String> editor,
             Integer colorId,
             Boolean active,
             Boolean optionActive,
@@ -184,7 +183,7 @@ implements Command{
             Boolean defaultAvatar,
             Integer avatarId,
             String world,
-            Integer tierId,
+            Optional<Integer> tierId,
             Integer realMoneyPrice,
             String outfitName,
             Boolean exclusive,
@@ -193,13 +192,13 @@ implements Command{
     ){}
 
     public record AvatarColor (
-            String editor,
+            Optional<String> editor,
             Boolean limited,
             Integer colorId,
             Boolean active,
             String backgroundVert,
             Boolean defaultColor,
-            Integer tierId,
+            Optional<Integer> tierId,
             Integer price,
             Boolean eventColor, //Always 0?
             Boolean unique,
@@ -236,15 +235,24 @@ implements Command{
             Optional<Boolean> avatarProfileImage,
             String avatarName,
             String colorName,
-            Integer profileEmoteId,
+            Optional<Integer> profileEmoteId,
             String name,
             Boolean online,
             String outfitName,
             Boolean optionActive,
             String optionName,
             Optional<PlayerGameState> gameState,
-            Integer status //TODO: verify
-    ){}
+            Integer status
+    ){
+        public String statusText(){
+            return switch(status){
+                case 1 -> "Online";
+                case 2 -> "Do Not Disturb";
+                case 3 -> "Away";
+                default -> "Offline";
+            };
+        }
+    }
 
     public record RankedChampions (
             @JSONPropertyName("1") List<RankedChampion> central,
@@ -358,7 +366,7 @@ implements Command{
 
     public record AvatarPrimary (
             String colorName,
-            String editor,
+            Optional<String> editor,
             Integer colorId,
             Boolean active,
             Boolean optionActive,
@@ -373,10 +381,23 @@ implements Command{
     ){}
 
     public record RecentEmote (
-            Integer emoteId,
-            Integer emojiId,
-            String shortCode
-    ){}
+            Optional<Integer> emoteId, //see EmoteGroup -> Emote
+            Optional<Integer> emojiId,
+            Optional<String> shortCode
+    ){
+        public Optional<URI> emojiURI(){
+            return emojiId
+                    .map(Emojis::getEmojiURI)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get);
+        }
+        public Optional<String> shortCodeEmoji(){
+            return shortCode
+                    .map(Emojis::getEmojiFromShortcode)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get);
+        }
+    }
 
     public record TutorialState (
             Boolean initialShow,

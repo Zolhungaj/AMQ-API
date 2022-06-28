@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.client.exceptions.handlers;
+package tech.zolhungaj.amqapi.client.handlers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
