@@ -2,8 +2,8 @@ package tech.zolhungaj.amqapi;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public final class AmqCdn {
 
@@ -14,6 +14,8 @@ public final class AmqCdn {
 	public static final URI STORE_ICON_URL = CDN_URL.resolve("/v1/store-categories");
 	public static final URI BACKGROUND_URL = CDN_URL.resolve("/v1/backgrounds");
 	public static final URI TICKET_URL = CDN_URL.resolve("/v1/ui/currency");
+
+    public static final String IMAGE_FILE_EXTENSION = ".webp";
 
     public enum AVATAR_SIZE {
         SMALLEST(100),
@@ -30,12 +32,12 @@ public final class AmqCdn {
         }
     }
     public enum AVATAR_POSE {
-        BASIC(1, "Basic.webp"),
-        THINKING(2, "Thinking.webp"),
-        WAITING(3, "Waiting.webp"),
-        WRONG(4, "Wrong.webp"),
-        RIGHT(5, "Right.webp"),
-        CONFUSED(6, "Confused.webp");
+        BASIC(1, "Basic" + IMAGE_FILE_EXTENSION),
+        THINKING(2, "Thinking" + IMAGE_FILE_EXTENSION),
+        WAITING(3, "Waiting" + IMAGE_FILE_EXTENSION),
+        WRONG(4, "Wrong" + IMAGE_FILE_EXTENSION),
+        RIGHT(5, "Right" + IMAGE_FILE_EXTENSION),
+        CONFUSED(6, "Confused" + IMAGE_FILE_EXTENSION);
         public final int id;
         public final String filename;
         AVATAR_POSE(int id, String filename){
@@ -53,7 +55,7 @@ public final class AmqCdn {
         }
     }
 
-    public static final String AVATAR_HEAD_FILENAME = "Head.webp";
+    public static final String AVATAR_HEAD_FILENAME = "Head" + IMAGE_FILE_EXTENSION;
 
     public enum BADGE_SIZE {
         SMALLEST(30),
@@ -68,7 +70,7 @@ public final class AmqCdn {
         }
     }
 
-    public static final String PATREON_PREVIEW_BADGE_FILENAME = "patreon-36.webp";
+    public static final String PATREON_PREVIEW_BADGE_FILENAME = "patreon-36" + IMAGE_FILE_EXTENSION;
 
     public enum STORE_ICON_SIZE {
         SMALL(130, 172),
@@ -119,10 +121,10 @@ public final class AmqCdn {
     }
 
     public enum TICKET_FILENAME {
-        SIMPLE(1, "ticket1.webp"),
-        ADVANCED(2, "ticket2.webp"),
-        MAJOR(3, "ticket3.webp"),
-        EXCLUSIVE(4, "ticket4.webp");
+        SIMPLE(1, "ticket1" + IMAGE_FILE_EXTENSION),
+        ADVANCED(2, "ticket2" + IMAGE_FILE_EXTENSION),
+        MAJOR(3, "ticket3" + IMAGE_FILE_EXTENSION),
+        EXCLUSIVE(4, "ticket4" + IMAGE_FILE_EXTENSION);
 
         private static final Map<Integer, TICKET_FILENAME> forNameMap = new HashMap<>();
         static{
@@ -137,18 +139,14 @@ public final class AmqCdn {
             this.tierId = tierId;
             this.filename = filename;
         }
-        public TICKET_FILENAME forName(int tierId){
+        public static TICKET_FILENAME forId(int tierId){
             return forNameMap.get(tierId);
         }
     }
 
-	public static final URI RHYTHM_ICON_PATH = TICKET_URL.resolve("30px/rhythm.webp");
+	public static final URI RHYTHM_ICON_PATH = TICKET_URL.resolve("30px/rhythm" + IMAGE_FILE_EXTENSION);
 
-    public static String getSizePath(int size){
-        return "%dpx".formatted(size);
-    }
-
-    public static URI createAvatarUrl(String avatar,
+    public static URI createAvatarUrl(String avatar, //TODO: avatar type
                                       String outfit,
                                       String option,
                                       boolean optionOn,
@@ -185,12 +183,8 @@ public final class AmqCdn {
                 .resolve(AVATAR_HEAD_FILENAME);
     }
 
-    public static URI createAvatarBackground(String filename, BACKGROUND_SIZE size){
-        boolean isSvg = Pattern
-                .compile("svg")
-                .matcher(filename)
-                .find();
-        if(isSvg){
+    public static URI createAvatarBackgroundUrl(String filename, BACKGROUND_SIZE size){
+        if(filename.contains("svg")){
             return BACKGROUND_URL
                     .resolve("svg")
                     .resolve(filename);
@@ -199,5 +193,52 @@ public final class AmqCdn {
                     .resolve(getSizePath(size.size))
                     .resolve(filename);
         }
+    }
+
+    public static URI createBadgeUrl(String filename, BADGE_SIZE size){
+        return BADGE_URL
+                .resolve(getSizePath(size.size))
+                .resolve(filename);
+    }
+
+    public static URI createStoreIconUrl(String iconName, STORE_ICON_SIZE size){
+        String iconFilename = iconName
+                .replaceAll("\\s", "-")
+                .concat(IMAGE_FILE_EXTENSION);
+        return STORE_ICON_URL
+                .resolve(getSizePath(size.height))
+                .resolve(iconFilename);
+    }
+
+    public static URI createStoreAvatarUrl(String avatar, String outfit, STORE_ICON_SIZE size){ //TODO: avatar type
+        String filename = "%s_%s".formatted(avatar, formatStoreIconOutfit(outfit));
+        return createStoreIconUrl(filename, size);
+    }
+
+    private static String formatStoreIconOutfit(String outfit){
+        return outfit
+                .toLowerCase(Locale.ROOT)
+                .replaceAll("[ -]", "_");
+    }
+
+    public static URI createEmoteUrl(String emote, EMOTE_SIZE size){
+        String emoteFilename = emote + IMAGE_FILE_EXTENSION;
+        return EMOTE_URL
+                .resolve(getSizePath(size.size))
+                .resolve(emoteFilename);
+    }
+
+    public static URI createTicketUrl(int ticketTierId, TICKET_SIZE size){
+        String ticketFilename = TICKET_FILENAME
+                .forId(ticketTierId)
+                .filename;
+
+        return TICKET_URL
+                .resolve(getSizePath(size.size))
+                .resolve(ticketFilename);
+    }
+
+    public static String getSizePath(int size){
+        return "%dpx".formatted(size);
     }
 }
