@@ -1,7 +1,8 @@
 package tech.zolhungaj.amqapi.commands;
 
+import com.squareup.moshi.Json;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONPropertyName;
+
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.constants.Emojis;
 
@@ -20,19 +21,19 @@ public record LoginComplete(
         Integer driveTotal,
         List<DriveContribution> top5AllTime,
         Boolean displayArtContestPopUp,
-        @JSONPropertyName("top5AvatarNominatios") List<AvatarNomination> top5AvatarNominations, //TODO: check mapping
+        @Json(name = "top5AvatarNominatios") List<AvatarNomination> top5AvatarNominations, //TODO: check mapping
         Integer patreonId,
         Map<String, Integer> avatarUnlockCount,
         Map<String, Map<String, Boolean>> unlockedDesign, //TODO: fix
         List<TicketReward> recentTicketRewards,
-        @JSONPropertyName("rankedSerie") Integer rankedSeries,
+        @Json(name = "rankedSerie") Integer rankedSeries,
         Integer rankedState,
         List<SuperAvatar> defaultAvatars,
         Integer backerLevel,
         UserSettings settings,
         Integer level,
         List<Integer> unlockedEmoteIds,
-        @JSONPropertyName("malName") Optional<String> mal,
+        @Json(name = "malName") Optional<String> mal,
         Optional<String> anilist,
         Optional<String> kitsu,
         Optional<String> malLastUpdate,
@@ -44,17 +45,17 @@ public record LoginComplete(
         List<String> blockedPlayers,
         List<EmoteGroup> emoteGroups,
         Integer tickets,
-        @JSONPropertyName("top5Montly") List<CumulativeAvatarDonation> top5Monthly,
+        @Json(name = "top5Montly") List<CumulativeAvatarDonation> top5Monthly,
         List<ServerStatus> serverStatuses,
         Boolean topAdmin,
         Boolean useRomajiName,
         Integer questTokenProgress,
-        @JSONPropertyName("tagInfo") List<AnimeTag> tags,
+        @Json(name = "tagInfo") List<AnimeTag> tags,
         RankedLeaderboard rankedLeaderboards,
         List<RollTarget> rollTargets,
         XPInfo xpInfo,
         Integer credits,
-        @JSONPropertyName("genreInfo") List<AnimeGenre> genres,
+        @Json(name = "genreInfo") List<AnimeGenre> genres,
         Boolean tutorial,
         Boolean canReconnectGame,
         List<AvatarDonation> recentDonations,
@@ -73,7 +74,7 @@ public record LoginComplete(
         Integer expandCount,
         List<RecentEmote> recentEmotes,
         Boolean saleTax,
-        @JSONPropertyName("self") String selfName,
+        @Json(name = "self") String selfName,
         Integer badgeLevel,
         Boolean guestAccount,
         TutorialState tutorialState
@@ -230,10 +231,10 @@ implements Command{
             Boolean voteSkipGuess,
             Boolean usePlanning,
             Boolean autoSubmit,
-            @JSONPropertyName("shareMal") Boolean shareList,
+            @Json(name = "shareMal") Boolean shareList,
             Boolean autoHideOpenings,
             Boolean autoHideHighRisk,
-            @JSONPropertyName("autoSwitchFavoritedAvatars") Boolean autoSwitchFavoriteAvatars,
+            @Json(name = "autoSwitchFavoritedAvatars") Boolean autoSwitchFavoriteAvatars,
             Boolean useWatched,
             Boolean useCompleted,
             Boolean useDropped,
@@ -264,9 +265,9 @@ implements Command{
     }
 
     public record RankedChampions (
-            @JSONPropertyName("1") List<RankedChampion> central,
-            @JSONPropertyName("2") List<RankedChampion> western,
-            @JSONPropertyName("3") List<RankedChampion> eastern
+            @Json(name = "1") List<RankedChampion> central,
+            @Json(name = "2") List<RankedChampion> western,
+            @Json(name = "3") List<RankedChampion> eastern
     ){}
     public record RankedChampion (
             String name,
@@ -306,9 +307,9 @@ implements Command{
     ){}
 
     public record RankedLeaderboard(
-            @JSONPropertyName("1") List<RankedLeaderboardEntry> central,
-            @JSONPropertyName("2") List<RankedLeaderboardEntry> western,
-            @JSONPropertyName("3") List<RankedLeaderboardEntry> eastern
+            @Json(name = "1") List<RankedLeaderboardEntry> central,
+            @Json(name = "2") List<RankedLeaderboardEntry> western,
+            @Json(name = "3") List<RankedLeaderboardEntry> eastern
     ){}
 
     public record RankedLeaderboardEntry(
@@ -429,7 +430,7 @@ implements Command{
     public record PlayerGameState (
             Integer gameId,
             Boolean isSpectator,
-            @JSONPropertyName("private") Boolean isPrivateRoom,
+            @Json(name = "private") Boolean isPrivateRoom,
             Boolean inLobby
     ){}
 
