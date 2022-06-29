@@ -2,7 +2,8 @@ package tech.zolhungaj.amqapi.commands;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONPropertyName;
-import tech.zolhungaj.amqapi.Emojis;
+import tech.zolhungaj.amqapi.constants.AmqRanked;
+import tech.zolhungaj.amqapi.constants.Emojis;
 
 import java.net.URI;
 import java.time.Instant;
@@ -11,71 +12,71 @@ import java.util.Map;
 import java.util.Optional;
 
 public record LoginComplete(
-    Boolean gameAdmin,
-    List<QuestDescription> questDescriptions,
-    List<SavedQuizSetting> savedQuizSettings,
-    PatreonBadgeInfo patreonBadgeInfo,
-    RewardAlert rewardAlert,
-    Integer driveTotal,
-    List<DriveContribution> top5AllTime,
-    Boolean displayArtContestPopUp,
-    @JSONPropertyName("top5AvatarNominatios") List<AvatarNomination> top5AvatarNominations,
-    Integer patreonId,
-    Map<String, Integer> avatarUnlockCount,
-    Map<String, Map<String, Boolean>> unlockedDesign,
-    List<TicketReward> recentTicketRewards,
-    Integer rankedSerie, //TODO: figure out meaning
-    List<SuperAvatar> defaultAvatars,
-    Integer backerLevel,
-    UserSettings settings,
-    Integer level,
-    List<Integer> unlockedEmoteIds,
-    @JSONPropertyName("malName") Optional<String> mal,
-    Optional<String> anilist,
-    Optional<String> kitsu,
-    Optional<String> malLastUpdate,
-    Optional<String> aniListLastUpdate,
-    Optional<String> kitsuLastUpdate,
-    List<FriendEntry> friends,
-    RankedChampions rankedChampions,
-    Integer nameChangeTokens,
-    //List<Void> blockedPlayers, //TODO: get example of content
-    List<EmoteGroup> emoteGroups,
-    Integer tickets,
-    @JSONPropertyName("top5Montly") List<CumulativeAvatarDonation> top5Monthly,
-    List<ServerStatus> serverStatuses,
-    Boolean topAdmin,
-    Boolean useRomajiName,
-    Integer questTokenProgress,
-    @JSONPropertyName("tagInfo") List<AnimeTag> tags,
-    RankedLeaderboard rankedLeaderboards,
-    List<RollTarget> rollTargets,
-    XPInfo xpInfo,
-    Integer credits,
-    @JSONPropertyName("genreInfo") List<AnimeGenre> genres,
-    Boolean tutorial,
-    Boolean canReconnectGame,
-    List<AvatarDonation> recentDonations,
-    Integer avatarTokens,
-    Boolean freeDonation,
-    Map<String, Integer> characterUnlockCount,
-    List<CustomEmoji> customEmojis,
-    PlayerAvatar avatar,
-    Boolean PatreonDesynced,
-    Integer rhythm,
-    List<String> videoHostNames,
-    Boolean twitterClaimed,
-    List<PlayerAvatar> favoriteAvatars, //TODO: verify
-    List<CumulativeAvatarDonation> top5Weekly,
-    Integer rankedState,
-    Boolean discordClaimed,
-    Integer expandCount,
-    List<RecentEmote> recentEmotes,
-    Boolean saleTax,
-    @JSONPropertyName("self") String selfName,
-    Integer badgeLevel,
-    Boolean guestAccount,
-    TutorialState tutorialState
+        Boolean gameAdmin,
+        List<QuestDescription> questDescriptions,
+        List<SavedQuizSetting> savedQuizSettings,
+        PatreonBadgeInfo patreonBadgeInfo,
+        Optional<RewardAlert> rewardAlert,
+        Integer driveTotal,
+        List<DriveContribution> top5AllTime,
+        Boolean displayArtContestPopUp,
+        @JSONPropertyName("top5AvatarNominatios") List<AvatarNomination> top5AvatarNominations, //TODO: check mapping
+        Integer patreonId,
+        Map<String, Integer> avatarUnlockCount,
+        Map<String, Map<String, Boolean>> unlockedDesign, //TODO: fix
+        List<TicketReward> recentTicketRewards,
+        @JSONPropertyName("rankedSerie") Integer rankedSeries,
+        Integer rankedState,
+        List<SuperAvatar> defaultAvatars,
+        Integer backerLevel,
+        UserSettings settings,
+        Integer level,
+        List<Integer> unlockedEmoteIds,
+        @JSONPropertyName("malName") Optional<String> mal,
+        Optional<String> anilist,
+        Optional<String> kitsu,
+        Optional<String> malLastUpdate,
+        Optional<String> aniListLastUpdate,
+        Optional<String> kitsuLastUpdate,
+        List<FriendEntry> friends,
+        RankedChampions rankedChampions,
+        Integer nameChangeTokens,
+        List<String> blockedPlayers,
+        List<EmoteGroup> emoteGroups,
+        Integer tickets,
+        @JSONPropertyName("top5Montly") List<CumulativeAvatarDonation> top5Monthly,
+        List<ServerStatus> serverStatuses,
+        Boolean topAdmin,
+        Boolean useRomajiName,
+        Integer questTokenProgress,
+        @JSONPropertyName("tagInfo") List<AnimeTag> tags,
+        RankedLeaderboard rankedLeaderboards,
+        List<RollTarget> rollTargets,
+        XPInfo xpInfo,
+        Integer credits,
+        @JSONPropertyName("genreInfo") List<AnimeGenre> genres,
+        Boolean tutorial,
+        Boolean canReconnectGame,
+        List<AvatarDonation> recentDonations,
+        Integer avatarTokens,
+        Boolean freeDonation,
+        Map<String, Integer> characterUnlockCount,
+        List<CustomEmoji> customEmojis,
+        PlayerAvatar avatar,
+        Boolean PatreonDesynced,
+        Integer rhythm,
+        List<String> videoHostNames,
+        Boolean twitterClaimed,
+        List<FavoriteAvatar> favoriteAvatars,
+        List<CumulativeAvatarDonation> top5Weekly,
+        Boolean discordClaimed,
+        Integer expandCount,
+        List<RecentEmote> recentEmotes,
+        Boolean saleTax,
+        @JSONPropertyName("self") String selfName,
+        Integer badgeLevel,
+        Boolean guestAccount,
+        TutorialState tutorialState
 )
 implements Command{
     public Optional<Instant> anilistLastUpdateInstant(){
@@ -86,6 +87,14 @@ implements Command{
     }
     public Optional<Instant> malLastUpdateInstant(){
         return malLastUpdate.map(Instant::parse);
+    }
+
+    public AmqRanked.RANKED_STATE getRankedState(){
+        return AmqRanked.RANKED_STATE.forId(rankedState);
+    }
+
+    public AmqRanked.GAME_SERIES getRankedSeries(){
+        return AmqRanked.GAME_SERIES.forId(rankedSeries);
     }
 
     @Override
@@ -142,22 +151,22 @@ implements Command{
     ){}
 
     public record TicketRewardDescription (
-            Integer tierId,
-            String name,
-            Integer emoteId,
-            String colorName,
+            Optional<Integer> tierId,
+            Optional<String> name,
+            Optional<Integer> emoteId,
+            Optional<String> colorName,
             Optional<String> editor,
-            Integer colorId,
-            Boolean active,
-            Boolean optionActive,
-            String backGroundFileName,
-            Boolean colorActive,
-            String avatarName,
-            Integer avatarId,
-            String outfitName,
-            Integer sizeModifier,
-            String optionName,
-            Integer characterId
+            Optional<Integer> colorId,
+            Optional<Boolean> active,
+            Optional<Boolean> optionActive,
+            Optional<String> backGroundFileName,
+            Optional<Boolean> colorActive,
+            Optional<String> avatarName,
+            Optional<Integer> avatarId,
+            Optional<String> outfitName,
+            Optional<Integer> sizeModifier,
+            Optional<String> optionName,
+            Optional<Integer> characterId
     ){}
 
     public record SuperAvatar(
@@ -423,4 +432,20 @@ implements Command{
             @JSONPropertyName("private") Boolean isPrivateRoom,
             Boolean inLobby
     ){}
+
+    public record FavoriteAvatar(
+            Integer favoriteId,
+            Avatar avatar,
+            Background background
+    ){
+        public record Avatar (
+                Integer avatarId,
+                Integer colorId,
+                Boolean optionActive
+        ){}
+        public record Background (
+                Integer avatarId,
+                Integer colorId
+        ){}
+    }
 }

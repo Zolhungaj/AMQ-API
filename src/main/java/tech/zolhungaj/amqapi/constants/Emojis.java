@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi;
+package tech.zolhungaj.amqapi.constants;
 
 import java.net.URI;
 import java.util.Collections;

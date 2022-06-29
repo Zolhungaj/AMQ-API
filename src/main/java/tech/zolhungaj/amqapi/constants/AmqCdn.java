@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi;
+package tech.zolhungaj.amqapi.constants;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -126,10 +126,10 @@ public final class AmqCdn {
         MAJOR(3, "ticket3" + IMAGE_FILE_EXTENSION),
         EXCLUSIVE(4, "ticket4" + IMAGE_FILE_EXTENSION);
 
-        private static final Map<Integer, TICKET_FILENAME> forNameMap = new HashMap<>();
+        private static final Map<Integer, TICKET_FILENAME> ID_MAP = new HashMap<>();
         static{
             for(TICKET_FILENAME tf : TICKET_FILENAME.values()){
-                forNameMap.put(tf.tierId, tf);
+                ID_MAP.put(tf.tierId, tf);
             }
         }
         public final int tierId;
@@ -140,7 +140,7 @@ public final class AmqCdn {
             this.filename = filename;
         }
         public static TICKET_FILENAME forId(int tierId){
-            return forNameMap.get(tierId);
+            return ID_MAP.get(tierId);
         }
     }
 
