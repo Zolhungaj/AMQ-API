@@ -3,6 +3,7 @@ package tech.zolhungaj.amqapi.commands;
 import com.squareup.moshi.Json;
 import org.jetbrains.annotations.NotNull;
 
+import org.jetbrains.annotations.Nullable;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.constants.Emojis;
 
@@ -24,9 +25,9 @@ public record LoginComplete(
         @Json(name = "top5AvatarNominatios") List<AvatarNomination> top5AvatarNominations, //TODO: check mapping
         Integer patreonId,
         Map<String, Integer> avatarUnlockCount,
-        Map<String, Map<String, Boolean>> unlockedDesign, //TODO: fix
+        Map<String, Map<String, Boolean>> unlockedDesigns, //TODO: fix
         List<TicketReward> recentTicketRewards,
-        @Json(name = "rankedSerie") Integer rankedSeries,
+        @Nullable @Json(name = "rankedSerie") Integer rankedSeries,
         Integer rankedState,
         List<SuperAvatar> defaultAvatars,
         Integer backerLevel,
@@ -34,7 +35,7 @@ public record LoginComplete(
         Integer level,
         List<Integer> unlockedEmoteIds,
         @Json(name = "malName") Optional<String> mal,
-        Optional<String> anilist,
+        Optional<String> aniList,
         Optional<String> kitsu,
         Optional<String> malLastUpdate,
         Optional<String> aniListLastUpdate,
@@ -48,7 +49,7 @@ public record LoginComplete(
         @Json(name = "top5Montly") List<CumulativeAvatarDonation> top5Monthly,
         List<ServerStatus> serverStatuses,
         Boolean topAdmin,
-        Boolean useRomajiName,
+        Boolean useRomajiNames,
         Integer questTokenProgress,
         @Json(name = "tagInfo") List<AnimeTag> tags,
         RankedLeaderboard rankedLeaderboards,
@@ -64,7 +65,7 @@ public record LoginComplete(
         Map<String, Integer> characterUnlockCount,
         List<CustomEmoji> customEmojis,
         PlayerAvatar avatar,
-        Boolean PatreonDesynced,
+        Boolean patreonDesynced,
         Integer rhythm,
         List<String> videoHostNames,
         Boolean twitterClaimed,
@@ -80,7 +81,7 @@ public record LoginComplete(
         TutorialState tutorialState
 )
 implements Command{
-    public Optional<Instant> anilistLastUpdateInstant(){
+    public Optional<Instant> aniListLastUpdateInstant(){
         return aniListLastUpdate.map(Instant::parse);
     }
     public Optional<Instant> kitsuLastUpdateInstant(){
@@ -94,8 +95,13 @@ implements Command{
         return AmqRanked.RANKED_STATE.forId(rankedState);
     }
 
-    public AmqRanked.GAME_SERIES getRankedSeries(){
-        return AmqRanked.GAME_SERIES.forId(rankedSeries);
+    public Optional<Integer> rankedSeriesOptional(){
+        return Optional.ofNullable(rankedSeries);
+    }
+
+    public Optional<AmqRanked.GAME_SERIES> getRankedSeriesOptional(){
+        return rankedSeriesOptional()
+                .map(AmqRanked.GAME_SERIES::forId);
     }
 
     @Override
@@ -151,24 +157,80 @@ implements Command{
             Integer rhythm
     ){}
 
+    /**
+     * Until a <a href="https://github.com/square/moshi/pull/1412">fix is merged</a>
+     * all objects here are nullable
+     *
+     * To remedy this utility functions that return Optionals are included
+     */
     public record TicketRewardDescription (
-            Optional<Integer> tierId,
-            Optional<String> name,
-            Optional<Integer> emoteId,
-            Optional<String> colorName,
-            Optional<String> editor,
-            Optional<Integer> colorId,
-            Optional<Boolean> active,
-            Optional<Boolean> optionActive,
-            Optional<String> backGroundFileName,
-            Optional<Boolean> colorActive,
-            Optional<String> avatarName,
-            Optional<Integer> avatarId,
-            Optional<String> outfitName,
-            Optional<Integer> sizeModifier,
-            Optional<String> optionName,
-            Optional<Integer> characterId
-    ){}
+            @Nullable Integer tierId,
+            @Nullable String name,
+            @Nullable Integer emoteId,
+            @Nullable String colorName,
+            @Nullable String editor,
+            @Nullable Integer colorId,
+            @Nullable Boolean active,
+            @Nullable Boolean optionActive,
+            @Nullable String backGroundFileName,
+            @Nullable Boolean colorActive,
+            @Nullable String avatarName,
+            @Nullable Integer avatarId,
+            @Nullable String outfitName,
+            @Nullable Integer sizeModifier,
+            @Nullable String optionName,
+            @Nullable Integer characterId
+    ){
+        public Optional<Integer> tierIdOptional(){
+            return Optional.ofNullable(tierId);
+        }
+        public Optional<String> nameOptional(){
+            return Optional.ofNullable(name);
+        }
+        public Optional<Integer> emoteIdOptional(){
+            return Optional.ofNullable(emoteId);
+        }
+        public Optional<String> colorNameOptional(){
+            return Optional.ofNullable(colorName);
+        }
+        public Optional<String> editorOptional(){
+            return Optional.ofNullable(editor);
+        }
+        public Optional<Integer> colorIdOptional(){
+            return Optional.ofNullable(colorId);
+        }
+        public Optional<Boolean> activeOptional(){
+            return Optional.ofNullable(active);
+        }
+        public Optional<Boolean> optionActiveOptional(){
+            return Optional.ofNullable(optionActive);
+        }
+        public Optional<String> backGroundFileNameOptional(){
+            return Optional.ofNullable(backGroundFileName);
+        }
+        public Optional<Boolean> colorActiveOptional(){
+            return Optional.ofNullable(colorActive);
+        }
+        public Optional<String> avatarNameOptional(){
+            return Optional.ofNullable(avatarName);
+        }
+        public Optional<Integer> avatarIdOptional(){
+            return Optional.ofNullable(avatarId);
+        }
+        public Optional<String> outfitNameOptional(){
+            return Optional.ofNullable(outfitName);
+        }
+        public Optional<Integer> sizeModifierOptional(){
+            return Optional.ofNullable(sizeModifier);
+        }
+        public Optional<String> optionNameOptional(){
+            return Optional.ofNullable(optionName);
+        }
+        public Optional<Integer> characterIdOptional(){
+            return Optional.ofNullable(characterId);
+        }
+
+    }
 
     public record SuperAvatar(
             Integer characterId,
@@ -251,7 +313,7 @@ implements Command{
             String outfitName,
             Boolean optionActive,
             String optionName,
-            Optional<PlayerGameState> gameState,
+            @Nullable PlayerGameState gameState,
             Integer status
     ){
         public String statusText(){
@@ -261,6 +323,9 @@ implements Command{
                 case 3 -> "Away";
                 default -> "Offline";
             };
+        }
+        public Optional<PlayerGameState> gameStateOptional(){
+            return Optional.ofNullable(gameState);
         }
     }
 
@@ -416,7 +481,7 @@ implements Command{
             Boolean avatarCompleted,
             Boolean socialCompleted,
             Boolean livesPlayed,
-            Boolean rankedPlayed,
+            Boolean rankedCompleted,
             Boolean lootingPlayed,
             Boolean speedPlayed
     ){}

@@ -14,6 +14,9 @@ import java.io.UncheckedIOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.*;
 
@@ -64,6 +67,10 @@ public class AmqApi implements Runnable{
                 data: {}
                 commandType: {}
                 """, serverCommand, data, commandType);
+        if(CommandType.LOGIN_COMPLETE.equals(commandType)){ //TODO DEBUG remove
+            var path = Path.of("LoginComplete.json");
+            Files.writeString(path, data.toString(4), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+        }
         if(commandType == null){
             LOG.info("""
                     Unknown command:
