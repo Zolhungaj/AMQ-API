@@ -4,6 +4,8 @@ import com.squareup.moshi.Json;
 import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.Nullable;
+import tech.zolhungaj.amqapi.commands.objects.PlayerGameState;
+import tech.zolhungaj.amqapi.commands.objects.PlayerStatus;
 import tech.zolhungaj.amqapi.commands.objects.RankedLeaderboardEntry;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.constants.Emojis;
@@ -106,7 +108,7 @@ implements Command{
     }
 
     @Override
-    public String getName() {
+    public String getCommandName() {
         return CommandType.LOGIN_COMPLETE.commandName;
     }
 
@@ -315,16 +317,12 @@ implements Command{
             Boolean optionActive,
             String optionName,
             @Nullable PlayerGameState gameState,
-            Integer status
+            @Json(name = "status") Integer statusId
     ){
-        public String statusText(){
-            return switch(status){
-                case 1 -> "Online";
-                case 2 -> "Do Not Disturb";
-                case 3 -> "Away";
-                default -> "Offline";
-            };
+        public PlayerStatus status(){
+            return PlayerStatus.forId(statusId);
         }
+
         public Optional<PlayerGameState> gameStateOptional(){
             return Optional.ofNullable(gameState);
         }
@@ -481,12 +479,7 @@ implements Command{
             Integer userRewardAlertId
     ){}
 
-    public record PlayerGameState (
-            Integer gameId,
-            Boolean isSpectator,
-            @Json(name = "private") Boolean isPrivateRoom,
-            Boolean inLobby
-    ){}
+
 
     public record FavoriteAvatar(
             Integer favoriteId,

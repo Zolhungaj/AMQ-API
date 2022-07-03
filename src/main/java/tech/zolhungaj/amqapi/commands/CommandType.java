@@ -10,7 +10,8 @@ public enum CommandType {
     LOGIN_COMPLETE("login complete"),
     ONLINE_PLAYERS("online player count change"),
     RANKED_STATE_CHANGE("ranked game state change"),
-    RANKED_LEADERBOARD_UPDATE("ranked standing updated");
+    RANKED_LEADERBOARD_UPDATE("ranked standing updated"),
+    FRIEND_SOCIAL_STATUS_UPDATE("friend social status change");
 
     public final String commandName;
 

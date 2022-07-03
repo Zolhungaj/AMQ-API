@@ -51,7 +51,7 @@ public class AmqApi implements Runnable{
     }
 
     private void handle(Command command){
-        LOG.info("{}, {}, {}", command, command.getClass(), command.getName());
+        LOG.info("{}, {}, {}", command, command.getClass(), command.getCommandName());
 
         onList
                 .forEach(c -> c.call(command));
@@ -88,6 +88,7 @@ public class AmqApi implements Runnable{
             case LOGIN_COMPLETE -> MOSHI.adapter(LoginComplete.class).fromJson(dataAsString);
             case RANKED_STATE_CHANGE -> MOSHI.adapter(RankedGameStateChanged.class).fromJson(dataAsString);
             case RANKED_LEADERBOARD_UPDATE -> MOSHI.adapter(RankedLeaderboardUpdate.class).fromJson(dataAsString);
+            case FRIEND_SOCIAL_STATUS_UPDATE -> MOSHI.adapter(FriendSocialStatusUpdate.class).fromJson(dataAsString);
         };
     }
 

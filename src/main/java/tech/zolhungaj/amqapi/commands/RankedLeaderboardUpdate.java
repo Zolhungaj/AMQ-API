@@ -16,7 +16,7 @@ public record RankedLeaderboardUpdate(
     }
 
     @Override
-    public String getName() {
+    public String getCommandName() {
         return CommandType.RANKED_LEADERBOARD_UPDATE.commandName;
     }
 }

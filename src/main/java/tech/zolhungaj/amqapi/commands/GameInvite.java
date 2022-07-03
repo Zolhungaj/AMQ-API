@@ -6,7 +6,7 @@ public record GameInvite(
 )implements Command {
 
     @Override
-    public String getName() {
+    public String getCommandName() {
         return CommandType.GAME_INVITE.commandName;
     }
 }

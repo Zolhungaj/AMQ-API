@@ -52,7 +52,7 @@ public class AmqApiApplication implements ApplicationRunner {
 
 		api.on(command -> {
 			try{
-				Path file = Path.of(command.getName().replace(" ", "-").concat(".txt"));
+				Path file = Path.of(command.getCommandName().replace(" ", "-").concat(".txt"));
 				Files.writeString(file, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 				Files.writeString(file, command.toString(), StandardOpenOption.APPEND);
 			}catch (IOException e){

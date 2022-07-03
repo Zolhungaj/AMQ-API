@@ -6,7 +6,7 @@ public record OnlinePlayerCountChange(
 
 
     @Override
-    public String getName() {
+    public String getCommandName() {
         return CommandType.ONLINE_PLAYERS.commandName;
     }
 }
