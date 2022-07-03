@@ -4,6 +4,7 @@ import com.squareup.moshi.Json;
 import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.Nullable;
+import tech.zolhungaj.amqapi.commands.objects.RankedLeaderboardEntry;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.constants.Emojis;
 
@@ -22,10 +23,10 @@ public record LoginComplete(
         Integer driveTotal,
         List<DriveContribution> top5AllTime,
         Boolean displayArtContestPopUp,
-        @Json(name = "top5AvatarNominatios") List<AvatarNomination> top5AvatarNominations, //TODO: check mapping
+        @Json(name = "top5AvatarNominatios") List<AvatarNomination> top5AvatarNominations,
         Integer patreonId,
         Map<String, Integer> avatarUnlockCount,
-        Map<String, Map<String, Boolean>> unlockedDesigns, //TODO: fix
+        Map<String, Map<String, Boolean>> unlockedDesigns,
         List<TicketReward> recentTicketRewards,
         @Nullable @Json(name = "rankedSerie") Integer rankedSeries,
         Integer rankedState,
@@ -106,7 +107,7 @@ implements Command{
 
     @Override
     public String getName() {
-        return CommandType.GAME_INVITE.commandName;
+        return CommandType.LOGIN_COMPLETE.commandName;
     }
 
     public record QuestDescription(
@@ -376,18 +377,6 @@ implements Command{
             @Json(name = "2") List<RankedLeaderboardEntry> western,
             @Json(name = "3") List<RankedLeaderboardEntry> eastern
     ){}
-
-    public record RankedLeaderboardEntry(
-            Integer score,
-            String name,
-            Integer position
-    ) implements Comparable<RankedLeaderboardEntry>
-    {
-        @Override
-        public int compareTo(@NotNull RankedLeaderboardEntry o) {
-            return this.position() - o.position();
-        }
-    }
 
     public record RollTarget (
             String fileName,
