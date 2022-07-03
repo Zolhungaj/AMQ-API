@@ -8,7 +8,8 @@ public enum CommandType {
     CHAT_MESSAGES("game chat update"),
     GAME_INVITE("game invite"),
     LOGIN_COMPLETE("login complete"),
-    ONLINE_PLAYERS("online player count change");
+    ONLINE_PLAYERS("online player count change"),
+    RANKED_STATE_CHANGE("ranked game state change");
 
     public final String commandName;
 

@@ -86,6 +86,7 @@ public class AmqApi implements Runnable{
             case GAME_INVITE -> MOSHI.adapter(GameInvite.class).fromJson(dataAsString);
             case ONLINE_PLAYERS -> MOSHI.adapter(OnlinePlayerCountChange.class).fromJson(dataAsString);
             case LOGIN_COMPLETE -> MOSHI.adapter(LoginComplete.class).fromJson(dataAsString);
+            case RANKED_STATE_CHANGE -> MOSHI.adapter(RankedGameStateChanged.class).fromJson(dataAsString);
         };
     }
 
