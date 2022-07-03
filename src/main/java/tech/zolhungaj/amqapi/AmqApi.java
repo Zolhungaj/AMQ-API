@@ -67,9 +67,10 @@ public class AmqApi implements Runnable{
                 data: {}
                 commandType: {}
                 """, serverCommand, data, commandType);
-        if(CommandType.LOGIN_COMPLETE.equals(commandType)){ //TODO DEBUG remove
-            var path = Path.of("LoginComplete.json");
-            Files.writeString(path, data.toString(4), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+        { //TODO DEBUG remove
+            var path = Path.of(serverCommand.command().replace(" ", "-").concat(".json"));
+            Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+            Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
         }
         if(commandType == null){
             LOG.info("""

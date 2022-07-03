@@ -7,7 +7,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tech.zolhungaj.amqapi.commands.GameChatUpdate;
-import tech.zolhungaj.amqapi.commands.LoginComplete;
 import tech.zolhungaj.amqapi.commands.OnlinePlayerCountChange;
 
 import java.io.IOException;
@@ -51,16 +50,15 @@ public class AmqApiApplication implements ApplicationRunner {
 			return false;
 		});
 
-		api.once(command -> { //TODO remove
-			if(command instanceof LoginComplete o){
-				try{
-					Files.writeString(Path.of("LoginComplete.txt"), o.toString(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-				}catch (IOException e){
-
-				}
-				return true;
+		api.on(command -> {
+			try{
+				Path file = Path.of(command.getName().replace(" ", "-").concat(".txt"));
+				Files.writeString(file, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+				Files.writeString(file, command.toString(), StandardOpenOption.APPEND);
+			}catch (IOException e){
+				return false;
 			}
-			return false;
+			return true;
 		});
 
 		Thread apiThread = new Thread(api);
