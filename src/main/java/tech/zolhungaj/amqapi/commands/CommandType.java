@@ -13,7 +13,8 @@ public enum CommandType {
     RANKED_LEADERBOARD_UPDATE("ranked standing updated"),
     FRIEND_SOCIAL_STATUS_UPDATE("friend social status change"),
     DIRECT_MESSAGE("chat message"),
-    DIRECT_MESSAGE_RESPONSE("chat message response");
+    DIRECT_MESSAGE_RESPONSE("chat message response"),
+    FORCED_LOGOFF("force logoff");
 
     public final String commandName;
 

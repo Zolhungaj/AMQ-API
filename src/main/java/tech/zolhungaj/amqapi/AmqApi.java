@@ -67,11 +67,9 @@ public class AmqApi implements Runnable{
                 data: {}
                 commandType: {}
                 """, serverCommand, data, commandType);
-        { //TODO DEBUG remove
-            var path = Path.of(serverCommand.command().replace(" ", "-").concat(".json"));
-            Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-            Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
-        }
+        var path = Path.of(serverCommand.command().replace(" ", "-").concat(".json"));
+        Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+        Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
         if(commandType == null){
             LOG.info("""
                     Unknown command:
@@ -91,6 +89,7 @@ public class AmqApi implements Runnable{
             case FRIEND_SOCIAL_STATUS_UPDATE -> MOSHI.adapter(FriendSocialStatusUpdate.class).fromJson(dataAsString);
             case DIRECT_MESSAGE -> MOSHI.adapter(DirectMessage.class).fromJson(dataAsString);
             case DIRECT_MESSAGE_RESPONSE -> MOSHI.adapter(DirectMessageResponse.class).fromJson(dataAsString);
+            case FORCED_LOGOFF -> MOSHI.adapter(ForcedLogoff.class).fromJson(dataAsString);
         };
     }
 
