@@ -37,8 +37,61 @@ public enum CommandType {
     PLAYER_REJOIN("Rejoining Player"),
     PLAYER_NAME_CHANGE("player name change"),
 
+    JOIN_GAME("Join Game"),
+    ALERT("alert"),
+    HTML_ALERT("html alert"),
+    SELF_NAME_UPDATE("self name changed"),
+    UNKNOWN_ERROR("unknown error"),
+    SERVER_RESTART("server restart"),
+    NEW_DONATION("new donation"),
+    POPOUT_MESSAGE("popout message"),
+    RANKED_SCORE_UPDATE("ranked score update"),
+    PLAYER_PROFILE("player profile"),
+    SAVED_QUIZ_SETTINGS_DELETED("quiz setting deleted"),
+    SAVE_QUIZ_SETTINGS("save quiz settings"),
+
+
+    USE_AVATAR_RESPONSE("use avatar"),
+    UNLOCK_AVATAR("unlock avatar"),
+    LOCK_AVATAR("lock avatar"),
+    UNLOCK_EMOTE("emote unlocked"),
+    LOCK_EMOTE("emote locked"),
+    ADD_FAVOURITE_AVATAR_RESPONSE("new favourite avatar"),
+    DELETE_FAVOURITE_AVATAR_RESPONSE("remove favorite avatar"),
+
+    TICKET_ROLL_RESULT("ticket roll result"),
+    TICKET_ROLL_ERROR("ticket roll error"),
+
+    AVATAR_DRIVE_UPDATE("avatar drive changes"),
+    AVATAR_DRIVE_LEADERBOARD("avatar drive standings"),
+    PATREON_UPDATE("patreon changed"),
+    FREE_AVATAR_DONATION_RESPONSE("free avatar donation"),
 
     QUIZ_NO_PLAYERS_AUTO_CLOSE("quiz no players"),
+
+    UPDATE_MAL_LAST_UPDATE("malLastUpdate update"),
+    UPDATE_ANILIST_LAST_UPDATE("aniListLastUpdate update"),
+    UPDATE_KITSU_LAST_UPDATE("kitsuLastUpdate update"),
+    ANIME_LIST_UPDATE_RESPONSE("anime list update result"),
+
+    FILE_SERVER_STATE_CHANGE("server state change"),
+
+    NICKNAME_AVAILABILITY_RESPONSE("nickname available"),
+    CHANGE_NICKNAME_RESPONSE("change nickname"),
+
+    FRIEND_REQUEST("new friend request recived"),
+    DIRECT_MESSAGE_ALERT("new chat alert"),
+    SERVER_MESSAGE("server message"),
+
+    PLAYER_ONLINE_UPDATE("player online change"),
+
+    NEW_FRIEND("new friend"),
+    REMOVED_FRIEND("friend removed"),
+    FRIEND_STATE_UPDATE("friend state change"),
+    FRIEND_NAME_UPDATE("friend name change"),
+    FRIEND_PROFILE_IMAGE_UPDATE("friend profile image change"),
+    FRIEND_REQUEST_ACKNOWLEDGEMENT("friend request"),
+
 
     ;
 
