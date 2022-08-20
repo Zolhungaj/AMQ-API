@@ -1,7 +1,7 @@
-package tech.zolhungaj.amqapi.commands;
+package tech.zolhungaj.amqapi.servercommands;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.commands.objects.messages.DirectMessageEmojis;
+import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis;
 
 /**
  * Event that happens as an acknowledgement of a recently sent direct message

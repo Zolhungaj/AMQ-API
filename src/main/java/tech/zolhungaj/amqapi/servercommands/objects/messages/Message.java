@@ -1,6 +1,4 @@
-package tech.zolhungaj.amqapi.commands.objects.messages;
-
-import java.util.List;
+package tech.zolhungaj.amqapi.servercommands.objects.messages;
 
 public record Message(
     String sender,

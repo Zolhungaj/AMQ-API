@@ -6,8 +6,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import tech.zolhungaj.amqapi.commands.GameChatUpdate;
-import tech.zolhungaj.amqapi.commands.OnlinePlayerCountChange;
+import tech.zolhungaj.amqapi.servercommands.GameChatUpdate;
+import tech.zolhungaj.amqapi.servercommands.OnlinePlayerCountChange;
 
 import java.io.IOException;
 import java.nio.file.Files;

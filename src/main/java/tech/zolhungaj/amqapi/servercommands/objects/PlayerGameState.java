@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.commands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects;
 
 import com.squareup.moshi.Json;
 import org.jetbrains.annotations.Nullable;

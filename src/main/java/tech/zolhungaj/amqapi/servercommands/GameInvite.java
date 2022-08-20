@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.commands;
+package tech.zolhungaj.amqapi.servercommands;
 
 public record GameInvite(
         Integer gameId,

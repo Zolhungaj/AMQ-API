@@ -1,12 +1,12 @@
-package tech.zolhungaj.amqapi.commands;
+package tech.zolhungaj.amqapi.servercommands;
 
 import com.squareup.moshi.Json;
 import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.Nullable;
-import tech.zolhungaj.amqapi.commands.objects.PlayerGameState;
-import tech.zolhungaj.amqapi.commands.objects.PlayerStatus;
-import tech.zolhungaj.amqapi.commands.objects.RankedLeaderboardEntry;
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerGameState;
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
+import tech.zolhungaj.amqapi.servercommands.objects.RankedLeaderboardEntry;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.constants.Emojis;
 
@@ -22,7 +22,7 @@ public record LoginComplete(
         List<SavedQuizSetting> savedQuizSettings,
         PatreonBadgeInfo patreonBadgeInfo,
         Optional<RewardAlert> rewardAlert,
-        Integer driveTotal,
+        Double driveTotal,
         List<DriveContribution> top5AllTime,
         Boolean displayArtContestPopUp,
         @Json(name = "top5AvatarNominatios") List<AvatarNomination> top5AvatarNominations,

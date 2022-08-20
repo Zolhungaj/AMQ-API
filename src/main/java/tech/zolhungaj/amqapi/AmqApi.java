@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.zolhungaj.amqapi.client.Client;
-import tech.zolhungaj.amqapi.commands.*;
+import tech.zolhungaj.amqapi.servercommands.*;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -90,6 +90,68 @@ public class AmqApi implements Runnable{
             case DIRECT_MESSAGE -> MOSHI.adapter(DirectMessage.class).fromJson(dataAsString);
             case DIRECT_MESSAGE_RESPONSE -> MOSHI.adapter(DirectMessageResponse.class).fromJson(dataAsString);
             case FORCED_LOGOFF -> MOSHI.adapter(ForcedLogoff.class).fromJson(dataAsString);
+            case BATTLE_ROYALE_READY, //TODO: implement each of these
+                    BATTLE_ROYALE_BEGIN,
+                    BATTLE_ROYALE_SPAWN_OBJECT,
+                    BATTLE_ROYALE_DELETE_OBJECT,
+                    BATTLE_ROYALE_ADD_COLLECTED_NAME,
+                    BATTLE_ROYALE_DELETE_COLLECTED_NAME,
+                    BATTLE_ROYALE_CONTAINER_CONTENT,
+                    BATTLE_ROYALE_CONTAINER_DELETE_ENTRY,
+                    BATTLE_ROYALE_SPAWN_PLAYER,
+                    BATTLE_ROYALE_UPDATE_PLAYER_POSITION,
+                    BATTLE_ROYALE_DELETE_PLAYER,
+                    BATTLE_ROYALE_PHASE_OVER,
+                    BATTLE_ROYALE_FIX_POSITION,
+                    BATTLE_ROYALE_TILE_COUNT,
+                    BATTLE_ROYALE_TILE_UPDATE_SPECTATOR_COUNT,
+                    BATTLE_ROYALE_RETURN_TO_MAP,
+                    PLAYER_LEFT,
+                    PLAYER_REJOIN,
+                    PLAYER_NAME_CHANGE,
+                    JOIN_GAME,
+                    ALERT,
+                    HTML_ALERT,
+                    SELF_NAME_UPDATE,
+                    UNKNOWN_ERROR,
+                    SERVER_RESTART,
+                    NEW_DONATION,
+                    POPOUT_MESSAGE,
+                    RANKED_SCORE_UPDATE,
+                    PLAYER_PROFILE,
+                    SAVED_QUIZ_SETTINGS_DELETED,
+                    SAVE_QUIZ_SETTINGS,
+                    USE_AVATAR_RESPONSE,
+                    UNLOCK_AVATAR,
+                    LOCK_AVATAR,
+                    UNLOCK_EMOTE,
+                    LOCK_EMOTE,
+                    ADD_FAVOURITE_AVATAR_RESPONSE,
+                    DELETE_FAVOURITE_AVATAR_RESPONSE,
+                    TICKET_ROLL_RESULT,
+                    TICKET_ROLL_ERROR,
+                    AVATAR_DRIVE_UPDATE,
+                    AVATAR_DRIVE_LEADERBOARD,
+                    PATREON_UPDATE,
+                    FREE_AVATAR_DONATION_RESPONSE,
+                    QUIZ_NO_PLAYERS_AUTO_CLOSE,
+                    UPDATE_MAL_LAST_UPDATE,
+                    UPDATE_ANILIST_LAST_UPDATE,
+                    UPDATE_KITSU_LAST_UPDATE,
+                    ANIME_LIST_UPDATE_RESPONSE,
+                    FILE_SERVER_STATE_CHANGE,
+                    NICKNAME_AVAILABILITY_RESPONSE,
+                    CHANGE_NICKNAME_RESPONSE,
+                    FRIEND_REQUEST,
+                    DIRECT_MESSAGE_ALERT,
+                    SERVER_MESSAGE,
+                    PLAYER_ONLINE_UPDATE,
+                    NEW_FRIEND,
+                    REMOVED_FRIEND,
+                    FRIEND_STATE_UPDATE,
+                    FRIEND_NAME_UPDATE,
+                    FRIEND_PROFILE_IMAGE_UPDATE,
+                    FRIEND_REQUEST_ACKNOWLEDGEMENT -> new NotImplementedCommand(commandType.commandName);
         };
     }
 

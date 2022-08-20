@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.commands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects;
 
 import org.jetbrains.annotations.NotNull;
 

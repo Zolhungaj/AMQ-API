@@ -1,6 +1,6 @@
-package tech.zolhungaj.amqapi.commands;
+package tech.zolhungaj.amqapi.servercommands;
 
-import tech.zolhungaj.amqapi.commands.objects.messages.DirectMessageEmojis;
+import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis;
 
 
 /**

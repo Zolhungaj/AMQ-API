@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.commands.objects.messages;
+package tech.zolhungaj.amqapi.servercommands.objects.messages;
 
 import java.util.List;
 

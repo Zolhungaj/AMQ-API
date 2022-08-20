@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.commands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects;
 
 import java.util.HashMap;
 import java.util.Map;

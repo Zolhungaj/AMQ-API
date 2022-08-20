@@ -1,7 +1,7 @@
-package tech.zolhungaj.amqapi.commands;
+package tech.zolhungaj.amqapi.servercommands;
 
-import tech.zolhungaj.amqapi.commands.objects.messages.Buble;
-import tech.zolhungaj.amqapi.commands.objects.messages.Message;
+import tech.zolhungaj.amqapi.servercommands.objects.messages.Buble;
+import tech.zolhungaj.amqapi.servercommands.objects.messages.Message;
 
 import java.util.List;
 
