@@ -29,13 +29,13 @@ public class Client implements AutoCloseable{
         LOG.info("Started Client!");
     }
 
-    public void sendCommand(String command, Object data){
+    public void sendCommand(String type, String command, Object data){
         try{
             var mapper = new ObjectMapper();
             String dataString = mapper.writeValueAsString(data);
             String completeCommand = """
-                                        {"command":"%s","data":%s}\
-                                        """.formatted(command, dataString);
+                                        {"type":"%s","command":"%s","data":%s}\
+                                        """.formatted(type, command, dataString);
             var jsonObject = new JSONObject(completeCommand);
             socketHandler.sendCommand(jsonObject);
         }catch (JsonProcessingException e) {
