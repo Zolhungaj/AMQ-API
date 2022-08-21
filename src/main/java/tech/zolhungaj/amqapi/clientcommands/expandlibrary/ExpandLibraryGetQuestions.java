@@ -5,6 +5,6 @@ import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 
 public final class ExpandLibraryGetQuestions extends EmptyClientCommand {
     public ExpandLibraryGetQuestions(){
-        super(ClientCommandType.EXPAND_LIBRARY_OPEN);
+        super(ClientCommandType.OPEN_EXPAND_LIBRARY);
     }
 }

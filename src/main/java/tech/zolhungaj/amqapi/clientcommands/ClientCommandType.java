@@ -2,9 +2,11 @@ package tech.zolhungaj.amqapi.clientcommands;
 
 public enum ClientCommandType {
 
-    EXPAND_LIBRARY_SUBMIT("library", "expandLibrary answer"),
-    EXPAND_LIBRARY_OPEN("library", "expandLibrary questions"),
-    EXPAND_LIBRARY_CLOSE("library", "expandLibrary closed")
+    SUBMIT_TO_EXPAND_LIBRARY("library", "expandLibrary answer"),
+    OPEN_EXPAND_LIBRARY("library", "expandLibrary questions"),
+    CLOSE_EXPAND_LIBRARY("library", "expandLibrary closed"),
+    STOP_TRACKING_ONLINE_USERS("social", "stop tracking online users"),
+    START_TRACKING_ONLINE_USERS("social", "get online users"),
 
 
     ;
