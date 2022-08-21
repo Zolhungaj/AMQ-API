@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import tech.zolhungaj.amqapi.clientcommands.expandlibrary.ExpandLibraryGetQuestions;
 import tech.zolhungaj.amqapi.servercommands.GameChatUpdate;
 import tech.zolhungaj.amqapi.servercommands.OnlinePlayerCountChange;
 
@@ -64,6 +65,8 @@ public class AmqApiApplication implements ApplicationRunner {
 		Thread apiThread = new Thread(api);
 		apiThread.start();
 		try{
+			Thread.sleep(5_000);
+			api.sendCommand(new ExpandLibraryGetQuestions());
 			Thread.sleep(60_000);
 		}catch (InterruptedException e){
 			apiThread.interrupt();

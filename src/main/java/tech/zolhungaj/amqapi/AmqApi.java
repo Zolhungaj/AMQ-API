@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.zolhungaj.amqapi.client.Client;
+import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
+import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 import tech.zolhungaj.amqapi.servercommands.*;
 
 import java.io.IOException;
@@ -37,10 +39,20 @@ public class AmqApi implements Runnable{
 
     private final boolean forceConnect;
 
+    private Client client;
+
     public AmqApi(String username, String password, boolean forceConnect) {
         this.username = username;
         this.password = password;
         this.forceConnect = forceConnect;
+    }
+
+    public void sendCommand(ClientCommand command){
+        if(command instanceof EmptyClientCommand){
+            this.client.sendCommand(command.type(), command.command(), null);
+        }else{
+            this.client.sendCommand(command.type(), command.command(), command);
+        }
     }
 
     public void on(EventHandler event){
@@ -158,7 +170,9 @@ public class AmqApi implements Runnable{
 
     @Override
     public void run() {
-        try(var client = new Client(username, password, forceConnect)){
+        try(var newClient = new Client(username, password)){
+            newClient.start(this.forceConnect);
+            this.client = newClient;
             while(!Thread.interrupted()){
                 Client.ServerCommand serverCommand = client.pollCommand(Duration.ofMinutes(1));
                 Command command = serverCommandToCommand(serverCommand);

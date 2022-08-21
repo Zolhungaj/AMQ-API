@@ -16,14 +16,20 @@ public class Client implements AutoCloseable{
 
     private static final Logger LOG = LoggerFactory.getLogger(Client.class);
 
-    private final WebHandler webHandler;
-    private final SocketHandler socketHandler;
+
+    private final Authentication authentication;
+    private WebHandler webHandler;
+    private SocketHandler socketHandler;
 
 
-    public Client(String username, String password, boolean forceConnect){
+    public Client(String username, String password){
+        this.authentication = new Authentication(username, password);
+    }
+
+    public void start(boolean forceConnect){
         LOG.info("Starting Client...");
-        this.webHandler = new WebHandler(new Authentication(username, password), forceConnect);
-        webHandler.connect();
+        this.webHandler = new WebHandler(this.authentication, forceConnect);
+        this.webHandler.connect();
         this.socketHandler = new SocketHandler(webHandler.getToken(), webHandler.getPort());
         socketHandler.connect();
         LOG.info("Started Client!");
@@ -31,13 +37,21 @@ public class Client implements AutoCloseable{
 
     public void sendCommand(String type, String command, Object data){
         try{
-            var mapper = new ObjectMapper();
-            String dataString = mapper.writeValueAsString(data);
+            String dataString;
+            if(data != null){
+                var mapper = new ObjectMapper();
+                dataString = """
+                                ,"data":%s\
+                                """.formatted(mapper.writeValueAsString(data));
+            }else{
+                dataString = "";
+            }
             String completeCommand = """
-                                        {"type":"%s","command":"%s","data":%s}\
+                                        {"type":"%s","command":"%s"%s}\
                                         """.formatted(type, command, dataString);
             var jsonObject = new JSONObject(completeCommand);
             socketHandler.sendCommand(jsonObject);
+            LOG.info("Sent command: {}", jsonObject);
         }catch (JsonProcessingException e) {
             throw new UncheckedIOException(e);
         }
