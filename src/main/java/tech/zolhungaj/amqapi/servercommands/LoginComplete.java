@@ -60,7 +60,7 @@ public record LoginComplete(
         XPInfo xpInfo,
         Integer credits,
         @Json(name = "genreInfo") List<AnimeGenre> genres,
-        Boolean tutorial,
+        Integer tutorial,
         Boolean canReconnectGame,
         List<AvatarDonation> recentDonations,
         Integer avatarTokens,
@@ -68,7 +68,7 @@ public record LoginComplete(
         Map<String, Integer> characterUnlockCount,
         List<CustomEmoji> customEmojis,
         PlayerAvatar avatar,
-        Boolean patreonDesynced,
+        Optional<Boolean> patreonDesynced,
         Integer rhythm,
         List<String> videoHostNames,
         Boolean twitterClaimed,
@@ -163,7 +163,6 @@ implements Command{
     /**
      * Until a <a href="https://github.com/square/moshi/pull/1412">fix is merged</a>
      * all objects here are nullable
-     *
      * To remedy this utility functions that return Optionals are included
      */
     public record TicketRewardDescription (

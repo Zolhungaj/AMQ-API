@@ -102,6 +102,7 @@ public class AmqApi implements Runnable{
             case DIRECT_MESSAGE -> MOSHI.adapter(DirectMessage.class).fromJson(dataAsString);
             case DIRECT_MESSAGE_RESPONSE -> MOSHI.adapter(DirectMessageResponse.class).fromJson(dataAsString);
             case FORCED_LOGOFF -> MOSHI.adapter(ForcedLogoff.class).fromJson(dataAsString);
+            case EXPAND_LIBRARY_ENTRIES -> MOSHI.adapter(ExpandLibraryEntryList.class).fromJson(dataAsString);
             case BATTLE_ROYALE_READY, //TODO: implement each of these
                     BATTLE_ROYALE_BEGIN,
                     BATTLE_ROYALE_SPAWN_OBJECT,

@@ -92,6 +92,7 @@ public enum CommandType {
     FRIEND_PROFILE_IMAGE_UPDATE("friend profile image change"),
     FRIEND_REQUEST_ACKNOWLEDGEMENT("friend request"),
 
+    EXPAND_LIBRARY_ENTRIES("expandLibrary questions")
 
     ;
 
