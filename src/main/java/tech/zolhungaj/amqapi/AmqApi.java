@@ -106,7 +106,11 @@ public class AmqApi implements Runnable{
             case NEW_FRIEND -> MOSHI.adapter(FriendAdded.class).fromJson(dataAsString);
             case REMOVED_FRIEND -> MOSHI.adapter(FriendRemoved.class).fromJson(dataAsString);
             case FRIEND_STATE_UPDATE -> MOSHI.adapter(FriendOnlineChange.class).fromJson(dataAsString);
-            case BATTLE_ROYALE_READY, //TODO: implement each of these
+            case FRIEND_REQUEST_ACKNOWLEDGEMENT -> MOSHI.adapter(FriendRequestResponse.class).fromJson(dataAsString);
+            case FRIEND_NAME_UPDATE -> MOSHI.adapter(FriendNameChange.class).fromJson(dataAsString);
+            case FRIEND_PROFILE_IMAGE_UPDATE -> MOSHI.adapter(FriendProfileImageChange.class).fromJson(dataAsString);
+            case //TODO: implement each of these
+                    BATTLE_ROYALE_READY,
                     BATTLE_ROYALE_BEGIN,
                     BATTLE_ROYALE_SPAWN_OBJECT,
                     BATTLE_ROYALE_DELETE_OBJECT,
@@ -161,10 +165,8 @@ public class AmqApi implements Runnable{
                     FRIEND_REQUEST,
                     DIRECT_MESSAGE_ALERT,
                     SERVER_MESSAGE,
-                    PLAYER_ONLINE_UPDATE,
-                    FRIEND_NAME_UPDATE,
-                    FRIEND_PROFILE_IMAGE_UPDATE,
-                    FRIEND_REQUEST_ACKNOWLEDGEMENT -> new NotImplementedCommand(commandType.commandName);
+                    PLAYER_ONLINE_UPDATE
+                    -> new NotImplementedCommand(commandType.commandName);
         };
     }
 
