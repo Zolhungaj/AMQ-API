@@ -7,6 +7,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tech.zolhungaj.amqapi.clientcommands.expandlibrary.ExpandLibraryGetQuestions;
+import tech.zolhungaj.amqapi.clientcommands.friend.FriendRequestResponse;
+import tech.zolhungaj.amqapi.servercommands.FriendRequestReceived;
 import tech.zolhungaj.amqapi.servercommands.GameChatUpdate;
 import tech.zolhungaj.amqapi.servercommands.OnlinePlayerCountChange;
 
@@ -39,6 +41,17 @@ public class AmqApiApplication implements ApplicationRunner {
 		api.on(command -> {
 			if(command instanceof OnlinePlayerCountChange o){
 				LOG.info("OnlinePlayerCountChange handled: {}", o.count());
+				return true;
+			}
+			return false;
+		});
+		api.on(command -> {
+			if(command instanceof FriendRequestReceived frr){
+				var response = FriendRequestResponse.builder()
+						.target(frr.playerName())
+						.accept(true)
+						.build();
+				api.sendCommand(response);
 				return true;
 			}
 			return false;
