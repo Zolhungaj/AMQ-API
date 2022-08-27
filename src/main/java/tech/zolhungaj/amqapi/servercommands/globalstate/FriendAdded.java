@@ -1,6 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands;
+package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
+import tech.zolhungaj.amqapi.servercommands.Command;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerGameState;
 
 public record FriendAdded(
@@ -8,7 +10,7 @@ public record FriendAdded(
         Boolean online,
         Integer status,
         PlayerGameState gameState
-) implements Command{
+) implements Command {
     @Override
     public String getCommandName() {
         return CommandType.NEW_FRIEND.commandName;

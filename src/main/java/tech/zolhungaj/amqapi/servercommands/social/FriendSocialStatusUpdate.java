@@ -1,6 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands;
+package tech.zolhungaj.amqapi.servercommands.social;
 
 import com.squareup.moshi.Json;
+import tech.zolhungaj.amqapi.servercommands.Command;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerGameState;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
 

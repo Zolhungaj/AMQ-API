@@ -1,6 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands;
+package tech.zolhungaj.amqapi.servercommands.social;
 
 import com.squareup.moshi.Json;
+import tech.zolhungaj.amqapi.servercommands.Command;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis;
 
 /**
@@ -13,7 +15,7 @@ public record DirectMessageResponse(
         DirectMessageEmojis emojis,
         @Json(name = "msg") String message,
         String target
-) implements Command{
+) implements Command {
 
 
     @Override

@@ -1,9 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands;
+package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.Nullable;
+import tech.zolhungaj.amqapi.servercommands.Command;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerGameState;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
 import tech.zolhungaj.amqapi.servercommands.objects.RankedLeaderboardEntry;
@@ -83,7 +85,7 @@ public record LoginComplete(
         Boolean guestAccount,
         TutorialState tutorialState
 )
-implements Command{
+implements Command {
     public Optional<Instant> aniListLastUpdateInstant(){
         return aniListLastUpdate.map(Instant::parse);
     }

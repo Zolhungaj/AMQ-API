@@ -1,5 +1,7 @@
-package tech.zolhungaj.amqapi.servercommands;
+package tech.zolhungaj.amqapi.servercommands.social;
 
+import tech.zolhungaj.amqapi.servercommands.Command;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis;
 
 
@@ -11,7 +13,7 @@ public record DirectMessage(
         String sender,
         String message,
         Boolean modMessage
-) implements Command{
+) implements Command {
 
 
     @Override

@@ -8,9 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tech.zolhungaj.amqapi.clientcommands.expandlibrary.ExpandLibraryGetQuestions;
 import tech.zolhungaj.amqapi.clientcommands.friend.FriendRequestResponse;
-import tech.zolhungaj.amqapi.servercommands.FriendRequestReceived;
-import tech.zolhungaj.amqapi.servercommands.GameChatUpdate;
-import tech.zolhungaj.amqapi.servercommands.OnlinePlayerCountChange;
+import tech.zolhungaj.amqapi.servercommands.social.FriendRequestReceived;
+import tech.zolhungaj.amqapi.servercommands.social.GameChatUpdate;
+import tech.zolhungaj.amqapi.servercommands.globalstate.OnlinePlayerCountChange;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -10,6 +10,8 @@ import tech.zolhungaj.amqapi.client.Client;
 import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 import tech.zolhungaj.amqapi.servercommands.*;
+import tech.zolhungaj.amqapi.servercommands.globalstate.*;
+import tech.zolhungaj.amqapi.servercommands.social.*;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
