@@ -112,6 +112,7 @@ public class AmqApi implements Runnable{
             case FRIEND_NAME_UPDATE -> MOSHI.adapter(FriendNameChange.class).fromJson(dataAsString);
             case FRIEND_PROFILE_IMAGE_UPDATE -> MOSHI.adapter(FriendProfileImageChange.class).fromJson(dataAsString);
             case FRIEND_REQUEST -> MOSHI.adapter(FriendRequestReceived.class).fromJson(dataAsString);
+            case SINGLE_CHAT_MESSAGE -> MOSHI.adapter(GameChatMessage.class).fromJson(dataAsString);
             case //TODO: implement each of these
                     BATTLE_ROYALE_READY,
                     BATTLE_ROYALE_BEGIN,
