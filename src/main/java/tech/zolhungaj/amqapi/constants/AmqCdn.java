@@ -1,5 +1,8 @@
 package tech.zolhungaj.amqapi.constants;
 
+import tech.zolhungaj.amqapi.servercommands.objects.Avatar;
+import tech.zolhungaj.amqapi.servercommands.objects.Emote;
+
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Locale;
@@ -144,8 +147,18 @@ public final class AmqCdn {
         }
     }
 
-	public static final URI RHYTHM_ICON_PATH = TICKET_URL.resolve("30px/rhythm" + IMAGE_FILE_EXTENSION);
+	public static final URI RHYTHM_ICON_PATH = TICKET_URL.resolve("30px").resolve("rhythm" + IMAGE_FILE_EXTENSION);
 
+    public static URI createAvatarUrl(Avatar avatar, boolean optionOn, AVATAR_SIZE size, AVATAR_POSE pose){
+        return createAvatarUrl(
+                avatar.avatarName(),
+                avatar.outfitName(),
+                avatar.optionName(),
+                optionOn,
+                avatar.colorName(),
+                size,
+                pose);
+    }
     public static URI createAvatarUrl(String avatar,
                                       String outfit,
                                       String option,
@@ -163,6 +176,17 @@ public final class AmqCdn {
                 .resolve(color)
                 .resolve(getSizePath(size.size))
                 .resolve(pose.filename);
+    }
+
+    public static URI createAvatarHeadUrl(Avatar avatar, boolean optionOn, AVATAR_HEAD_SIZE size){
+        return createAvatarHeadUrl(
+                avatar.avatarName(),
+                avatar.outfitName(),
+                avatar.optionName(),
+                optionOn,
+                avatar.colorName(),
+                size
+        );
     }
 
     public static URI createAvatarHeadUrl(String avatar,
@@ -183,6 +207,10 @@ public final class AmqCdn {
                 .resolve(AVATAR_HEAD_FILENAME);
     }
 
+    public static URI createAvatarBackgroundUrl(Avatar avatar, BACKGROUND_SIZE size){
+        return createAvatarBackgroundUrl(avatar.backgroundVert(), size);
+    }
+
     public static URI createAvatarBackgroundUrl(String filename, BACKGROUND_SIZE size){
         if(filename.contains("svg")){
             return BACKGROUND_URL
@@ -193,6 +221,10 @@ public final class AmqCdn {
                     .resolve(getSizePath(size.size))
                     .resolve(filename);
         }
+    }
+
+    public static URI createBadgeUrl(Avatar avatar, BADGE_SIZE size){
+        return createBadgeUrl(avatar.badgeFileName(), size);
     }
 
     public static URI createBadgeUrl(String filename, BADGE_SIZE size){
@@ -210,6 +242,10 @@ public final class AmqCdn {
                 .resolve(iconFilename);
     }
 
+    public static URI createStoreAvatarUrl(Avatar avatar, STORE_ICON_SIZE size){
+        return createStoreAvatarUrl(avatar.avatarName(), avatar.outfitName(), size);
+    }
+
     public static URI createStoreAvatarUrl(String avatar, String outfit, STORE_ICON_SIZE size){
         String filename = "%s_%s".formatted(avatar, formatStoreIconOutfit(outfit));
         return createStoreIconUrl(filename, size);
@@ -221,8 +257,12 @@ public final class AmqCdn {
                 .replaceAll("[ -]", "_");
     }
 
-    public static URI createEmoteUrl(String emote, EMOTE_SIZE size){
-        String emoteFilename = emote + IMAGE_FILE_EXTENSION;
+    public static URI createEmoteUrl(Emote emote, EMOTE_SIZE size){
+        return createEmoteUrl(emote.emoteName(), size);
+    }
+
+    public static URI createEmoteUrl(String emoteName, EMOTE_SIZE size){
+        String emoteFilename = emoteName + IMAGE_FILE_EXTENSION;
         return EMOTE_URL
                 .resolve(getSizePath(size.size))
                 .resolve(emoteFilename);

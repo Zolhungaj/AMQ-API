@@ -6,9 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerGameState;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
-import tech.zolhungaj.amqapi.servercommands.objects.RankedLeaderboardEntry;
+import tech.zolhungaj.amqapi.servercommands.objects.*;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.constants.Emojis;
 
@@ -240,49 +238,6 @@ implements Command {
             Integer characterId,
             List<Avatar> avatars
     ){}
-
-    public record Avatar (
-            String colorName,
-            Integer outfitId,
-            Optional<Integer> patreonTierToUnlock,
-            Integer notePrice,
-            String lore,
-            Boolean limited,
-            String artist,
-            String badgeName,
-            String backgroundVert,
-            Boolean active,
-            List<AvatarColor> colors,
-            Integer defaultColorId,
-            String badgeFileName,
-            String avatarName,
-            Boolean defaultAvatar,
-            Integer avatarId,
-            String world,
-            Optional<Integer> tierId,
-            Integer realMoneyPrice,
-            String outfitName,
-            Boolean exclusive,
-            Integer sizeModifier,
-            String optionName
-    ){}
-
-    public record AvatarColor (
-            Optional<String> editor,
-            Boolean limited,
-            Integer colorId,
-            Boolean active,
-            String backgroundVert,
-            Boolean defaultColor,
-            Optional<Integer> tierId,
-            Integer price,
-            Boolean eventColor, //Always 0?
-            Boolean unique,
-            String name,
-            Boolean exclusive,
-            Integer sizeModifier
-    ){}
-
     public record UserSettings (
             Boolean autoHideInserts,
             Boolean disableEmojis,
@@ -348,12 +303,6 @@ implements Command {
     public record EmoteGroup (
             Integer orderNumber,
             List<Emote> emotes
-    ){}
-
-    public record Emote (
-            Integer tierId,
-            String name,
-            Integer emoteId
     ){}
 
     public record CumulativeAvatarDonation(
@@ -484,17 +433,7 @@ implements Command {
 
     public record FavoriteAvatar(
             Integer favoriteId,
-            Avatar avatar,
-            Background background
-    ){
-        public record Avatar (
-                Integer avatarId,
-                Integer colorId,
-                Boolean optionActive
-        ){}
-        public record Background (
-                Integer avatarId,
-                Integer colorId
-        ){}
-    }
+            @Json(name = "avatar") Avatar.AvatarIdentifier avatarIdentifier,
+            @Json(name = "background") Avatar.AvatarBackgroundIdentifier avatarBackgroundIdentifier
+    ){}
 }
