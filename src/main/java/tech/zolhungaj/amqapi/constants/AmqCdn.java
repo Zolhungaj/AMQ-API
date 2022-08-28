@@ -1,6 +1,7 @@
 package tech.zolhungaj.amqapi.constants;
 
-import tech.zolhungaj.amqapi.servercommands.objects.Avatar;
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
+import tech.zolhungaj.amqapi.servercommands.objects.StoreAvatar;
 import tech.zolhungaj.amqapi.servercommands.objects.Emote;
 
 import java.net.URI;
@@ -149,21 +150,32 @@ public final class AmqCdn {
 
 	public static final URI RHYTHM_ICON_PATH = TICKET_URL.resolve("30px").resolve("rhythm" + IMAGE_FILE_EXTENSION);
 
-    public static URI createAvatarUrl(Avatar avatar, boolean optionOn, AVATAR_SIZE size, AVATAR_POSE pose){
+    public static URI createAvatarUrl(PlayerAvatar avatar, boolean optionOn, AVATAR_SIZE size, AVATAR_POSE pose){
+        return createAvatarUrl(
+                avatar.avatar().avatarName(),
+                avatar.avatar().outfitName(),
+                avatar.avatar().optionName(),
+                avatar.avatar().colorName(),
+                optionOn,
+                size,
+                pose);
+    }
+
+    public static URI createAvatarUrl(StoreAvatar avatar, boolean optionOn, AVATAR_SIZE size, AVATAR_POSE pose){
         return createAvatarUrl(
                 avatar.avatarName(),
                 avatar.outfitName(),
                 avatar.optionName(),
-                optionOn,
                 avatar.colorName(),
+                optionOn,
                 size,
                 pose);
     }
     public static URI createAvatarUrl(String avatar,
                                       String outfit,
                                       String option,
-                                      boolean optionOn,
                                       String color,
+                                      boolean optionOn,
                                       AVATAR_SIZE size,
                                       AVATAR_POSE pose){
         if(!optionOn){
@@ -178,13 +190,24 @@ public final class AmqCdn {
                 .resolve(pose.filename);
     }
 
-    public static URI createAvatarHeadUrl(Avatar avatar, boolean optionOn, AVATAR_HEAD_SIZE size){
+    public static URI createAvatarHeadUrl(PlayerAvatar avatar, boolean optionOn, AVATAR_HEAD_SIZE size){
+        return createAvatarHeadUrl(
+                avatar.avatar().avatarName(),
+                avatar.avatar().outfitName(),
+                avatar.avatar().optionName(),
+                avatar.avatar().colorName(),
+                optionOn,
+                size
+        );
+    }
+
+    public static URI createAvatarHeadUrl(StoreAvatar avatar, boolean optionOn, AVATAR_HEAD_SIZE size){
         return createAvatarHeadUrl(
                 avatar.avatarName(),
                 avatar.outfitName(),
                 avatar.optionName(),
-                optionOn,
                 avatar.colorName(),
+                optionOn,
                 size
         );
     }
@@ -192,8 +215,8 @@ public final class AmqCdn {
     public static URI createAvatarHeadUrl(String avatar,
                                           String outfit,
                                           String option,
-                                          boolean optionOn,
                                           String color,
+                                          boolean optionOn,
                                           AVATAR_HEAD_SIZE size){
         if(!optionOn){
             option = "No " + option;
@@ -207,7 +230,12 @@ public final class AmqCdn {
                 .resolve(AVATAR_HEAD_FILENAME);
     }
 
-    public static URI createAvatarBackgroundUrl(Avatar avatar, BACKGROUND_SIZE size){
+
+    public static URI createAvatarBackgroundUrl(PlayerAvatar avatar, BACKGROUND_SIZE size){
+        return createAvatarBackgroundUrl(avatar.background().backgroundVert(), size);
+    }
+
+    public static URI createAvatarBackgroundUrl(StoreAvatar avatar, BACKGROUND_SIZE size){
         return createAvatarBackgroundUrl(avatar.backgroundVert(), size);
     }
 
@@ -223,7 +251,7 @@ public final class AmqCdn {
         }
     }
 
-    public static URI createBadgeUrl(Avatar avatar, BADGE_SIZE size){
+    public static URI createBadgeUrl(StoreAvatar avatar, BADGE_SIZE size){
         return createBadgeUrl(avatar.badgeFileName(), size);
     }
 
@@ -242,7 +270,7 @@ public final class AmqCdn {
                 .resolve(iconFilename);
     }
 
-    public static URI createStoreAvatarUrl(Avatar avatar, STORE_ICON_SIZE size){
+    public static URI createStoreAvatarUrl(StoreAvatar avatar, STORE_ICON_SIZE size){
         return createStoreAvatarUrl(avatar.avatarName(), avatar.outfitName(), size);
     }
 

@@ -3,7 +3,7 @@ package tech.zolhungaj.amqapi.servercommands.objects;
 import java.util.List;
 import java.util.Optional;
 
-public record Avatar (
+public record StoreAvatar(
         String colorName,
         Integer outfitId,
         Optional<Integer> patreonTierToUnlock,
@@ -43,16 +43,6 @@ public record Avatar (
             String name,
             Boolean exclusive,
             Integer sizeModifier
-    ){}
-
-    public record AvatarIdentifier(
-            Integer avatarId,
-            Integer colorId,
-            Boolean optionActive
-    ){}
-    public record AvatarBackgroundIdentifier(
-            Integer avatarId,
-            Integer colorId
     ){}
 }
 

@@ -8,6 +8,11 @@ public enum CommandType {
     CHAT_MESSAGES("game chat update"),
     SINGLE_CHAT_MESSAGE("Game Chat Message"),
     SYSTEM_CHAT_MESSAGE("Game System Chat Message"),
+    NEW_SPECTATOR("New Spectator"),
+    SPECTATOR_LEFT("Spectator Left"),
+    PLAYER_LEFT("Player Left"),
+    SPECTATOR_CHANGED_TO_PLAYER("Spectator Change To Player"),
+    PLAYER_CHANGED_TO_SPECTATOR("Player Changed To Spectator"),
     GAME_INVITE("game invite"),
     LOGIN_COMPLETE("login complete"),
     ONLINE_PLAYERS("online player count change"),
@@ -33,9 +38,6 @@ public enum CommandType {
     BATTLE_ROYALE_TILE_COUNT("battle royal tile count"),
     BATTLE_ROYALE_TILE_UPDATE_SPECTATOR_COUNT("tile spectator count change"),
     BATTLE_ROYALE_RETURN_TO_MAP("battle royal return map"),
-
-
-    PLAYER_LEFT("Player Left"),
     PLAYER_REJOIN("Rejoining Player"),
     PLAYER_NAME_CHANGE("player name change"),
 

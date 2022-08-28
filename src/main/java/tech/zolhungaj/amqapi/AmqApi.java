@@ -10,9 +10,9 @@ import tech.zolhungaj.amqapi.client.Client;
 import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 import tech.zolhungaj.amqapi.servercommands.*;
-import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatMessage;
-import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatSystemMessage;
-import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatUpdate;
+import tech.zolhungaj.amqapi.servercommands.gameroom.*;
+import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.PlayerChangedToSpectator;
+import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.SpectatorChangedToPlayer;
 import tech.zolhungaj.amqapi.servercommands.globalstate.*;
 import tech.zolhungaj.amqapi.servercommands.social.*;
 
@@ -117,6 +117,11 @@ public class AmqApi implements Runnable{
             case FRIEND_REQUEST -> MOSHI.adapter(FriendRequestReceived.class).fromJson(dataAsString);
             case SINGLE_CHAT_MESSAGE -> MOSHI.adapter(GameChatMessage.class).fromJson(dataAsString);
             case SYSTEM_CHAT_MESSAGE -> MOSHI.adapter(GameChatSystemMessage.class).fromJson(dataAsString);
+            case NEW_SPECTATOR -> MOSHI.adapter(SpectatorJoined.class).fromJson(dataAsString);
+            case SPECTATOR_LEFT -> MOSHI.adapter(SpectatorLeft.class).fromJson(dataAsString);
+            case PLAYER_CHANGED_TO_SPECTATOR -> MOSHI.adapter(PlayerChangedToSpectator.class).fromJson(dataAsString);
+            case SPECTATOR_CHANGED_TO_PLAYER -> MOSHI.adapter(SpectatorChangedToPlayer.class).fromJson(dataAsString);
+            case PLAYER_LEFT -> MOSHI.adapter(PlayerLeft.class).fromJson(dataAsString);
             case //TODO: implement each of these
                     BATTLE_ROYALE_READY,
                     BATTLE_ROYALE_BEGIN,
@@ -134,7 +139,6 @@ public class AmqApi implements Runnable{
                     BATTLE_ROYALE_TILE_COUNT,
                     BATTLE_ROYALE_TILE_UPDATE_SPECTATOR_COUNT,
                     BATTLE_ROYALE_RETURN_TO_MAP,
-                    PLAYER_LEFT,
                     PLAYER_REJOIN,
                     PLAYER_NAME_CHANGE,
                     JOIN_GAME,

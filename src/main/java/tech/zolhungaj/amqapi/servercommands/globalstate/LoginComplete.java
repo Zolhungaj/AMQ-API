@@ -236,7 +236,7 @@ implements Command {
 
     public record SuperAvatar(
             Integer characterId,
-            List<Avatar> avatars
+            List<StoreAvatar> avatars
     ){}
     public record UserSettings (
             Boolean autoHideInserts,
@@ -433,7 +433,7 @@ implements Command {
 
     public record FavoriteAvatar(
             Integer favoriteId,
-            @Json(name = "avatar") Avatar.AvatarIdentifier avatarIdentifier,
-            @Json(name = "background") Avatar.AvatarBackgroundIdentifier avatarBackgroundIdentifier
+            @Json(name = "avatar") AvatarIdentifier avatarIdentifier,
+            @Json(name = "background") AvatarBackgroundIdentifier avatarBackgroundIdentifier
     ){}
 }
