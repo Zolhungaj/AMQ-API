@@ -7,6 +7,7 @@ public enum CommandType {
 
     CHAT_MESSAGES("game chat update"),
     SINGLE_CHAT_MESSAGE("Game Chat Message"),
+    SYSTEM_CHAT_MESSAGE("Game System Chat Message"),
     GAME_INVITE("game invite"),
     LOGIN_COMPLETE("login complete"),
     ONLINE_PLAYERS("online player count change"),

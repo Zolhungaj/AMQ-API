@@ -1,5 +1,6 @@
-package tech.zolhungaj.amqapi.servercommands.social;
+package tech.zolhungaj.amqapi.servercommands.gameroom;
 
+import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.messages.Badge;
@@ -10,12 +11,12 @@ import java.util.List;
 public record GameChatMessage(
     String sender,
     String message,
-    Boolean modMessage,
-    Boolean teamMessage,
+    @Json(name = "modMessage") Boolean isModMessage,
+    @Json(name = "teamMessage") Boolean isTeamMessage,
     List<Badge> badges,
     Integer messageId,
     MessageEmoji emojis,
-    Boolean atEveryone
+    @Json(name = "atEveryone") Boolean isAtEveryone
 ) implements Command {
     @Override
     public String getCommandName() {

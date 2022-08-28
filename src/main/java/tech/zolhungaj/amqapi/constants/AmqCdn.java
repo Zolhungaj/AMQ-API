@@ -146,7 +146,7 @@ public final class AmqCdn {
 
 	public static final URI RHYTHM_ICON_PATH = TICKET_URL.resolve("30px/rhythm" + IMAGE_FILE_EXTENSION);
 
-    public static URI createAvatarUrl(String avatar, //TODO: avatar type
+    public static URI createAvatarUrl(String avatar,
                                       String outfit,
                                       String option,
                                       boolean optionOn,
@@ -210,7 +210,7 @@ public final class AmqCdn {
                 .resolve(iconFilename);
     }
 
-    public static URI createStoreAvatarUrl(String avatar, String outfit, STORE_ICON_SIZE size){ //TODO: avatar type
+    public static URI createStoreAvatarUrl(String avatar, String outfit, STORE_ICON_SIZE size){
         String filename = "%s_%s".formatted(avatar, formatStoreIconOutfit(outfit));
         return createStoreIconUrl(filename, size);
     }

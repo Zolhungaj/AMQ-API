@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.servercommands.social;
+package tech.zolhungaj.amqapi.servercommands.gameroom;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
