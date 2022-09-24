@@ -2,11 +2,10 @@ package tech.zolhungaj.amqapi.client.handlers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.util.HttpCookieStore;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.JettyClientHttpConnector;
@@ -27,8 +26,8 @@ import java.io.Closeable;
 import java.time.Duration;
 import java.util.logging.Level;
 
+@Slf4j
 public class WebHandler implements Closeable {
-    private static final Logger LOG = LoggerFactory.getLogger(WebHandler.class);
 
     private static final Duration TIMEOUT = Duration.ofSeconds(30);
 
@@ -65,19 +64,19 @@ public class WebHandler implements Closeable {
                                         clientCodecConfigurer.defaultCodecs().maxInMemorySize(50_000_000))
                         .build())
                 .build();
-        LOG.debug("WebHandler initialised");
+        log.debug("WebHandler initialised");
     }
 
     public void connect(){
-        LOG.info("Connecting for authentication...");
+        log.info("Connecting for authentication...");
         loadWebpage();
         authenticate();
         fetchTokenAndPort();
-        LOG.info("Authentication complete!");
+        log.info("Authentication complete!");
     }
 
     private void loadWebpage(){
-        LOG.info("Loading webpage...");
+        log.info("Loading webpage...");
         webClient
                 .get()
                 .retrieve()
@@ -93,11 +92,11 @@ public class WebHandler implements Closeable {
                         )
                 )
                 .block(TIMEOUT);
-        LOG.info("Webpage loaded!");
+        log.info("Webpage loaded!");
     }
 
     private void authenticate(){
-        LOG.info("Starting authentication...");
+        log.info("Starting authentication...");
         AuthenticationResponse authenticationResponse = webClient
                 .post()
                 .uri(SIGN_IN_URL)
@@ -116,15 +115,15 @@ public class WebHandler implements Closeable {
         if(!authenticationResponse.verified()){
             throw new AuthenticationFailedException("Verified is false");
         }
-        LOG.info("Authentication successful!");
+        log.info("Authentication successful!");
         if(!forceConnect && authenticationResponse.alreadyOnline()){
-            LOG.info("Account already logged in");
+            log.info("Account already logged in");
             abortAuthentication();
         }
     }
 
     private Mono<AuthenticationResponse> authenticationErrorHandling(WebClientResponseException exception){
-        LOG.debug("Authentication error handling started", exception);
+        log.debug("Authentication error handling started", exception);
         return switch(exception.getStatusCode()){
             //endpoint returns "Unauthorized" on incorrect password, so we construct our own response
             case UNAUTHORIZED -> Mono.just(new AuthenticationResponse(false, null, false));
@@ -139,7 +138,7 @@ public class WebHandler implements Closeable {
     }
 
     private void abortAuthentication(){
-        LOG.info("Aborting authentication");
+        log.info("Aborting authentication");
         webClient
                 .post()
                 .uri(ABORT_SIGN_IN_URL)
@@ -156,7 +155,7 @@ public class WebHandler implements Closeable {
     }
 
     private void fetchTokenAndPort() {
-        LOG.info("Getting token and port...");
+        log.info("Getting token and port...");
         String response = webClient
                 .get()
                 .uri(TOKEN_URL)
@@ -182,7 +181,7 @@ public class WebHandler implements Closeable {
         this.token = tokenResponse.token();
         this.port = Integer.parseInt(tokenResponse.port());
 
-        LOG.info("""
+        log.info("""
                     Token and port acquired!
                         Token: {},
                         Port: {}
@@ -203,7 +202,7 @@ public class WebHandler implements Closeable {
     }
 
     private void signOut(){
-        LOG.info("Signing out...");
+        log.info("Signing out...");
         webClient
                 .get()
                 .uri(SIGN_OUT_URL)
@@ -213,6 +212,6 @@ public class WebHandler implements Closeable {
                 .block(TIMEOUT);
         this.token = null;
         this.port = 0;
-        LOG.info("Signed out!");
+        log.info("Signed out!");
     }
 }

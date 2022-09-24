@@ -1,7 +1,6 @@
 package tech.zolhungaj.amqapi;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,9 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
+@Slf4j
 @SpringBootApplication
 public class AmqApiApplication implements ApplicationRunner {
-	private static final Logger LOG = LoggerFactory.getLogger(AmqApiApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(AmqApiApplication.class, args);
@@ -33,14 +32,14 @@ public class AmqApiApplication implements ApplicationRunner {
 		AmqApi api = new AmqApi(username, password, force);
 		api.on(command -> {
 			if(command instanceof GameChatUpdate g){
-				LOG.info("GameChatUpdate handled: {}", g);
+				log.info("GameChatUpdate handled: {}", g);
 				return true;
 			}
 			return false;
 		});
 		api.on(command -> {
 			if(command instanceof OnlinePlayerCountChange o){
-				LOG.info("OnlinePlayerCountChange handled: {}", o.count());
+				log.info("OnlinePlayerCountChange handled: {}", o.count());
 				return true;
 			}
 			return false;
@@ -58,7 +57,7 @@ public class AmqApiApplication implements ApplicationRunner {
 		});
 		api.once(command -> {
 			if(command instanceof OnlinePlayerCountChange o){
-				LOG.info("THIS ONLY HAPPENS ONCE {}", o.count());
+				log.info("THIS ONLY HAPPENS ONCE {}", o.count());
 				return true;
 			}
 			return false;

@@ -2,9 +2,8 @@ package tech.zolhungaj.amqapi.client.handlers;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tech.zolhungaj.amqapi.client.exceptions.CommandBufferFullException;
 import tech.zolhungaj.amqapi.client.exceptions.SocketDisconnectedException;
 import tech.zolhungaj.amqapi.client.exceptions.UncheckedInterruptedException;
@@ -16,8 +15,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class SocketHandler implements Closeable {
-    private static final Logger LOG = LoggerFactory.getLogger(SocketHandler.class);
     private static final String EVENT_COMMAND = "command";
 
     private static final String SOCKET_URL = "https://socket.animemusicquiz.com";
@@ -37,7 +36,7 @@ public class SocketHandler implements Closeable {
         options.reconnectionDelayMax = 3000;
         options.query = "token=%s".formatted(token);
         this.socket = IO.socket(URI.create(SOCKET_URL +":%d".formatted(port)), options);
-        LOG.debug("Created socket {}", socket);
+        log.debug("Created socket {}", socket);
     }
 
     public void connect(){
@@ -55,7 +54,7 @@ public class SocketHandler implements Closeable {
                 //object with two entries: "command" and "data"
                 addCommand(payload);
             }else{
-                LOG.error("Malformed command, {} of type {}", args[0], args[0].getClass());
+                log.error("Malformed command, {} of type {}", args[0], args[0].getClass());
             }
         });
         socket.on(Socket.EVENT_CONNECT, args -> socketInfo("Connected!", args));
@@ -96,7 +95,7 @@ public class SocketHandler implements Closeable {
         boolean success;
         try{
             success = commandQueue.offer(command, 1, TimeUnit.MINUTES);
-            LOG.debug("Added command to queue: {}", command);
+            log.debug("Added command to queue: {}", command);
         }catch(InterruptedException e){
             Thread.currentThread().interrupt();
             throw new UncheckedInterruptedException(e);
@@ -112,7 +111,7 @@ public class SocketHandler implements Closeable {
 
     public void sendCommand(JSONObject payload){
         socket.emit(EVENT_COMMAND, payload);
-        LOG.debug("Sent command: {}", payload);
+        log.debug("Sent command: {}", payload);
     }
 
     public long getCurrentPing(){
@@ -120,10 +119,10 @@ public class SocketHandler implements Closeable {
     }
 
     private void socketDebug(String event, Object... args){
-        if(LOG.isDebugEnabled()){
-            LOG.debug(event);
+        if(log.isDebugEnabled()){
+            log.debug(event);
             for(Object o : args){
-                LOG.debug("    {}", o);
+                log.debug("    {}", o);
             }
         }else{
             socketInfo(event, args);//replace later
@@ -131,10 +130,10 @@ public class SocketHandler implements Closeable {
     }
 
     private void socketInfo(String event, Object... args){
-        if(LOG.isInfoEnabled()){
-            LOG.info(event);
+        if(log.isInfoEnabled()){
+            log.info(event);
             for(Object o : args){
-                LOG.info("    {}, {}", o, o.getClass());
+                log.info("    {}, {}", o, o.getClass());
             }
         }
     }

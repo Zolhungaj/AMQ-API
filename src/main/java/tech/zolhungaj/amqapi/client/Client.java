@@ -2,9 +2,8 @@ package tech.zolhungaj.amqapi.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tech.zolhungaj.amqapi.client.handlers.SocketHandler;
 import tech.zolhungaj.amqapi.client.handlers.WebHandler;
 import tech.zolhungaj.amqapi.client.requests.Authentication;
@@ -12,10 +11,8 @@ import tech.zolhungaj.amqapi.client.requests.Authentication;
 import java.io.UncheckedIOException;
 import java.time.Duration;
 
+@Slf4j
 public class Client implements AutoCloseable{
-
-    private static final Logger LOG = LoggerFactory.getLogger(Client.class);
-
 
     private final Authentication authentication;
     private WebHandler webHandler;
@@ -27,12 +24,12 @@ public class Client implements AutoCloseable{
     }
 
     public void start(boolean forceConnect){
-        LOG.info("Starting Client...");
+        log.info("Starting Client...");
         this.webHandler = new WebHandler(this.authentication, forceConnect);
         this.webHandler.connect();
         this.socketHandler = new SocketHandler(webHandler.getToken(), webHandler.getPort());
         socketHandler.connect();
-        LOG.info("Started Client!");
+        log.info("Started Client!");
     }
 
     public void sendCommand(String type, String command, Object data){
@@ -51,7 +48,7 @@ public class Client implements AutoCloseable{
                                         """.formatted(type, command, dataString);
             var jsonObject = new JSONObject(completeCommand);
             socketHandler.sendCommand(jsonObject);
-            LOG.info("Sent command: {}", jsonObject);
+            log.info("Sent command: {}", jsonObject);
         }catch (JsonProcessingException e) {
             throw new UncheckedIOException(e);
         }

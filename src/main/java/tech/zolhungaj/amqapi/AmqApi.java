@@ -3,9 +3,8 @@ package tech.zolhungaj.amqapi;
 
 import com.squareup.moshi.*;
 import io.micrometer.core.lang.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tech.zolhungaj.amqapi.client.Client;
 import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
@@ -27,8 +26,8 @@ import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.*;
 
+@Slf4j
 public class AmqApi implements Runnable{
-    private static final Logger LOG = LoggerFactory.getLogger(AmqApi.class);
     private static final Moshi MOSHI = new Moshi
             .Builder()
             .add(new CustomBooleanAdapter())
@@ -68,7 +67,7 @@ public class AmqApi implements Runnable{
     }
 
     private void handle(Command command){
-        LOG.info("{}, {}, {}", command, command.getClass(), command.getCommandName());
+        log.info("{}, {}, {}", command, command.getClass(), command.getCommandName());
 
         onList
                 .forEach(c -> c.call(command));
@@ -79,7 +78,7 @@ public class AmqApi implements Runnable{
         String commandName = serverCommand.command();
         JSONObject data = serverCommand.data();
         CommandType commandType = CommandType.forName(commandName);
-        LOG.info("""
+        log.info("""
                 ServerCommand: {}
                 data: {}
                 commandType: {}
@@ -88,7 +87,7 @@ public class AmqApi implements Runnable{
         Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
         Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
         if(commandType == null){
-            LOG.info("""
+            log.info("""
                     Unknown command:
                         command: {}
                         data: {}
@@ -196,7 +195,7 @@ public class AmqApi implements Runnable{
                 handle(command);
             }
         } catch (InterruptedException e) {
-            LOG.error("AMQ-API Interrupted, ", e);
+            log.error("AMQ-API Interrupted, ", e);
             Thread.currentThread().interrupt();
         } catch (IOException e){
             throw new UncheckedIOException(e);
