@@ -1,7 +1,6 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
-import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.Nullable;
 import tech.zolhungaj.amqapi.servercommands.Command;
@@ -289,16 +288,7 @@ implements Command {
             @Json(name = "2") List<RankedChampion> western,
             @Json(name = "3") List<RankedChampion> eastern
     ){}
-    public record RankedChampion (
-            String name,
-            Integer position
-    ) implements Comparable<RankedChampion>
-    {
-        @Override
-        public int compareTo(@NotNull RankedChampion o) {
-            return this.position() - o.position();
-        }
-    }
+
 
     public record EmoteGroup (
             Integer orderNumber,

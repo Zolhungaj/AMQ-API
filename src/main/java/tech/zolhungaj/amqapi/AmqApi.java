@@ -9,6 +9,8 @@ import tech.zolhungaj.amqapi.client.Client;
 import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 import tech.zolhungaj.amqapi.servercommands.*;
+import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryList;
+import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryUpdated;
 import tech.zolhungaj.amqapi.servercommands.gameroom.*;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.PlayerChangedToSpectator;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.SpectatorChangedToPlayer;
@@ -107,6 +109,7 @@ public class AmqApi implements Runnable{
             case DIRECT_MESSAGE_RESPONSE -> MOSHI.adapter(DirectMessageResponse.class).fromJson(dataAsString);
             case FORCED_LOGOFF -> MOSHI.adapter(ForcedLogoff.class).fromJson(dataAsString);
             case EXPAND_LIBRARY_ENTRIES -> MOSHI.adapter(ExpandLibraryEntryList.class).fromJson(dataAsString);
+            case EXPAND_LIBRARY_UPDATE -> MOSHI.adapter(ExpandLibraryEntryUpdated.class).fromJson(dataAsString);
             case NEW_FRIEND -> MOSHI.adapter(FriendAdded.class).fromJson(dataAsString);
             case REMOVED_FRIEND -> MOSHI.adapter(FriendRemoved.class).fromJson(dataAsString);
             case FRIEND_STATE_UPDATE -> MOSHI.adapter(FriendOnlineChange.class).fromJson(dataAsString);
@@ -121,6 +124,8 @@ public class AmqApi implements Runnable{
             case PLAYER_CHANGED_TO_SPECTATOR -> MOSHI.adapter(PlayerChangedToSpectator.class).fromJson(dataAsString);
             case SPECTATOR_CHANGED_TO_PLAYER -> MOSHI.adapter(SpectatorChangedToPlayer.class).fromJson(dataAsString);
             case PLAYER_LEFT -> MOSHI.adapter(PlayerLeft.class).fromJson(dataAsString);
+            case POPOUT_MESSAGE -> MOSHI.adapter(PopoutMessage.class).fromJson(dataAsString);
+            case RANKED_CHAMPIONS_UPDATED -> MOSHI.adapter(RankedChampionsUpdate.class).fromJson(dataAsString);
             case //TODO: implement each of these
                     BATTLE_ROYALE_READY,
                     BATTLE_ROYALE_BEGIN,
@@ -147,7 +152,6 @@ public class AmqApi implements Runnable{
                     UNKNOWN_ERROR,
                     SERVER_RESTART,
                     NEW_DONATION,
-                    POPOUT_MESSAGE,
                     RANKED_SCORE_UPDATE,
                     PLAYER_PROFILE,
                     SAVED_QUIZ_SETTINGS_DELETED,

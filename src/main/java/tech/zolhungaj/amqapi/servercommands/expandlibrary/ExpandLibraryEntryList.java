@@ -1,6 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands;
+package tech.zolhungaj.amqapi.servercommands.expandlibrary;
 
 import com.squareup.moshi.Json;
+import tech.zolhungaj.amqapi.servercommands.Command;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +13,7 @@ public record ExpandLibraryEntryList (
         Boolean success,
         String issue,
         @Json(name = "questions") List<ExpandLibraryEntry> entries
-) implements Command{
+) implements Command {
     @Override
     public String getCommandName() {
         return CommandType.EXPAND_LIBRARY_ENTRIES.commandName;

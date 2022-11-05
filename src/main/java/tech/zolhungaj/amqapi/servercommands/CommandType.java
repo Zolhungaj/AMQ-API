@@ -96,9 +96,10 @@ public enum CommandType {
     FRIEND_PROFILE_IMAGE_UPDATE("friend profile image change"),
     FRIEND_REQUEST_ACKNOWLEDGEMENT("friend request"),
 
-    EXPAND_LIBRARY_ENTRIES("expandLibrary questions")
+    EXPAND_LIBRARY_ENTRIES("expandLibrary questions"),
+    EXPAND_LIBRARY_UPDATE("expandLibrary song answered"),
 
-    ;
+    RANKED_CHAMPIONS_UPDATED("ranked champions updated");
 
     public final String commandName;
 

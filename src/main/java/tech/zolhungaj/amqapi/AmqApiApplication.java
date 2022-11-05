@@ -3,8 +3,9 @@ package tech.zolhungaj.amqapi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import tech.zolhungaj.amqapi.clientcommands.expandlibrary.ExpandLibraryGetQuestions;
 import tech.zolhungaj.amqapi.clientcommands.friend.FriendRequestResponse;
 import tech.zolhungaj.amqapi.servercommands.social.FriendRequestReceived;
@@ -21,7 +22,9 @@ import java.nio.file.StandardOpenOption;
 public class AmqApiApplication implements ApplicationRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AmqApiApplication.class, args);
+		new SpringApplicationBuilder(AmqApiApplication.class)
+				.web(WebApplicationType.NONE)
+				.run(args);
 	}
 
 	@Override
