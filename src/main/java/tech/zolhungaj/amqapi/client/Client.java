@@ -10,6 +10,7 @@ import tech.zolhungaj.amqapi.client.requests.Authentication;
 
 import java.io.UncheckedIOException;
 import java.time.Duration;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 public class Client implements AutoCloseable{
@@ -58,7 +59,7 @@ public class Client implements AutoCloseable{
         return socketHandler.getCurrentPing();
     }
 
-    public ServerCommand pollCommand(Duration duration) throws InterruptedException{
+    public ServerCommand pollCommand(Duration duration) throws InterruptedException, TimeoutException {
         JSONObject jsonObject = socketHandler.pollCommand(duration);
         return new ServerCommand(
             jsonObject.getString("command"),

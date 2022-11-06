@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 public class AmqApi implements Runnable{
@@ -191,7 +192,7 @@ public class AmqApi implements Runnable{
             newClient.start(this.forceConnect);
             this.client = newClient;
             while(!Thread.interrupted()){
-                Client.ServerCommand serverCommand = client.pollCommand(Duration.ofMinutes(1));
+                Client.ServerCommand serverCommand = client.pollCommand(Duration.ofMinutes(5));
                 Command command = serverCommandToCommand(serverCommand);
                 if(command == null){
                     continue;
@@ -203,6 +204,8 @@ public class AmqApi implements Runnable{
             Thread.currentThread().interrupt();
         } catch (IOException e){
             throw new UncheckedIOException(e);
+        } catch (TimeoutException e){
+            log.error("Timed out", e);
         }
     }
 }

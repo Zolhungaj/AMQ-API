@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 public class SocketHandler implements Closeable {
@@ -105,8 +106,12 @@ public class SocketHandler implements Closeable {
         }
     }
 
-    public JSONObject pollCommand(Duration timeout) throws InterruptedException{
-        return commandQueue.poll(timeout.toNanos(), TimeUnit.NANOSECONDS);
+    public JSONObject pollCommand(Duration timeout) throws InterruptedException, TimeoutException {
+        JSONObject value = commandQueue.poll(timeout.toNanos(), TimeUnit.NANOSECONDS);
+        if(value == null){
+            throw new TimeoutException();
+        }
+        return value;
     }
 
     public void sendCommand(JSONObject payload){
