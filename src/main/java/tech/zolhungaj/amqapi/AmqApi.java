@@ -128,6 +128,8 @@ public class AmqApi implements Runnable{
             case POPOUT_MESSAGE -> MOSHI.adapter(PopoutMessage.class).fromJson(dataAsString);
             case RANKED_CHAMPIONS_UPDATED -> MOSHI.adapter(RankedChampionsUpdate.class).fromJson(dataAsString);
             case NEW_DONATION -> MOSHI.adapter(NewDonation.class).fromJson(dataAsString);
+            case ALL_ONLINE_USERS -> MOSHI.adapter(AllOnlineUsers.class).fromJson(dataAsString);
+            case ONLINE_USER_CHANGE -> MOSHI.adapter(OnlineUserChange.class).fromJson(dataAsString);
             case //TODO: implement each of these
                     BATTLE_ROYALE_READY,
                     BATTLE_ROYALE_BEGIN,

@@ -4,7 +4,7 @@ import tech.zolhungaj.amqapi.clientcommands.ClientCommandType;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 
 public class GetAllOnlineUsersAndStartTrackingOnlineUsers extends EmptyClientCommand {
-    protected GetAllOnlineUsersAndStartTrackingOnlineUsers() {
+    public GetAllOnlineUsersAndStartTrackingOnlineUsers() {
         super(ClientCommandType.START_TRACKING_ONLINE_USERS);
     }
 }

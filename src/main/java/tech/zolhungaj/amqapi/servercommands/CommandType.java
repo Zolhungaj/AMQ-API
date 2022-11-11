@@ -99,8 +99,9 @@ public enum CommandType {
     EXPAND_LIBRARY_ENTRIES("expandLibrary questions"),
     EXPAND_LIBRARY_UPDATE("expandLibrary song answered"),
 
-    RANKED_CHAMPIONS_UPDATED("ranked champions updated");
-
+    RANKED_CHAMPIONS_UPDATED("ranked champions updated"),
+    ALL_ONLINE_USERS("all online users"),
+    ONLINE_USER_CHANGE("online user change");
     public final String commandName;
 
     private static final Map<String, CommandType> map = new HashMap<>();

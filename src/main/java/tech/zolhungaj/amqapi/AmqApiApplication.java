@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import tech.zolhungaj.amqapi.clientcommands.expandlibrary.ExpandLibraryGetQuestions;
 import tech.zolhungaj.amqapi.clientcommands.friend.FriendRequestResponse;
+import tech.zolhungaj.amqapi.clientcommands.onlineusers.GetAllOnlineUsersAndStartTrackingOnlineUsers;
+import tech.zolhungaj.amqapi.clientcommands.onlineusers.StopTrackingOnlineUsers;
 import tech.zolhungaj.amqapi.servercommands.social.FriendRequestReceived;
 import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatUpdate;
 import tech.zolhungaj.amqapi.servercommands.globalstate.OnlinePlayerCountChange;
@@ -81,8 +83,10 @@ public class AmqApiApplication implements ApplicationRunner {
 		apiThread.start();
 		try{
 			Thread.sleep(5_000);
-			api.sendCommand(new ExpandLibraryGetQuestions());
+//			api.sendCommand(new ExpandLibraryGetQuestions());
+//			api.sendCommand(new GetAllOnlineUsersAndStartTrackingOnlineUsers());
 			Thread.sleep(60_000);
+//			api.sendCommand(new StopTrackingOnlineUsers());
 		}catch (InterruptedException e){
 			apiThread.interrupt();
 			throw e;

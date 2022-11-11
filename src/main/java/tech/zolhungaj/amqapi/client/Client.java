@@ -3,6 +3,7 @@ package tech.zolhungaj.amqapi.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
 import org.json.JSONObject;
 import tech.zolhungaj.amqapi.client.handlers.SocketHandler;
 import tech.zolhungaj.amqapi.client.handlers.WebHandler;
@@ -61,10 +62,20 @@ public class Client implements AutoCloseable{
 
     public ServerCommand pollCommand(Duration duration) throws InterruptedException, TimeoutException {
         JSONObject jsonObject = socketHandler.pollCommand(duration);
-        return new ServerCommand(
-            jsonObject.getString("command"),
-            jsonObject.getJSONObject("data")
-        );
+        try{
+            return new ServerCommand(
+                jsonObject.getString("command"),
+                jsonObject.getJSONObject("data")
+            );
+        }catch(JSONException e){
+            //log.warn("Ege plz", e);
+            JSONObject wrapper = new JSONObject();
+            wrapper.put("array", jsonObject.getJSONArray("data"));
+            return new ServerCommand(
+                    jsonObject.getString("command"),
+                    wrapper
+            );
+        }
     }
 
     @Override
