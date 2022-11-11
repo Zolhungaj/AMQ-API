@@ -60,7 +60,7 @@ public record LoginComplete(
         Integer credits,
         @Json(name = "genreInfo") List<AnimeGenre> genres,
         Integer tutorial,
-        Boolean canReconnectGame,
+        @Json(name = "canReconnectGame") Boolean canReconnectToGame,
         List<AvatarDonation> recentDonations,
         Integer avatarTokens,
         Boolean freeDonation,
@@ -80,7 +80,11 @@ public record LoginComplete(
         @Json(name = "self") String selfName,
         Integer badgeLevel,
         Boolean guestAccount,
-        TutorialState tutorialState
+        TutorialState tutorialState,
+        List<NexusBuff> nexusBuffs,
+        @Json(name = "canReconnectNexus") Boolean canReconnectToNexus,
+        @Json(name = "nexusStatBaseMax") Integer nexusStatsBaseMaximum,
+        @Json(name ="nexusAccess") Boolean hasNexusAccess
 )
 implements Command {
     public Optional<Instant> aniListLastUpdateInstant(){
