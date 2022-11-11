@@ -22,9 +22,9 @@ public record LoginComplete(
         PatreonBadgeInfo patreonBadgeInfo,
         Optional<RewardAlert> rewardAlert,
         Double driveTotal,
-        List<DriveContribution> top5AllTime,
+        List<AvatarDriveContribution> top5AllTime,
         Boolean displayArtContestPopUp,
-        @Json(name = "top5AvatarNominatios") List<AvatarNomination> top5AvatarNominations,
+        @Json(name = "top5AvatarNominatios") List<AvatarDriveNomination> top5AvatarNominations,
         Integer patreonId,
         Map<String, Integer> avatarUnlockCount,
         Map<String, Map<String, Boolean>> unlockedDesigns,
@@ -48,7 +48,7 @@ public record LoginComplete(
         List<String> blockedPlayers,
         List<EmoteGroup> emoteGroups,
         Integer tickets,
-        @Json(name = "top5Montly") List<CumulativeAvatarDonation> top5Monthly,
+        @Json(name = "top5Montly") List<AvatarDriveContribution> top5Monthly,
         List<ServerStatus> serverStatuses,
         Boolean topAdmin,
         Boolean useRomajiNames,
@@ -72,7 +72,7 @@ public record LoginComplete(
         List<String> videoHostNames,
         Boolean twitterClaimed,
         List<FavoriteAvatar> favoriteAvatars,
-        List<CumulativeAvatarDonation> top5Weekly,
+        List<AvatarDriveContribution> top5Weekly,
         Boolean discordClaimed,
         Integer expandCount,
         List<RecentEmote> recentEmotes,
@@ -144,16 +144,6 @@ implements Command {
             Integer id,
             Integer type,
             String unlockDescription
-    ){}
-
-    public record DriveContribution(
-            Double amount,
-            String name
-    ){}
-
-    public record AvatarNomination (
-            String name,
-            Double value
     ){}
 
     public record TicketReward (

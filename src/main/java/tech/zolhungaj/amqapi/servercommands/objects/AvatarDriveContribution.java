@@ -2,10 +2,9 @@ package tech.zolhungaj.amqapi.servercommands.objects;
 
 import com.squareup.moshi.Json;
 
-public record TopAvatarDonation(
+public record AvatarDriveContribution(
+    double amount,
     @Json(name = "name")
-    String avatarName,
-    @Json(name = "value")
-    double amount
+    String username
 ) {
 }

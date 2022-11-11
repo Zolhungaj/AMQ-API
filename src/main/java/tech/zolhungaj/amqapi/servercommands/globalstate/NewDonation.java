@@ -4,19 +4,19 @@ import java.util.List;
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.CumulativeAvatarDonation;
+import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveContribution;
 import tech.zolhungaj.amqapi.servercommands.objects.Donation;
-import tech.zolhungaj.amqapi.servercommands.objects.TopAvatarDonation;
+import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveNomination;
 
 public record NewDonation(
-    List<TopAvatarDonation> top5Nominations,
+    List<AvatarDriveNomination> top5Nominations,
     double total,
 
     @Json(name = "top5Montly")
-    List<CumulativeAvatarDonation> top5Monthly,
-    List<CumulativeAvatarDonation> top5Weekly,
+    List<AvatarDriveContribution> top5Monthly,
+    List<AvatarDriveContribution> top5Weekly,
     Donation donation,
-    List<CumulativeAvatarDonation> top5AllTime
+    List<AvatarDriveContribution> top5AllTime
 ) implements Command {
     @Override
     public String getCommandName() {
