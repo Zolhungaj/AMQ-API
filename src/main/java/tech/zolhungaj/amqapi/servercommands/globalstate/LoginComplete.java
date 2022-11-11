@@ -299,11 +299,6 @@ implements Command {
             List<Emote> emotes
     ){}
 
-    public record CumulativeAvatarDonation(
-            Double amount,
-            String name
-    ){}
-
     public record ServerStatus (
             String name,
             Boolean online

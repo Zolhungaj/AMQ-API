@@ -127,6 +127,7 @@ public class AmqApi implements Runnable{
             case PLAYER_LEFT -> MOSHI.adapter(PlayerLeft.class).fromJson(dataAsString);
             case POPOUT_MESSAGE -> MOSHI.adapter(PopoutMessage.class).fromJson(dataAsString);
             case RANKED_CHAMPIONS_UPDATED -> MOSHI.adapter(RankedChampionsUpdate.class).fromJson(dataAsString);
+            case NEW_DONATION -> MOSHI.adapter(NewDonation.class).fromJson(dataAsString);
             case //TODO: implement each of these
                     BATTLE_ROYALE_READY,
                     BATTLE_ROYALE_BEGIN,
@@ -152,7 +153,6 @@ public class AmqApi implements Runnable{
                     SELF_NAME_UPDATE,
                     UNKNOWN_ERROR,
                     SERVER_RESTART,
-                    NEW_DONATION,
                     RANKED_SCORE_UPDATE,
                     PLAYER_PROFILE,
                     SAVED_QUIZ_SETTINGS_DELETED,
