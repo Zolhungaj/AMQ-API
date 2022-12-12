@@ -86,9 +86,6 @@ public class AmqApi implements Runnable{
                 data: {}
                 commandType: {}
                 """, serverCommand, data, commandType);
-        var path = Path.of(serverCommand.command().replace(" ", "-").concat(".json"));
-        Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-        Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
         if(commandType == null){
             log.info("""
                     Unknown command:
@@ -98,7 +95,7 @@ public class AmqApi implements Runnable{
             return null;
         }
         String dataAsString = data.toString();
-        return switch(commandType){
+        Command ret = switch(commandType){
             case CHAT_MESSAGES -> MOSHI.adapter(GameChatUpdate.class).fromJson(dataAsString);
             case GAME_INVITE -> MOSHI.adapter(GameInvite.class).fromJson(dataAsString);
             case ONLINE_PLAYERS -> MOSHI.adapter(OnlinePlayerCountChange.class).fromJson(dataAsString);
@@ -185,6 +182,12 @@ public class AmqApi implements Runnable{
                     PLAYER_ONLINE_UPDATE
                     -> new NotImplementedCommand(commandType.commandName);
         };
+        if(ret instanceof NotImplementedCommand){
+            var path = Path.of(serverCommand.command().replace(" ", "-").concat(".json"));
+            Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+            Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
+        }
+        return ret;
     }
 
 

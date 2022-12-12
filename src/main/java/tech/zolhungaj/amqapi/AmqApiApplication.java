@@ -6,13 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import tech.zolhungaj.amqapi.clientcommands.expandlibrary.ExpandLibraryGetQuestions;
-import tech.zolhungaj.amqapi.clientcommands.friend.FriendRequestResponse;
-import tech.zolhungaj.amqapi.clientcommands.onlineusers.GetAllOnlineUsersAndStartTrackingOnlineUsers;
-import tech.zolhungaj.amqapi.clientcommands.onlineusers.StopTrackingOnlineUsers;
-import tech.zolhungaj.amqapi.servercommands.social.FriendRequestReceived;
-import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatUpdate;
-import tech.zolhungaj.amqapi.servercommands.globalstate.OnlinePlayerCountChange;
+import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,46 +29,16 @@ public class AmqApiApplication implements ApplicationRunner {
 		String password = args.getOptionValues("password").get(0);
 		boolean force = args.getOptionValues("force") != null;
 		AmqApi api = new AmqApi(username, password, force);
-		api.on(command -> {
-			if(command instanceof GameChatUpdate g){
-				log.info("GameChatUpdate handled: {}", g);
-				return true;
-			}
-			return false;
-		});
-		api.on(command -> {
-			if(command instanceof OnlinePlayerCountChange o){
-				log.info("OnlinePlayerCountChange handled: {}", o.count());
-				return true;
-			}
-			return false;
-		});
-		api.on(command -> {
-			if(command instanceof FriendRequestReceived frr){
-				var response = FriendRequestResponse.builder()
-						.target(frr.playerName())
-						.accept(true)
-						.build();
-				api.sendCommand(response);
-				return true;
-			}
-			return false;
-		});
-		api.once(command -> {
-			if(command instanceof OnlinePlayerCountChange o){
-				log.info("THIS ONLY HAPPENS ONCE {}", o.count());
-				return true;
-			}
-			return false;
-		});
 
 		api.on(command -> {
-			try{
-				Path file = Path.of(command.getCommandName().replace(" ", "-").concat(".txt"));
-				Files.writeString(file, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-				Files.writeString(file, command.toString(), StandardOpenOption.APPEND);
-			}catch (IOException e){
-				return false;
+			if(command instanceof NotImplementedCommand) {
+				try{
+					Path file = Path.of(command.getCommandName().replace(" ", "-").concat(".txt"));
+					Files.writeString(file, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+					Files.writeString(file, command.toString(), StandardOpenOption.APPEND);
+				}catch (IOException e){
+					return false;
+				}
 			}
 			return true;
 		});
@@ -83,10 +47,7 @@ public class AmqApiApplication implements ApplicationRunner {
 		apiThread.start();
 		try{
 			Thread.sleep(5_000);
-//			api.sendCommand(new ExpandLibraryGetQuestions());
-//			api.sendCommand(new GetAllOnlineUsersAndStartTrackingOnlineUsers());
 			Thread.sleep(60_000);
-//			api.sendCommand(new StopTrackingOnlineUsers());
 		}catch (InterruptedException e){
 			apiThread.interrupt();
 			throw e;
