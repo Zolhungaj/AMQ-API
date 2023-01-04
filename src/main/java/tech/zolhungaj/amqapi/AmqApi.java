@@ -95,99 +95,107 @@ public class AmqApi implements Runnable{
             return null;
         }
         String dataAsString = data.toString();
-        Command ret = switch(commandType){
-            case CHAT_MESSAGES -> MOSHI.adapter(GameChatUpdate.class).fromJson(dataAsString);
-            case GAME_INVITE -> MOSHI.adapter(GameInvite.class).fromJson(dataAsString);
-            case ONLINE_PLAYERS -> MOSHI.adapter(OnlinePlayerCountChange.class).fromJson(dataAsString);
-            case LOGIN_COMPLETE -> MOSHI.adapter(LoginComplete.class).fromJson(dataAsString);
-            case RANKED_STATE_CHANGE -> MOSHI.adapter(RankedGameStateChanged.class).fromJson(dataAsString);
-            case RANKED_LEADERBOARD_UPDATE -> MOSHI.adapter(RankedLeaderboardUpdate.class).fromJson(dataAsString);
-            case FRIEND_SOCIAL_STATUS_UPDATE -> MOSHI.adapter(FriendSocialStatusUpdate.class).fromJson(dataAsString);
-            case DIRECT_MESSAGE -> MOSHI.adapter(DirectMessage.class).fromJson(dataAsString);
-            case DIRECT_MESSAGE_RESPONSE -> MOSHI.adapter(DirectMessageResponse.class).fromJson(dataAsString);
-            case FORCED_LOGOFF -> MOSHI.adapter(ForcedLogoff.class).fromJson(dataAsString);
-            case EXPAND_LIBRARY_ENTRIES -> MOSHI.adapter(ExpandLibraryEntryList.class).fromJson(dataAsString);
-            case EXPAND_LIBRARY_UPDATE -> MOSHI.adapter(ExpandLibraryEntryUpdated.class).fromJson(dataAsString);
-            case NEW_FRIEND -> MOSHI.adapter(FriendAdded.class).fromJson(dataAsString);
-            case REMOVED_FRIEND -> MOSHI.adapter(FriendRemoved.class).fromJson(dataAsString);
-            case FRIEND_STATE_UPDATE -> MOSHI.adapter(FriendOnlineChange.class).fromJson(dataAsString);
-            case FRIEND_REQUEST_ACKNOWLEDGEMENT -> MOSHI.adapter(FriendRequestResponse.class).fromJson(dataAsString);
-            case FRIEND_NAME_UPDATE -> MOSHI.adapter(FriendNameChange.class).fromJson(dataAsString);
-            case FRIEND_PROFILE_IMAGE_UPDATE -> MOSHI.adapter(FriendProfileImageChange.class).fromJson(dataAsString);
-            case FRIEND_REQUEST -> MOSHI.adapter(FriendRequestReceived.class).fromJson(dataAsString);
-            case SINGLE_CHAT_MESSAGE -> MOSHI.adapter(GameChatMessage.class).fromJson(dataAsString);
-            case SYSTEM_CHAT_MESSAGE -> MOSHI.adapter(GameChatSystemMessage.class).fromJson(dataAsString);
-            case NEW_SPECTATOR -> MOSHI.adapter(SpectatorJoined.class).fromJson(dataAsString);
-            case SPECTATOR_LEFT -> MOSHI.adapter(SpectatorLeft.class).fromJson(dataAsString);
-            case PLAYER_CHANGED_TO_SPECTATOR -> MOSHI.adapter(PlayerChangedToSpectator.class).fromJson(dataAsString);
-            case SPECTATOR_CHANGED_TO_PLAYER -> MOSHI.adapter(SpectatorChangedToPlayer.class).fromJson(dataAsString);
-            case PLAYER_LEFT -> MOSHI.adapter(PlayerLeft.class).fromJson(dataAsString);
-            case POPOUT_MESSAGE -> MOSHI.adapter(PopoutMessage.class).fromJson(dataAsString);
-            case RANKED_CHAMPIONS_UPDATED -> MOSHI.adapter(RankedChampionsUpdate.class).fromJson(dataAsString);
-            case NEW_DONATION -> MOSHI.adapter(NewDonation.class).fromJson(dataAsString);
-            case ALL_ONLINE_USERS -> MOSHI.adapter(AllOnlineUsers.class).fromJson(dataAsString);
-            case ONLINE_USER_CHANGE -> MOSHI.adapter(OnlineUserChange.class).fromJson(dataAsString);
-            case //TODO: implement each of these
-                    BATTLE_ROYALE_READY,
-                    BATTLE_ROYALE_BEGIN,
-                    BATTLE_ROYALE_SPAWN_OBJECT,
-                    BATTLE_ROYALE_DELETE_OBJECT,
-                    BATTLE_ROYALE_ADD_COLLECTED_NAME,
-                    BATTLE_ROYALE_DELETE_COLLECTED_NAME,
-                    BATTLE_ROYALE_CONTAINER_CONTENT,
-                    BATTLE_ROYALE_CONTAINER_DELETE_ENTRY,
-                    BATTLE_ROYALE_SPAWN_PLAYER,
-                    BATTLE_ROYALE_UPDATE_PLAYER_POSITION,
-                    BATTLE_ROYALE_DELETE_PLAYER,
-                    BATTLE_ROYALE_PHASE_OVER,
-                    BATTLE_ROYALE_FIX_POSITION,
-                    BATTLE_ROYALE_TILE_COUNT,
-                    BATTLE_ROYALE_TILE_UPDATE_SPECTATOR_COUNT,
-                    BATTLE_ROYALE_RETURN_TO_MAP,
-                    PLAYER_REJOIN,
-                    PLAYER_NAME_CHANGE,
-                    JOIN_GAME,
-                    ALERT,
-                    HTML_ALERT,
-                    SELF_NAME_UPDATE,
-                    UNKNOWN_ERROR,
-                    SERVER_RESTART,
-                    RANKED_SCORE_UPDATE,
-                    PLAYER_PROFILE,
-                    SAVED_QUIZ_SETTINGS_DELETED,
-                    SAVE_QUIZ_SETTINGS,
-                    USE_AVATAR_RESPONSE,
-                    UNLOCK_AVATAR,
-                    LOCK_AVATAR,
-                    UNLOCK_EMOTE,
-                    LOCK_EMOTE,
-                    ADD_FAVOURITE_AVATAR_RESPONSE,
-                    DELETE_FAVOURITE_AVATAR_RESPONSE,
-                    TICKET_ROLL_RESULT,
-                    TICKET_ROLL_ERROR,
-                    AVATAR_DRIVE_UPDATE,
-                    AVATAR_DRIVE_LEADERBOARD,
-                    PATREON_UPDATE,
-                    FREE_AVATAR_DONATION_RESPONSE,
-                    QUIZ_NO_PLAYERS_AUTO_CLOSE,
-                    UPDATE_MAL_LAST_UPDATE,
-                    UPDATE_ANILIST_LAST_UPDATE,
-                    UPDATE_KITSU_LAST_UPDATE,
-                    ANIME_LIST_UPDATE_RESPONSE,
-                    FILE_SERVER_STATE_CHANGE,
-                    NICKNAME_AVAILABILITY_RESPONSE,
-                    CHANGE_NICKNAME_RESPONSE,
-                    DIRECT_MESSAGE_ALERT,
-                    SERVER_MESSAGE,
-                    PLAYER_ONLINE_UPDATE
-                    -> new NotImplementedCommand(commandType.commandName);
-        };
-        if(ret instanceof NotImplementedCommand){
-            var path = Path.of(serverCommand.command().replace(" ", "-").concat(".json"));
+        try{
+            Class<? extends Command> clazz = switch(commandType){
+                case CHAT_MESSAGES -> GameChatUpdate.class;
+                case GAME_INVITE -> GameInvite.class;
+                case ONLINE_PLAYERS -> OnlinePlayerCountChange.class;
+                case LOGIN_COMPLETE -> LoginComplete.class;
+                case RANKED_STATE_CHANGE -> RankedGameStateChanged.class;
+                case RANKED_LEADERBOARD_UPDATE -> RankedLeaderboardUpdate.class;
+                case FRIEND_SOCIAL_STATUS_UPDATE -> FriendSocialStatusUpdate.class;
+                case DIRECT_MESSAGE -> DirectMessage.class;
+                case DIRECT_MESSAGE_RESPONSE -> DirectMessageResponse.class;
+                case FORCED_LOGOFF -> ForcedLogoff.class;
+                case EXPAND_LIBRARY_ENTRIES -> ExpandLibraryEntryList.class;
+                case EXPAND_LIBRARY_UPDATE -> ExpandLibraryEntryUpdated.class;
+                case NEW_FRIEND -> FriendAdded.class;
+                case REMOVED_FRIEND -> FriendRemoved.class;
+                case FRIEND_STATE_UPDATE -> FriendOnlineChange.class;
+                case FRIEND_REQUEST_ACKNOWLEDGEMENT -> FriendRequestResponse.class;
+                case FRIEND_NAME_UPDATE -> FriendNameChange.class;
+                case FRIEND_PROFILE_IMAGE_UPDATE -> FriendProfileImageChange.class;
+                case FRIEND_REQUEST -> FriendRequestReceived.class;
+                case SINGLE_CHAT_MESSAGE -> GameChatMessage.class;
+                case SYSTEM_CHAT_MESSAGE -> GameChatSystemMessage.class;
+                case NEW_SPECTATOR -> SpectatorJoined.class;
+                case SPECTATOR_LEFT -> SpectatorLeft.class;
+                case PLAYER_CHANGED_TO_SPECTATOR -> PlayerChangedToSpectator.class;
+                case SPECTATOR_CHANGED_TO_PLAYER -> SpectatorChangedToPlayer.class;
+                case PLAYER_LEFT -> PlayerLeft.class;
+                case POPOUT_MESSAGE -> PopoutMessage.class;
+                case RANKED_CHAMPIONS_UPDATED -> RankedChampionsUpdate.class;
+                case NEW_DONATION -> NewDonation.class;
+                case ALL_ONLINE_USERS -> AllOnlineUsers.class;
+                case ONLINE_USER_CHANGE -> OnlineUserChange.class;
+                case //TODO: implement each of these
+                        BATTLE_ROYALE_READY,
+                        BATTLE_ROYALE_BEGIN,
+                        BATTLE_ROYALE_SPAWN_OBJECT,
+                        BATTLE_ROYALE_DELETE_OBJECT,
+                        BATTLE_ROYALE_ADD_COLLECTED_NAME,
+                        BATTLE_ROYALE_DELETE_COLLECTED_NAME,
+                        BATTLE_ROYALE_CONTAINER_CONTENT,
+                        BATTLE_ROYALE_CONTAINER_DELETE_ENTRY,
+                        BATTLE_ROYALE_SPAWN_PLAYER,
+                        BATTLE_ROYALE_UPDATE_PLAYER_POSITION,
+                        BATTLE_ROYALE_DELETE_PLAYER,
+                        BATTLE_ROYALE_PHASE_OVER,
+                        BATTLE_ROYALE_FIX_POSITION,
+                        BATTLE_ROYALE_TILE_COUNT,
+                        BATTLE_ROYALE_TILE_UPDATE_SPECTATOR_COUNT,
+                        BATTLE_ROYALE_RETURN_TO_MAP,
+                        PLAYER_REJOIN,
+                        PLAYER_NAME_CHANGE,
+                        JOIN_GAME,
+                        ALERT,
+                        HTML_ALERT,
+                        SELF_NAME_UPDATE,
+                        UNKNOWN_ERROR,
+                        SERVER_RESTART,
+                        RANKED_SCORE_UPDATE,
+                        PLAYER_PROFILE,
+                        SAVED_QUIZ_SETTINGS_DELETED,
+                        SAVE_QUIZ_SETTINGS,
+                        USE_AVATAR_RESPONSE,
+                        UNLOCK_AVATAR,
+                        LOCK_AVATAR,
+                        UNLOCK_EMOTE,
+                        LOCK_EMOTE,
+                        ADD_FAVOURITE_AVATAR_RESPONSE,
+                        DELETE_FAVOURITE_AVATAR_RESPONSE,
+                        TICKET_ROLL_RESULT,
+                        TICKET_ROLL_ERROR,
+                        AVATAR_DRIVE_UPDATE,
+                        AVATAR_DRIVE_LEADERBOARD,
+                        PATREON_UPDATE,
+                        FREE_AVATAR_DONATION_RESPONSE,
+                        QUIZ_NO_PLAYERS_AUTO_CLOSE,
+                        UPDATE_MAL_LAST_UPDATE,
+                        UPDATE_ANILIST_LAST_UPDATE,
+                        UPDATE_KITSU_LAST_UPDATE,
+                        ANIME_LIST_UPDATE_RESPONSE,
+                        FILE_SERVER_STATE_CHANGE,
+                        NICKNAME_AVAILABILITY_RESPONSE,
+                        CHANGE_NICKNAME_RESPONSE,
+                        DIRECT_MESSAGE_ALERT,
+                        SERVER_MESSAGE,
+                        PLAYER_ONLINE_UPDATE
+                        -> throw new IllegalArgumentException();
+            };
+            return MOSHI.adapter(clazz).fromJson(dataAsString);
+        } catch (IllegalArgumentException e){
+            var path = Path.of("UNIMPLEMENTED-" +serverCommand.command().replace(" ", "-").concat(".json"));
             Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
             Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
+            return new NotImplementedCommand(commandType.commandName);
+        } catch(JsonDataException e){
+            var path = Path.of("ERROR-" + serverCommand.command().replace(" ", "-").concat(".json"));
+            log.error("Something is wrong with the input data, writing to {} for inspection", path, e);
+            Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+            Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
+            return new NotImplementedCommand(commandType.commandName);
         }
-        return ret;
     }
 
 

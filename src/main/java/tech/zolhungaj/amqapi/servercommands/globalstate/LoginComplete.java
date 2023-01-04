@@ -29,8 +29,7 @@ public record LoginComplete(
         Map<String, Integer> avatarUnlockCount,
         Map<String, Map<String, Boolean>> unlockedDesigns,
         List<TicketReward> recentTicketRewards,
-        @Nullable @Json(name = "rankedSerie") Integer rankedSeries,
-        Integer rankedState,
+        RankedState rankedState,
         List<SuperAvatar> defaultAvatars,
         Integer backerLevel,
         UserSettings settings,
@@ -97,18 +96,7 @@ implements Command {
         return malLastUpdate.map(Instant::parse);
     }
 
-    public AmqRanked.RANKED_STATE getRankedState(){
-        return AmqRanked.RANKED_STATE.forId(rankedState);
-    }
 
-    public Optional<Integer> rankedSeriesOptional(){
-        return Optional.ofNullable(rankedSeries);
-    }
-
-    public Optional<AmqRanked.GAME_SERIES> getRankedSeriesOptional(){
-        return rankedSeriesOptional()
-                .map(AmqRanked.GAME_SERIES::forId);
-    }
 
     @Override
     public String getCommandName() {
@@ -281,6 +269,24 @@ implements Command {
             @Json(name = "1") List<RankedChampion> central,
             @Json(name = "2") List<RankedChampion> western,
             @Json(name = "3") List<RankedChampion> eastern
+    ){}
+
+    public record RankedState (
+            ActiveRankedGameModes games,
+            @Json(name = "serieId") Integer seriesId,
+            Integer state
+    ){
+        public AmqRanked.RANKED_STATE getRankedState(){
+            return AmqRanked.RANKED_STATE.forId(state);
+        }
+        public AmqRanked.GAME_SERIES getRankedSeries(){
+            return AmqRanked.GAME_SERIES.forId(seriesId);
+        }
+    }
+
+    public record ActiveRankedGameModes (
+            Boolean expert,
+            Boolean novice
     ){}
 
 
