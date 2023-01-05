@@ -120,6 +120,7 @@ public class AmqApi implements Runnable{
                 case NEW_DONATION -> NewDonation.class;
                 case ALL_ONLINE_USERS -> AllOnlineUsers.class;
                 case ONLINE_USER_CHANGE -> OnlineUserChange.class;
+                case FILE_SERVER_STATE_CHANGE -> FileServerStateChange.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
@@ -167,7 +168,6 @@ public class AmqApi implements Runnable{
                         UPDATE_ANILIST_LAST_UPDATE,
                         UPDATE_KITSU_LAST_UPDATE,
                         ANIME_LIST_UPDATE_RESPONSE,
-                        FILE_SERVER_STATE_CHANGE,
                         NICKNAME_AVAILABILITY_RESPONSE,
                         CHANGE_NICKNAME_RESPONSE,
                         DIRECT_MESSAGE_ALERT,
