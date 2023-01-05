@@ -9,7 +9,7 @@ public record GameInvite(
 )implements Command {
 
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.GAME_INVITE.commandName;
     }
 }

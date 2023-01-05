@@ -12,7 +12,7 @@ public record FriendAdded(
         PlayerGameState gameState
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.NEW_FRIEND.commandName;
     }
 }

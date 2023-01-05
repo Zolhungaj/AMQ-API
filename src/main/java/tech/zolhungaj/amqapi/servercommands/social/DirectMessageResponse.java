@@ -19,7 +19,7 @@ public record DirectMessageResponse(
 
 
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.DIRECT_MESSAGE_RESPONSE.commandName;
     }
 }

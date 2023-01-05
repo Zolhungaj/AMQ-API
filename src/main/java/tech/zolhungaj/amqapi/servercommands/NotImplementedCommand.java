@@ -1,15 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands;
 
-public class NotImplementedCommand implements Command{
+import org.json.JSONObject;
 
-    private final String commandName;
+public record NotImplementedCommand(String commandName, JSONObject data) implements Command {
 
-    public NotImplementedCommand(String commandName){
-        this.commandName = commandName;
-    }
-
-    @Override
-    public String getCommandName() {
-        return commandName;
-    }
 }

@@ -11,7 +11,7 @@ public record AllOnlineUsers(
         List<String> list
         ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.ALL_ONLINE_USERS.commandName;
     }
 }

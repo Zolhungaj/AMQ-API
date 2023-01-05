@@ -8,7 +8,7 @@ public record FriendRequestReceived(
         @Json(name = "name") String playerName
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.FRIEND_REQUEST.commandName;
     }
 }

@@ -13,7 +13,7 @@ public record RankedChampionsUpdate(
 	int seriesId
 ) implements Command {
 	@Override
-	public String getCommandName() {
+	public String commandName() {
 		return CommandType.RANKED_CHAMPIONS_UPDATED.commandName;
 
 	}

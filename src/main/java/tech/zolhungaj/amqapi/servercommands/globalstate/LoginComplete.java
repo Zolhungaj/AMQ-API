@@ -99,7 +99,7 @@ implements Command {
 
 
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.LOGIN_COMPLETE.commandName;
     }
 

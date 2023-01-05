@@ -19,7 +19,7 @@ public record FriendSocialStatusUpdate(
     }
 
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.FRIEND_SOCIAL_STATUS_UPDATE.commandName;
     }
 }

@@ -15,7 +15,7 @@ public record ExpandLibraryEntryList (
         @Json(name = "questions") List<ExpandLibraryEntry> entries
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.EXPAND_LIBRARY_ENTRIES.commandName;
     }
 

@@ -19,7 +19,7 @@ public record GameChatMessage(
     @Json(name = "atEveryone") Boolean isAtEveryone
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.SINGLE_CHAT_MESSAGE.commandName;
     }
 }

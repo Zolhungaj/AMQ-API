@@ -8,7 +8,7 @@ public record ForcedLogoff(
 )implements Command {
 
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.FORCED_LOGOFF.commandName;
     }
 }

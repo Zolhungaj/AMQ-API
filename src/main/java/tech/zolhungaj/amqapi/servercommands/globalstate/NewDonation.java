@@ -19,7 +19,7 @@ public record NewDonation(
     List<AvatarDriveContribution> top5AllTime
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.NEW_DONATION.commandName;
     }
 }

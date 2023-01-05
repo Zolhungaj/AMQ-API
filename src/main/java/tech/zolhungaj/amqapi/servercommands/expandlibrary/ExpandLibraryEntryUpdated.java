@@ -15,7 +15,7 @@ public record ExpandLibraryEntryUpdated(
 	@Json(name = "songStillAvaliable") Optional<Boolean> songStillAvailable
 ) implements Command {
 	@Override
-	public String getCommandName() {
+	public String commandName() {
 		return CommandType.EXPAND_LIBRARY_UPDATE.commandName;
 	}
 }

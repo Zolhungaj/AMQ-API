@@ -10,7 +10,7 @@ public record FriendRequestResponse (
         String reason
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.FRIEND_REQUEST_ACKNOWLEDGEMENT.commandName;
     }
 }

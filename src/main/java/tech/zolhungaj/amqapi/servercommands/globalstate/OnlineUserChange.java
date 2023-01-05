@@ -10,7 +10,7 @@ public record OnlineUserChange(
     boolean online
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.ONLINE_USER_CHANGE.commandName;
     }
 }

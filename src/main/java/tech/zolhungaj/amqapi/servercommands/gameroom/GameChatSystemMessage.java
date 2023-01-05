@@ -12,7 +12,7 @@ public record GameChatSystemMessage(
     @Json(name = "teamMessage") Boolean isTeamMessage
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.SYSTEM_CHAT_MESSAGE.commandName;
     }
 }

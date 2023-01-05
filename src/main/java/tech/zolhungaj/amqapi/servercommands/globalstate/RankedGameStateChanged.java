@@ -19,7 +19,7 @@ public record RankedGameStateChanged(
     }
 
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.RANKED_STATE_CHANGE.commandName;
     }
 }

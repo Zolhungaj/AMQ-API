@@ -11,7 +11,7 @@ public record FriendProfileImageChange(
         AvatarInfo profileImage
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.FRIEND_PROFILE_IMAGE_UPDATE.commandName;
     }
 

@@ -101,7 +101,8 @@ public enum CommandType {
 
     RANKED_CHAMPIONS_UPDATED("ranked champions updated"),
     ALL_ONLINE_USERS("all online users"),
-    ONLINE_USER_CHANGE("online user change");
+    ONLINE_USER_CHANGE("online user change"),
+    ;
     public final String commandName;
 
     private static final Map<String, CommandType> map = new HashMap<>();

@@ -13,7 +13,7 @@ public record PlayerLeft(
         PlayerIdentifier player
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.PLAYER_LEFT.commandName;
     }
 }

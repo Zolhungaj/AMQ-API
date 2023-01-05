@@ -7,7 +7,7 @@ import tech.zolhungaj.amqapi.servercommands.objects.Player;
 
 public final class SpectatorChangedToPlayer extends Player implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.SPECTATOR_CHANGED_TO_PLAYER.commandName;
     }
 }

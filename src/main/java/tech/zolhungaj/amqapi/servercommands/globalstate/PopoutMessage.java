@@ -8,7 +8,7 @@ public record PopoutMessage(
 	String message
 )  implements Command {
 	@Override
-	public String getCommandName() {
+	public String commandName() {
 		return CommandType.POPOUT_MESSAGE.commandName;
 	}
 }

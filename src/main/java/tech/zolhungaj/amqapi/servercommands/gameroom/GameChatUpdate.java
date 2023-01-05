@@ -11,7 +11,7 @@ public record GameChatUpdate(
         List<Buble> bubles
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.CHAT_MESSAGES.commandName;
     }
 }

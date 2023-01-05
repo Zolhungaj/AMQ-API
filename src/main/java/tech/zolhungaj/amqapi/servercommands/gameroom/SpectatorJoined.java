@@ -10,7 +10,7 @@ public record SpectatorJoined(
         Optional<Integer> gamePlayerId //Usually null, might be set in ranked??
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.NEW_SPECTATOR.commandName;
     }
 }

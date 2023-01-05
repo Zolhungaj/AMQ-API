@@ -10,7 +10,7 @@ public record PlayerChangedToSpectator(
         Boolean isHost
 ) implements Command {
     @Override
-    public String getCommandName() {
+    public String commandName() {
         return CommandType.PLAYER_CHANGED_TO_SPECTATOR.commandName;
     }
 }

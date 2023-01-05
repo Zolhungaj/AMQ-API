@@ -6,7 +6,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
+import tech.zolhungaj.amqapi.servercommands.NotStartedCommand;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,11 +33,36 @@ public class AmqApiApplication implements ApplicationRunner {
 		AmqApi api = new AmqApi(username, password, force);
 
 		api.on(command -> {
-			if(command instanceof NotImplementedCommand) {
+			var fileExtension = ".json";
+			if(command instanceof NotImplementedCommand notImplementedCommand) {
+				var path = Path.of("UNIMPLEMENTED-" + notImplementedCommand.commandName().replace(" ", "-") + fileExtension);
 				try{
-					Path file = Path.of(command.getCommandName().replace(" ", "-").concat(".txt"));
-					Files.writeString(file, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-					Files.writeString(file, command.toString(), StandardOpenOption.APPEND);
+					Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+					Files.writeString(path, notImplementedCommand.data().toString(4), StandardOpenOption.APPEND);
+				}catch (IOException e){
+					return false;
+				}
+			}else if (command instanceof ErrorParsingCommand errorParsingCommand){
+				var path = Path.of("ERROR-" + errorParsingCommand.commandName().replace(" ", "-") + fileExtension);
+				try{
+					log.error("Something is wrong with the input data, writing to {} for inspection", path, errorParsingCommand.error());
+					Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+					Files.writeString(path, errorParsingCommand.data().toString(4), StandardOpenOption.APPEND);
+					Files.writeString(path, "\n\n", StandardOpenOption.APPEND);
+					Files.writeString(path, errorParsingCommand.error().toString(), StandardOpenOption.APPEND);
+				}catch (IOException e){
+					return false;
+				}
+			} else if (command instanceof NotStartedCommand notStartedCommand){
+				log.info("""
+                    Unknown command:
+                        command: {}
+                        data: {}
+                    """, notStartedCommand.commandName(), notStartedCommand.data());
+				var path = Path.of("UNINITIATED-" +notStartedCommand.commandName().replace(" ", "-") + fileExtension);
+				try{
+					Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+					Files.writeString(path, notStartedCommand.data().toString(4), StandardOpenOption.APPEND);
 				}catch (IOException e){
 					return false;
 				}

@@ -22,9 +22,6 @@ import java.io.UncheckedIOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
@@ -70,7 +67,7 @@ public class AmqApi implements Runnable{
     }
 
     private void handle(Command command){
-        log.info("{}, {}, {}", command, command.getClass(), command.getCommandName());
+        log.info("{}, {}, {}", command, command.getClass(), command.commandName());
 
         onList
                 .forEach(c -> c.call(command));
@@ -87,12 +84,7 @@ public class AmqApi implements Runnable{
                 commandType: {}
                 """, serverCommand, data, commandType);
         if(commandType == null){
-            log.info("""
-                    Unknown command:
-                        command: {}
-                        data: {}
-                    """, commandName, data);
-            return null;
+            return new NotStartedCommand(commandName, data);
         }
         String dataAsString = data.toString();
         try{
@@ -185,16 +177,10 @@ public class AmqApi implements Runnable{
             };
             return MOSHI.adapter(clazz).fromJson(dataAsString);
         } catch (IllegalArgumentException e){
-            var path = Path.of("UNIMPLEMENTED-" +serverCommand.command().replace(" ", "-").concat(".json"));
-            Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-            Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
-            return new NotImplementedCommand(commandType.commandName);
+            return new NotImplementedCommand(commandName, data);
         } catch(JsonDataException e){
-            var path = Path.of("ERROR-" + serverCommand.command().replace(" ", "-").concat(".json"));
-            log.error("Something is wrong with the input data, writing to {} for inspection", path, e);
-            Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-            Files.writeString(path, data.toString(4), StandardOpenOption.APPEND);
-            return new NotImplementedCommand(commandType.commandName);
+            log.warn("Something went wrong", e);
+            return new ErrorParsingCommand(commandName, data, e);
         }
     }
 
