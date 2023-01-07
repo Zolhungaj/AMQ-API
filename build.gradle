@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'tech.zolhungaj'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
@@ -27,7 +27,9 @@ publishing {
 		}
 	}
 	publications {
-		maven(MavenPublication) {
+		//noinspection GroovyAssignabilityCheck
+		gpr(MavenPublication) {
+			//noinspection GroovyAssignabilityCheck
 			artifactId 'amq-api'
 			from(components.java)
 		}
