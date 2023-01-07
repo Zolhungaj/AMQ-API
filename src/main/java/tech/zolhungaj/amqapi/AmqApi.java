@@ -51,6 +51,10 @@ public class AmqApi implements Runnable{
         this.forceConnect = forceConnect;
     }
 
+    public long getCurrentPing(){
+        return client.getCurrentPing();
+    }
+
     public void sendCommand(ClientCommand command){
         if(command instanceof EmptyClientCommand){
             this.client.sendCommand(command.type(), command.command(), null);

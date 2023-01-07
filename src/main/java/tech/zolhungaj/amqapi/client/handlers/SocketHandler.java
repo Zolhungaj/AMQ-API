@@ -71,7 +71,7 @@ public class SocketHandler implements Closeable {
                 currentPing = l;
             }
             socketDebug("pong", args);
-        }); //args[0] here is a Long
+        });
 
         socket.on(Socket.EVENT_MESSAGE, args -> socketDebug("message", args));
 

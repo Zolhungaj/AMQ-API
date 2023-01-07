@@ -68,7 +68,7 @@ public class Client implements AutoCloseable{
                 jsonObject.getJSONObject("data")
             );
         }catch(JSONException e){
-            //log.warn("Ege plz", e);
+            //Ege plz
             JSONObject wrapper = new JSONObject();
             wrapper.put("array", jsonObject.getJSONArray("data"));
             return new ServerCommand(

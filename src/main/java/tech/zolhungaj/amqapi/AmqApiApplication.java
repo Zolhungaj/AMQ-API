@@ -30,7 +30,7 @@ public class AmqApiApplication implements ApplicationRunner {
 		String username = args.getOptionValues("username").get(0);
 		String password = args.getOptionValues("password").get(0);
 		boolean force = args.getOptionValues("force") != null;
-		AmqApi api = new AmqApi(username, password, force);
+		var api = new AmqApi(username, password, force);
 
 		api.on(command -> {
 			var fileExtension = ".json";
@@ -72,13 +72,6 @@ public class AmqApiApplication implements ApplicationRunner {
 
 		Thread apiThread = new Thread(api);
 		apiThread.start();
-		try{
-			Thread.sleep(5_000);
-			Thread.sleep(60_000);
-		}catch (InterruptedException e){
-			apiThread.interrupt();
-			throw e;
-		}
 		apiThread.join();
 		System.exit(0);
 	}
