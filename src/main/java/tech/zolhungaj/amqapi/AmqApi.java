@@ -121,6 +121,8 @@ public class AmqApi implements Runnable{
                 case ALL_ONLINE_USERS -> AllOnlineUsers.class;
                 case ONLINE_USER_CHANGE -> OnlineUserChange.class;
                 case FILE_SERVER_STATE_CHANGE -> FileServerStateChange.class;
+                case SERVER_RESTART -> ServerRestartWarning.class;
+                case NEW_QUEST_EVENTS -> NewQuestEvents.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
@@ -145,7 +147,6 @@ public class AmqApi implements Runnable{
                         HTML_ALERT,
                         SELF_NAME_UPDATE,
                         UNKNOWN_ERROR,
-                        SERVER_RESTART,
                         RANKED_SCORE_UPDATE,
                         PLAYER_PROFILE,
                         SAVED_QUIZ_SETTINGS_DELETED,
@@ -184,7 +185,6 @@ public class AmqApi implements Runnable{
         }
     }
 
-
     @Override
     public void run() {
         try(var newClient = new Client(username, password)){
@@ -207,112 +207,114 @@ public class AmqApi implements Runnable{
             log.error("Timed out", e);
         }
     }
-}
 
-class CustomOptionalBooleanAdapter extends JsonAdapter<Optional<Boolean>> {
-    @Override
-    @FromJson
-    public Optional<Boolean> fromJson(JsonReader reader) throws IOException {
-        return switch(reader.peek()){
-            case BOOLEAN -> Optional.of(reader.nextBoolean());
-            case NUMBER -> {
-                int i = reader.nextInt();
-                if(i == 0){
-                    yield Optional.of(false);
-                }else if(i == 1){
-                    yield Optional.of(true);
-                }else{
-                    throw new JsonDataException("Integer " + i + " is out of range [0-1]");
+
+    private static class CustomOptionalBooleanAdapter extends JsonAdapter<Optional<Boolean>> {
+        @Override
+        @FromJson
+        public Optional<Boolean> fromJson(JsonReader reader) throws IOException {
+            return switch(reader.peek()){
+                case BOOLEAN -> Optional.of(reader.nextBoolean());
+                case NUMBER -> {
+                    int i = reader.nextInt();
+                    if(i == 0){
+                        yield Optional.of(false);
+                    }else if(i == 1){
+                        yield Optional.of(true);
+                    }else{
+                        throw new JsonDataException("Integer " + i + " is out of range [0-1]");
+                    }
                 }
-            }
-            case NULL -> {
-                reader.nextNull();
-                yield Optional.empty();
-            }
-            default -> throw new JsonDataException("Expected an Integer but got a " + reader.peek().name());
-        };
-    }
-
-    @Override
-    @ToJson
-    public void toJson(JsonWriter writer, Optional<Boolean> value) throws IOException {
-        if(Objects.requireNonNull(value).isPresent()){
-            writer.value(Boolean.TRUE.equals(value.get()) ? 1 : 0);
-        }else{
-            writer.nullValue();
-        }
-    }
-}
-
-class CustomBooleanAdapter extends JsonAdapter<Boolean> {
-    @Override
-    @FromJson
-    public Boolean fromJson(JsonReader reader) throws IOException {
-        return switch(reader.peek()){
-            case BOOLEAN -> reader.nextBoolean();
-            case NUMBER -> {
-                int i = reader.nextInt();
-                if(i == 0){
-                    yield false;
-                }else if(i==1){
-                    yield true;
-                }else{
-                    throw new JsonDataException("Integer " + i + " is out of range [0-1]");
+                case NULL -> {
+                    reader.nextNull();
+                    yield Optional.empty();
                 }
-            }
-            default -> throw new JsonDataException("Expected an Integer but got a " + reader.peek().name());
-        };
-    }
-
-    @Override
-    @ToJson
-    public void toJson(JsonWriter writer, Boolean value) throws IOException {
-        writer.value(Boolean.TRUE.equals(value) ? 1 : 0);
-    }
-}
-
-class OptionalFactory implements JsonAdapter.Factory {
-    @Nullable
-    @Override
-    public JsonAdapter<?> create(Type type, Set<? extends Annotation> annotations, Moshi moshi) {
-        if (!annotations.isEmpty()) return null;
-        if (!(type instanceof ParameterizedType)) return null;
-
-        Class<?> rawType = Types.getRawType(type);
-        if (rawType != Optional.class) return null;
-
-        Type optionalType = ((ParameterizedType) type).getActualTypeArguments()[0];
-
-        JsonAdapter<?> optionalTypeAdapter = moshi.adapter(optionalType).nullSafe();
-
-        return new OptionalJsonAdapter<>(optionalTypeAdapter);
-    }
-
-    private static class OptionalJsonAdapter<T> extends JsonAdapter<Optional<T>> {
-
-        private final JsonAdapter<T> optionalTypeAdapter;
-
-        public OptionalJsonAdapter(JsonAdapter<T> optionalTypeAdapter) {
-            this.optionalTypeAdapter = optionalTypeAdapter;
+                default -> throw new JsonDataException("Expected an Integer but got a " + reader.peek().name());
+            };
         }
 
+        @Override
+        @ToJson
+        public void toJson(JsonWriter writer, Optional<Boolean> value) throws IOException {
+            if(Objects.requireNonNull(value).isPresent()){
+                writer.value(Boolean.TRUE.equals(value.get()) ? 1 : 0);
+            }else{
+                writer.nullValue();
+            }
+        }
+    }
+
+    private static class CustomBooleanAdapter extends JsonAdapter<Boolean> {
+        @Override
+        @FromJson
+        public Boolean fromJson(JsonReader reader) throws IOException {
+            return switch(reader.peek()){
+                case BOOLEAN -> reader.nextBoolean();
+                case NUMBER -> {
+                    int i = reader.nextInt();
+                    if(i == 0){
+                        yield false;
+                    }else if(i==1){
+                        yield true;
+                    }else{
+                        throw new JsonDataException("Integer " + i + " is out of range [0-1]");
+                    }
+                }
+                default -> throw new JsonDataException("Expected an Integer but got a " + reader.peek().name());
+            };
+        }
+
+        @Override
+        @ToJson
+        public void toJson(JsonWriter writer, Boolean value) throws IOException {
+            writer.value(Boolean.TRUE.equals(value) ? 1 : 0);
+        }
+    }
+
+    private static class OptionalFactory implements JsonAdapter.Factory {
         @Nullable
         @Override
-        public Optional<T> fromJson(JsonReader reader) throws IOException {
-            T instance = optionalTypeAdapter.fromJson(reader);
-            return Optional.ofNullable(instance);
+        public JsonAdapter<?> create(Type type, Set<? extends Annotation> annotations, Moshi moshi) {
+            if (!annotations.isEmpty()) return null;
+            if (!(type instanceof ParameterizedType)) return null;
+
+            Class<?> rawType = Types.getRawType(type);
+            if (rawType != Optional.class) return null;
+
+            Type optionalType = ((ParameterizedType) type).getActualTypeArguments()[0];
+
+            JsonAdapter<?> optionalTypeAdapter = moshi.adapter(optionalType).nullSafe();
+
+            return new OptionalJsonAdapter<>(optionalTypeAdapter);
         }
 
-        @Override
-        public void toJson(JsonWriter writer, @Nullable Optional<T> value) throws IOException {
-            if(Objects.isNull(value)){
-                writer.nullValue();
+        private static class OptionalJsonAdapter<T> extends JsonAdapter<Optional<T>> {
+
+            private final JsonAdapter<T> optionalTypeAdapter;
+
+            public OptionalJsonAdapter(JsonAdapter<T> optionalTypeAdapter) {
+                this.optionalTypeAdapter = optionalTypeAdapter;
             }
-            else if (value.isPresent()) {
-                optionalTypeAdapter.toJson(writer, value.get());
-            } else {
-                writer.nullValue();
+
+            @Nullable
+            @Override
+            public Optional<T> fromJson(JsonReader reader) throws IOException {
+                T instance = optionalTypeAdapter.fromJson(reader);
+                return Optional.ofNullable(instance);
+            }
+
+            @Override
+            public void toJson(JsonWriter writer, @Nullable Optional<T> value) throws IOException {
+                if(Objects.isNull(value)){
+                    writer.nullValue();
+                }
+                else if (value.isPresent()) {
+                    optionalTypeAdapter.toJson(writer, value.get());
+                } else {
+                    writer.nullValue();
+                }
             }
         }
     }
 }
+

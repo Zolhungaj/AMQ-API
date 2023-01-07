@@ -102,6 +102,7 @@ public enum CommandType {
     RANKED_CHAMPIONS_UPDATED("ranked champions updated"),
     ALL_ONLINE_USERS("all online users"),
     ONLINE_USER_CHANGE("online user change"),
+    NEW_QUEST_EVENTS("new quest events"),
     ;
     public final String commandName;
 
