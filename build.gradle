@@ -27,7 +27,8 @@ publishing {
 		}
 	}
 	publications {
-		gpr(MavenPublication) {
+		maven(MavenPublication) {
+			artifactId 'amq-api'
 			from(components.java)
 		}
 	}
