@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.client.exceptions;
 
 public class TooManyRequestsException extends RuntimeException{
-    public TooManyRequestsException(Throwable cause){
+    public TooManyRequestsException(String cause){
         super(cause);
     }
 }
