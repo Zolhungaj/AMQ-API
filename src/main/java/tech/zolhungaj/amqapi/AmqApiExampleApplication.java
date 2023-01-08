@@ -1,11 +1,6 @@
 package tech.zolhungaj.amqapi;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
 import tech.zolhungaj.amqapi.servercommands.NotStartedCommand;
@@ -16,20 +11,15 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 @Slf4j
-@SpringBootApplication
-public class AmqApiApplication implements ApplicationRunner {
+public class AmqApiExampleApplication {
 
-	public static void main(String[] args) {
-		new SpringApplicationBuilder(AmqApiApplication.class)
-				.web(WebApplicationType.NONE)
-				.run(args);
-	}
-
-	@Override
-	public void run(ApplicationArguments args) throws InterruptedException{
-		String username = args.getOptionValues("username").get(0);
-		String password = args.getOptionValues("password").get(0);
-		boolean force = args.getOptionValues("force") != null;
+	public static void main(String[] args) throws InterruptedException{
+		if(args.length < 2){
+			return;
+		}
+		String username = args[0];
+		String password = args[1];
+		boolean force = true;
 		var api = new AmqApi(username, password, force);
 
 		api.on(command -> {

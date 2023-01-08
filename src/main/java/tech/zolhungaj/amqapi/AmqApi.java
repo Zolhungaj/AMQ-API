@@ -2,7 +2,6 @@ package tech.zolhungaj.amqapi;
 
 
 import com.squareup.moshi.*;
-import io.micrometer.core.lang.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import tech.zolhungaj.amqapi.client.Client;
@@ -276,7 +275,6 @@ public class AmqApi implements Runnable{
     }
 
     private static class OptionalFactory implements JsonAdapter.Factory {
-        @Nullable
         @Override
         public JsonAdapter<?> create(Type type, Set<? extends Annotation> annotations, Moshi moshi) {
             if (!annotations.isEmpty()) return null;
@@ -300,7 +298,6 @@ public class AmqApi implements Runnable{
                 this.optionalTypeAdapter = optionalTypeAdapter;
             }
 
-            @Nullable
             @Override
             public Optional<T> fromJson(JsonReader reader) throws IOException {
                 T instance = optionalTypeAdapter.fromJson(reader);
@@ -308,7 +305,7 @@ public class AmqApi implements Runnable{
             }
 
             @Override
-            public void toJson(JsonWriter writer, @Nullable Optional<T> value) throws IOException {
+            public void toJson(JsonWriter writer, Optional<T> value) throws IOException {
                 if(Objects.isNull(value)){
                     writer.nullValue();
                 }
