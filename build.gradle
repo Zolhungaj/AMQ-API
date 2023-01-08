@@ -1,12 +1,10 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.0'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'maven-publish'
 }
 
 group = 'tech.zolhungaj'
-version = '0.0.2-SNAPSHOT'
+version = '0.1.0'
 sourceCompatibility = '17'
 
 configurations {
@@ -41,22 +39,19 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.14.1'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
 	implementation 'org.json:json:20220924'
 	implementation('com.squareup.moshi:moshi:1.14.0')
 	implementation ('io.socket:socket.io-client:1.0.2') {
 		// excluding org.json because the one imported in socket-io has flaws
 		exclude group: 'org.json', module: 'json'
 	}
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+	implementation 'org.slf4j:slf4j-api:2.0.6'
+	implementation 'org.slf4j:slf4j-simple:2.0.6'
 }
 
 tasks.named('test') {
