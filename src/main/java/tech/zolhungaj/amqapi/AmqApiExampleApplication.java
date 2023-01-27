@@ -1,6 +1,7 @@
 package tech.zolhungaj.amqapi;
 
 import lombok.extern.slf4j.Slf4j;
+import tech.zolhungaj.amqapi.clientcommands.lobby.Kick;
 import tech.zolhungaj.amqapi.clientcommands.lobby.SendMessage;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
@@ -62,11 +63,12 @@ public class AmqApiExampleApplication {
 		});
 
 		SendMessage message = SendMessage.builder().message("Hello World").build();
-
+		Kick kick = new Kick("Zolhungaj");
 		log.info("{}", message);
-		Thread apiThread = new Thread(api);
-		apiThread.start();
-		apiThread.join();
+		log.info("{}", kick);
+		//Thread apiThread = new Thread(api);
+		//apiThread.start();
+		//apiThread.join();
 		System.exit(0);
 	}
 }
