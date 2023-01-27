@@ -9,6 +9,7 @@ public enum ClientCommandType {
     START_TRACKING_ONLINE_USERS("social", "get online users"),
     FRIEND_REQUEST_RESPONSE("social", "friend request response"),
     SEND_CHAT_MESSAGE("lobby", "game chat message"),
+    KICK_PLAYER("lobby", "kick player"),
 
 
     ;

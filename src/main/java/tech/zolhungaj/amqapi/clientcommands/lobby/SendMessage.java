@@ -1,4 +1,4 @@
-package tech.zolhungaj.amqapi.clientcommands.friend;
+package tech.zolhungaj.amqapi.clientcommands.lobby;
 
 import lombok.Builder;
 import lombok.Getter;

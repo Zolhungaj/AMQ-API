@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi;
 
 import lombok.extern.slf4j.Slf4j;
-import tech.zolhungaj.amqapi.clientcommands.friend.SendMessage;
+import tech.zolhungaj.amqapi.clientcommands.lobby.SendMessage;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
 import tech.zolhungaj.amqapi.servercommands.NotStartedCommand;
