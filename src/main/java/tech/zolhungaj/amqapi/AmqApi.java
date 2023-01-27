@@ -69,7 +69,11 @@ public class AmqApi implements Runnable{
         this.onceList.add(event);
     }
 
-    private void handle(Command command){
+    /** Trigger every EventHandler with the provided Command
+     *
+     * @param command the Command to be handled
+     */
+    public void handle(Command command){
         log.info("{}, {}, {}", command, command.getClass(), command.commandName());
 
         onList
