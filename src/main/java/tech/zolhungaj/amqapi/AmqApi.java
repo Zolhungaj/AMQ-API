@@ -5,6 +5,7 @@ import com.squareup.moshi.*;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import tech.zolhungaj.amqapi.client.Client;
+import tech.zolhungaj.amqapi.client.DummyClient;
 import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 import tech.zolhungaj.amqapi.servercommands.*;
@@ -69,7 +70,8 @@ public class AmqApi implements Runnable{
         this.onceList.add(event);
     }
 
-    /** Trigger every EventHandler with the provided Command
+    /** Trigger every EventHandler with the provided Command.
+     * Usage from outside this class is primarily intended to be for testing/debugging purposes.
      *
      * @param command the Command to be handled
      */
@@ -213,6 +215,12 @@ public class AmqApi implements Runnable{
         } catch (TimeoutException e){
             log.error("Timed out", e);
         }
+    }
+
+    public DummyClient startDummy(){
+        var dummyClient = new DummyClient();
+        this.client = dummyClient;
+        return dummyClient;
     }
 
 
