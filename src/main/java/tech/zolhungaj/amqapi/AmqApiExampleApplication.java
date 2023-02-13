@@ -3,9 +3,11 @@ package tech.zolhungaj.amqapi;
 import lombok.extern.slf4j.Slf4j;
 import tech.zolhungaj.amqapi.clientcommands.lobby.Kick;
 import tech.zolhungaj.amqapi.clientcommands.lobby.SendMessage;
+import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostGame;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
 import tech.zolhungaj.amqapi.servercommands.NotStartedCommand;
+import tech.zolhungaj.amqapi.sharedobjects.gamesettings.GameSettings;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -66,9 +68,11 @@ public class AmqApiExampleApplication {
 		Kick kick = new Kick("Zolhungaj");
 		log.info("{}", message);
 		log.info("{}", kick);
-		//Thread apiThread = new Thread(api);
-		//apiThread.start();
-		//apiThread.join();
+		Thread apiThread = new Thread(api);
+		apiThread.start();
+		Thread.sleep(5000);
+		api.sendCommand(new HostGame(GameSettings.DEFAULT));
+		apiThread.join();
 		System.exit(0);
 	}
 }

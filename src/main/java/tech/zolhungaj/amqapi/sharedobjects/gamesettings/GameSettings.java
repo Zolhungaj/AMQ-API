@@ -1,7 +1,8 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
 import java.util.List;
-import com.squareup.moshi.Json;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.With;
 
@@ -9,100 +10,102 @@ import lombok.With;
 @With
 public record GameSettings(
 
-	@Json(name = "endingCategories")
+	@JsonProperty("endingCategories")
 	Categories endingCategories,
 
-	@Json(name = "guessTime")
+	@JsonProperty("guessTime")
 	GuessTime guessTime,
 
-	@Json(name = "scoreType")
+	@JsonProperty("scoreType")
 	int scoreType,
 
-	@Json(name = "animeScore")
-	Score animeScore,
+	@JsonProperty("animeScore")
+	AnimeScore animeScore,
 
-	@Json(name = "samplePoint")
+	@JsonProperty("samplePoint")
 	SamplePoint samplePoint,
 
-	@Json(name = "modifiers")
+	@JsonProperty("modifiers")
 	Modifiers modifiers,
 
-	@Json(name = "type")
+	@JsonProperty("type")
 	ShowFormat showFormat,
 
-	@Json(name = "openingCategories")
+	@JsonProperty("openingCategories")
 	Categories openingCategories,
 
-	@Json(name = "password")
+	@JsonProperty("password")
 	String password,
 
-	@Json(name = "watchedDistribution")
+	@JsonProperty("watchedDistribution")
 	int watchedDistribution,
 
-	@Json(name = "songPopularity")
+	@JsonProperty("songPopularity")
 	SongPopularity songPopularity,
 
-	@Json(name = "roomSize")
+	@JsonProperty("roomSize")
 	int roomSize,
 
-	@Json(name = "genre")
+	@JsonProperty("genre")
 	List<GenreTag> genre,
 
-	@Json(name = "lootingTime")
+	@JsonProperty("lootingTime")
 	LootingTime lootingTime,
 
-	@Json(name = "extraGuessTime")
+	@JsonProperty("extraGuessTime")
 	ExtraGuessTime extraGuessTime,
 
-	@Json(name = "playbackSpeed")
+	@JsonProperty("playbackSpeed")
 	PlaybackSpeed playbackSpeed,
 
-	@Json(name = "lives")
+	@JsonProperty("lives")
 	int lives,
 
-	@Json(name = "songSelection")
+	@JsonProperty("songSelection")
 	SongSelection songSelection,
 
-	@Json(name = "songType")
+	@JsonProperty("songType")
     SongTypeSelection songTypeSelection,
 
-	@Json(name = "roomName")
+	@JsonProperty("roomName")
 	String roomName,
 
-	@Json(name = "inventorySize")
+	@JsonProperty("inventorySize")
 	InventorySize inventorySize,
 
-	@Json(name = "tags")
+	@JsonProperty("tags")
 	List<GenreTag> tags,
 
-	@Json(name = "insertCategories")
+	@JsonProperty("insertCategories")
 	Categories insertCategories,
 
-	@Json(name = "showSelection")
+	@JsonProperty("showSelection")
 	int showSelection,
 
-	@Json(name = "teamSize")
+	@JsonProperty("teamSize")
 	int teamSize,
 
-	@Json(name = "playerScore")
-	Score playerScore,
+	@JsonProperty("playerScore")
+	PlayerScore playerScore,
 
-	@Json(name = "vintage")
+	@JsonProperty("vintage")
 	Vintage vintage,
 
-	@Json(name = "privateRoom")
+	@JsonProperty("privateRoom")
 	boolean privateRoom,
 
-	@Json(name = "numberOfSongs")
+	@JsonProperty("numberOfSongs")
 	int numberOfSongs,
 
-	@Json(name = "songDifficulity")
-	SongDifficulty songDifficulty
+	@JsonProperty("songDifficulity")
+	SongDifficulty songDifficulty,
+	@JsonProperty("gameMode")
+	String gameMode
 ) {
 	public enum ScoreType{
-		COUNT(0),
-		SPEED(1),
-		LIVES(2);
+		COUNT(1),
+		SPEED(2),
+		LIVES(3);
 		final int value;
 		ScoreType(int value){
 			this.value = value;
@@ -111,9 +114,9 @@ public record GameSettings(
 	}
 
 	public enum WatchedDistribution{
-		RANDOM(0),
-		WEIGHTED(1),
-		EQUAL(2);
+		RANDOM(1),
+		WEIGHTED(2),
+		EQUAL(3);
 		final int value;
 		WatchedDistribution(int value){
 			this.value = value;
@@ -121,18 +124,26 @@ public record GameSettings(
 		static final WatchedDistribution DEFAULT = RANDOM;
 	}
 	public enum ShowSelection{
-		AUTO(0),
-		LOOT(1);
+		AUTO(1),
+		LOOT(2);
 		final int value;
 		ShowSelection(int value){
 			this.value = value;
 		}
 		static final ShowSelection DEFAULT = AUTO;
 	}
+	public enum GameMode{
+		MULTIPLAYER("Multiplayer"),
+		SOLO("Solo");
+		public final String value;
+		GameMode(String value){
+			this.value = value;
+		}
+	}
 	public static int DEFAULT_NUMBER_OF_SONGS = 20;
 	public static int DEFAULT_ROOM_SIZE = 8;
 	public static int DEFAULT_TEAM_SIZE = 1;
-	public static int DEFAULT_LIVES = 3;
+	public static int DEFAULT_LIVES = 5;
 
 	public static GameSettings DEFAULT = builder()
 			.openingCategories(Categories.DEFAULT)
@@ -140,8 +151,8 @@ public record GameSettings(
 			.insertCategories(Categories.DEFAULT)
 			.guessTime(GuessTime.DEFAULT)
 			.scoreType(ScoreType.DEFAULT.value)
-			.animeScore(Score.DEFAULT)
-			.playerScore(Score.DEFAULT)
+			.animeScore(AnimeScore.DEFAULT)
+			.playerScore(PlayerScore.DEFAULT)
 			.samplePoint(SamplePoint.DEFAULT)
 			.modifiers(Modifiers.DEFAULT)
 			.showFormat(ShowFormat.DEFAULT)
@@ -165,5 +176,6 @@ public record GameSettings(
 			.vintage(Vintage.DEFAULT)
 			.privateRoom(false)
 			.songDifficulty(SongDifficulty.DEFAULT)
+			.gameMode(GameMode.MULTIPLAYER.value)
 			.build();
 }

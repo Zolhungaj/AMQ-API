@@ -3,21 +3,21 @@ package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import com.squareup.moshi.Json;
 
-public record Score(
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-	@Json(name = "standardValue")
+public record AnimeScore(
+
+	@JsonProperty("standardValue")
 	List<Integer> range,
 
-	@Json(name = "advancedValue")
+	@JsonProperty("advancedValue")
 	List<Boolean> selectedScores,
 
-	@Json(name = "advancedOn")
+	@JsonProperty("advancedOn")
 	boolean advancedOn
 ) {
 	public enum ScoreValue {
-		SCORE_1,
 		SCORE_2,
 		SCORE_3,
 		SCORE_4,
@@ -28,21 +28,20 @@ public record Score(
 		SCORE_9,
 		SCORE_10
 	}
-	public static List<Integer> DEFAULT_RANGE = List.of(1, 10);
-	public static List<Boolean> DEFAULT_SELECTED_SCORES = Collections.nCopies(10, true);
-	public static Score DEFAULT = ofRange(1,10);
-	public static Score ofRange(int start, int end){
-		return new Score(List.of(start, end), DEFAULT_SELECTED_SCORES, false);
+	public static List<Integer> DEFAULT_RANGE = List.of(2, 10);
+	public static List<Boolean> DEFAULT_SELECTED_SCORES = Collections.nCopies(9, true);
+	public static AnimeScore DEFAULT = ofRange(2,10);
+	public static AnimeScore ofRange(int start, int end){
+		return new AnimeScore(List.of(start, end), DEFAULT_SELECTED_SCORES, false);
 	}
-	public static Score of(ScoreValue... scores){
+	public static AnimeScore of(ScoreValue... scores){
 		return of(List.of(scores));
 	}
-	public static Score of(Collection<ScoreValue> scores){
+	public static AnimeScore of(Collection<ScoreValue> scores){
 		if(scores.isEmpty()){
-			return new Score(DEFAULT_RANGE, DEFAULT_SELECTED_SCORES, false);
+			return new AnimeScore(DEFAULT_RANGE, DEFAULT_SELECTED_SCORES, false);
 		}
 		List<Boolean> selectedScores = List.of(
-				scores.contains(ScoreValue.SCORE_1),
 				scores.contains(ScoreValue.SCORE_2),
 				scores.contains(ScoreValue.SCORE_3),
 				scores.contains(ScoreValue.SCORE_4),
@@ -55,9 +54,9 @@ public record Score(
 		);
 		Range range = findRange(selectedScores);
 		if(range != null){
-			return new Score(List.of(range.start(), range.end()), DEFAULT_SELECTED_SCORES, false);
+			return new AnimeScore(List.of(range.start(), range.end()), DEFAULT_SELECTED_SCORES, false);
 		}else{
-			return new Score(DEFAULT_RANGE, selectedScores, true);
+			return new AnimeScore(DEFAULT_RANGE, selectedScores, true);
 		}
 	}
 

@@ -1,17 +1,18 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
 import java.util.List;
-import com.squareup.moshi.Json;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record SamplePoint(
 
-	@Json(name = "standardValue")
+	@JsonProperty("standardValue")
 	int standardValue,
 
-	@Json(name = "randomValue")
+	@JsonProperty("randomValue")
 	List<Integer> randomRange,
 
-	@Json(name = "randomOn")
+	@JsonProperty("randomOn")
 	boolean randomOn
 ) {
 	public enum StartingPoint{

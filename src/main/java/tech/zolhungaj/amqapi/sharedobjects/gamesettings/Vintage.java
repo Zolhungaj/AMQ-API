@@ -6,25 +6,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.squareup.moshi.Json;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**One or more ranges in which songs may appear
  * @param seasonRange the selected range iff seasonRanges is empty
  * @param seasonRanges the selected ranges, overrides seasonRange if set
  * */
 public record Vintage(
-		@Json(name = "advancedValueList")
+		@JsonProperty("advancedValueList")
 		List<SeasonRange> seasonRanges,
 
-		@Json(name = "standardValue")
+		@JsonProperty("standardValue")
 		SeasonRange seasonRange
 ) {
 	public record SeasonRange(
 
-			@Json(name = "seasons")
+			@JsonProperty("seasons")
 			List<Integer> seasons,
 
-			@Json(name = "years")
+			@JsonProperty("years")
 			List<Integer> years
 	) {
 		public static SeasonRange of(int startYear, Season startSeason, int endYear, Season endSeason){

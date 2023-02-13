@@ -2,28 +2,29 @@ package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
 import java.util.Collection;
 import java.util.List;
-import com.squareup.moshi.Json;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
 
 public record SongPopularity(
 
-	@Json(name = "standardValue")
+	@JsonProperty("standardValue")
 	PopularityToggle standardToggles,
 
-	@Json(name = "advancedValue")
+	@JsonProperty("advancedValue")
 	List<Integer> advancedRange,
 
-	@Json(name = "advancedOn")
+	@JsonProperty("advancedOn")
 	boolean advancedOn
 ) {
 	public record PopularityToggle(
-			@Json(name = "liked")
+			@JsonProperty("liked")
 			boolean liked,
 
-			@Json(name = "mixed")
+			@JsonProperty("mixed")
 			boolean mixed,
 
-			@Json(name = "disliked")
+			@JsonProperty("disliked")
 			boolean disliked
 	){}
 

@@ -1,6 +1,6 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
-import com.squareup.moshi.Json;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,19 +8,19 @@ import java.util.List;
 import java.util.Set;
 
 public record ShowFormat(
-	@Json(name = "tv")
+	@JsonProperty("tv")
 	boolean tv,
 
-	@Json(name = "special")
+	@JsonProperty("special")
 	boolean special,
 
-	@Json(name = "ona")
+	@JsonProperty("ona")
 	boolean ona,
 
-	@Json(name = "ova")
+	@JsonProperty("ova")
 	boolean ova,
 
-	@Json(name = "movie")
+	@JsonProperty("movie")
 	boolean movie
 
 ) {

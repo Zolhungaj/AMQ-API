@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import tech.zolhungaj.amqapi.client.Client;
 import tech.zolhungaj.amqapi.client.DummyClient;
 import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
+import tech.zolhungaj.amqapi.clientcommands.DirectDataCommand;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 import tech.zolhungaj.amqapi.servercommands.*;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryList;
@@ -59,7 +60,11 @@ public class AmqApi implements Runnable{
         if(command instanceof EmptyClientCommand){
             this.client.sendCommand(command.type(), command.command(), null);
         }else{
-            this.client.sendCommand(command.type(), command.command(), command);
+            if(command instanceof DirectDataCommand ddc){
+                this.client.sendCommand(command.type(), command.command(), ddc.data());
+            }else{
+                this.client.sendCommand(command.type(), command.command(), command);
+            }
         }
     }
 

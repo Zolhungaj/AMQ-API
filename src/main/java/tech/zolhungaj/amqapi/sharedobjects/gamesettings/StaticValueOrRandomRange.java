@@ -1,19 +1,19 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
-import com.squareup.moshi.Json;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 public abstract class StaticValueOrRandomRange{
-    @Json(name = "standardValue")
+    @JsonProperty("standardValue")
     private final int value;
 
-    @Json(name = "randomValue")
+    @JsonProperty("randomValue")
     private final List<Integer> randomRange;
 
-    @Json(name = "randomOn")
+    @JsonProperty("randomOn")
     private final boolean randomOn;
 
     protected StaticValueOrRandomRange(int value, List<Integer> randomRange, boolean randomOn){

@@ -1,8 +1,9 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Collection;
 import java.util.List;
-import com.squareup.moshi.Json;
 
 /**
  * There is a mapping for the different difficulties to ranges,
@@ -11,13 +12,13 @@ import com.squareup.moshi.Json;
  * so this object does not provide any from function*/
 public record SongDifficulty(
 
-	@Json(name = "standardValue")
+	@JsonProperty("standardValue")
 	DifficultyToggle difficultyToggle,
 
-	@Json(name = "advancedValue")
+	@JsonProperty("advancedValue")
 	List<Integer> advancedRange,
 
-	@Json(name = "advancedOn")
+	@JsonProperty("advancedOn")
 	boolean advancedOn
 ) {
 	public enum Difficulty{
@@ -28,11 +29,11 @@ public record SongDifficulty(
 	}
 	public record DifficultyToggle(
 
-			@Json(name = "easy")
+			@JsonProperty("easy")
 			boolean easy,
-			@Json(name = "medium")
+			@JsonProperty("medium")
 			boolean medium,
-			@Json(name = "hard")
+			@JsonProperty("hard")
 			boolean hard
 	){}
 	public static int MIN = 0;

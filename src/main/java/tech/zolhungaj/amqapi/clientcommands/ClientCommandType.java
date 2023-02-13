@@ -10,6 +10,8 @@ public enum ClientCommandType {
     FRIEND_REQUEST_RESPONSE("social", "friend request response"),
     SEND_CHAT_MESSAGE("lobby", "game chat message"),
     KICK_PLAYER("lobby", "kick player"),
+    HOST_GAME("roombrowser", "host room"),
+    HOST_SOLO_GAME("roombrowser", "host solo room"),
 
 
     ;

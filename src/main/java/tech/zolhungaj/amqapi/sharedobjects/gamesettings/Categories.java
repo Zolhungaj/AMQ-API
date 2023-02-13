@@ -1,6 +1,6 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
-import com.squareup.moshi.Json;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,16 +9,16 @@ import java.util.Set;
 
 public record Categories(
 
-	@Json(name = "standard")
+	@JsonProperty("standard")
 	boolean standard,
 
-	@Json(name = "character")
+	@JsonProperty("character")
 	boolean character,
 
-	@Json(name = "instrumental")
+	@JsonProperty("instrumental")
 	boolean instrumental,
 
-	@Json(name = "chanting")
+	@JsonProperty("chanting")
 	boolean chanting
 ) {
 	public static Categories DEFAULT = of(Category.ALL);

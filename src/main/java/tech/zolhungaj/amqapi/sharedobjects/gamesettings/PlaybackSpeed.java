@@ -5,18 +5,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.squareup.moshi.Json;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
 
 public record PlaybackSpeed(
 
-	@Json(name = "standardValue")
+	@JsonProperty("standardValue")
 	double standardValue,
 
-	@Json(name = "randomValue")
+	@JsonProperty("randomValue")
 	List<Boolean> enabledSpeeds,
 
-	@Json(name = "randomOn")
+	@JsonProperty("randomOn")
 	boolean randomOn
 ) {
 	public enum PlaybackSpeedValue{
@@ -25,7 +25,7 @@ public record PlaybackSpeed(
 		SPEED_2,
 		SPEED_4,
 	}
-	private static final List<Boolean> NO_VALUES = List.of(false, false, false, false);
+	private static final List<Boolean> NO_VALUES = List.of(true, true, true, true);
 	public static final PlaybackSpeed DEFAULT = of(PlaybackSpeedValue.SPEED_1);
 
 	public static PlaybackSpeed of(@NonNull PlaybackSpeedValue... values){

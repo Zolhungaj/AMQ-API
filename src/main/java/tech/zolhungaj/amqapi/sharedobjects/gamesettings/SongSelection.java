@@ -1,42 +1,43 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
-import com.squareup.moshi.Json;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
 
 /** Song selection is selected by the value parameter, the selection identifier is derived from the value
  * */
 public record SongSelection(
 
-	@Json(name = "standardValue")
+	@JsonProperty("standardValue")
 	int derivedSelectionIdentifier,
 
-	@Json(name = "advancedValue")
+	@JsonProperty("advancedValue")
 	SelectionCount value
 ) {
 	public record SelectionCount(
-			@Json(name = "watched")
+			@JsonProperty("watched")
 			int watched,
 
-			@Json(name = "unwatched")
+			@JsonProperty("unwatched")
 			int unwatched,
 
-			@Json(name = "random")
+			@JsonProperty("random")
 			int random
 	){
 	}
 
 	public enum SelectionIdentifier{
-		WATCHED(1),
+		RANDOM(1),
 		MIX(2),
-		RANDOM(3)
+		WATCHED(3)
 		;
 		final int value;
 		SelectionIdentifier(int value){
 			this.value = value;
 		}
+		static final SelectionIdentifier DEFAULT = WATCHED;
 	}
 
-	public static SongSelection DEFAULT = of(SongSelection.SelectionIdentifier.WATCHED, GameSettings.DEFAULT_NUMBER_OF_SONGS);
+	public static SongSelection DEFAULT = of(SongSelection.SelectionIdentifier.DEFAULT, GameSettings.DEFAULT_NUMBER_OF_SONGS);
 
 	public static SongSelection of(@NonNull SelectionCount count){
 		return of(count.watched(), count.unwatched(), count.random());
