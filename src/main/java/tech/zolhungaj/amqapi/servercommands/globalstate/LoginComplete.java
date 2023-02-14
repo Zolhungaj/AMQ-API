@@ -347,35 +347,7 @@ implements Command {
             Integer type
     ){}
 
-    public record PlayerAvatar (
-            AvatarBackground background,
-            AvatarPrimary avatar
-    ){}
 
-    public record AvatarBackground (
-            String avatarName,
-            Integer avatarId,
-            Integer colorId,
-            String outfitName,
-            String backgroundVert,
-            String backgroundHori
-    ){}
-
-    public record AvatarPrimary (
-            String colorName,
-            Optional<String> editor,
-            Integer colorId,
-            Boolean active,
-            Boolean optionActive,
-            String backgroundFileName,
-            Integer colorActive,
-            String avatarName,
-            Integer avatarId,
-            String outfitName,
-            Integer sizeModifier,
-            String optionName,
-            Integer characterId
-    ){}
 
     public record RecentEmote (
             Optional<Integer> emoteId, //see EmoteGroup -> Emote

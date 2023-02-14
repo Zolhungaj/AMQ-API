@@ -20,7 +20,8 @@ public record PlayerAvatar(
             Optional<String> editor,
             Integer sizeModifier,
             String optionName,
-            Boolean optionActive
+            Boolean optionActive,
+            Boolean active
     ) {
     }
 

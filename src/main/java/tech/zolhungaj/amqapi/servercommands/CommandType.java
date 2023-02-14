@@ -103,6 +103,8 @@ public enum CommandType {
     ALL_ONLINE_USERS("all online users"),
     ONLINE_USER_CHANGE("online user change"),
     NEW_QUEST_EVENTS("new quest events"),
+    PLAYER_READY_CHANGE("Player Ready Change"),
+    NEW_PLAYER("New Player"),
     ;
     public final String commandName;
 
