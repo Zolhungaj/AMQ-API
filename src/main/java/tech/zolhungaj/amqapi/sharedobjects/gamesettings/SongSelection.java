@@ -1,6 +1,7 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 import lombok.NonNull;
 
 /** Song selection is selected by the value parameter, the selection identifier is derived from the value
@@ -8,19 +9,24 @@ import lombok.NonNull;
 public record SongSelection(
 
 	@JsonProperty("standardValue")
+	@Json(name = "standardValue")
 	int derivedSelectionIdentifier,
 
 	@JsonProperty("advancedValue")
+	@Json(name = "advancedValue")
 	SelectionCount value
 ) {
 	public record SelectionCount(
 			@JsonProperty("watched")
+			@Json(name = "watched")
 			int watched,
 
 			@JsonProperty("unwatched")
+			@Json(name = "unwatched")
 			int unwatched,
 
 			@JsonProperty("random")
+			@Json(name = "random")
 			int random
 	){
 	}

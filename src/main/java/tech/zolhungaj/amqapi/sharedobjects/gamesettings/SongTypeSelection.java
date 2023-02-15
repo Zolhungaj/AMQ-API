@@ -1,6 +1,7 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 import lombok.NonNull;
 
 import java.util.Collection;
@@ -9,9 +10,11 @@ import java.util.List;
 public record SongTypeSelection(
 
 	@JsonProperty("standardValue")
+	@Json(name = "standardValue")
 	SongTypeToggle toggles,
 
 	@JsonProperty("advancedValue")
+	@Json(name = "advancedValue")
 	SongTypeSelectionCount songTypeSelectionCount
 ) {
 	public enum SongType{
@@ -22,26 +25,33 @@ public record SongTypeSelection(
 	}
 	public record SongTypeToggle(
 			@JsonProperty("openings")
+			@Json(name = "openings")
 			boolean openingsEnabled,
 
 			@JsonProperty("endings")
+			@Json(name = "endings")
 			boolean endingsEnabled,
 
 			@JsonProperty("inserts")
+			@Json(name = "inserts")
 			boolean insertsEnabled
 	){}
 
 	public record SongTypeSelectionCount(
 			@JsonProperty("openings")
+			@Json(name = "openings")
 			int openings,
 
 			@JsonProperty("endings")
+			@Json(name = "endings")
 			int endings,
 
 			@JsonProperty("inserts")
+			@Json(name = "inserts")
 			int inserts,
 
 			@JsonProperty("random")
+			@Json(name = "random")
 			int random
 	) {}
 

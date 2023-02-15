@@ -13,6 +13,7 @@ import tech.zolhungaj.amqapi.servercommands.*;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryList;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryUpdated;
 import tech.zolhungaj.amqapi.servercommands.gameroom.*;
+import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.HostGame;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.PlayerChangedToSpectator;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.PlayerReadyChange;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.SpectatorChangedToPlayer;
@@ -141,6 +142,7 @@ public class AmqApi implements Runnable{
                 case PLAYER_READY_CHANGE -> PlayerReadyChange.class;
                 case NEW_PLAYER -> NewPlayer.class;
                 case AVATAR_DRIVE_UPDATE -> AvatarDriveUpdate.class;
+                case HOST_GAME -> HostGame.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,

@@ -1,6 +1,7 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,12 +10,15 @@ import java.util.List;
 public record PlayerScore(
 
 	@JsonProperty("standardValue")
+	@Json(name = "standardValue")
 	List<Integer> range,
 
 	@JsonProperty("advancedValue")
+	@Json(name = "advancedValue")
 	List<Boolean> selectedScores,
 
 	@JsonProperty("advancedOn")
+	@Json(name = "advancedOn")
 	boolean advancedOn
 ) {
 	public enum ScoreValue {

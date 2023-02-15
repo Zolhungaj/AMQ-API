@@ -1,6 +1,7 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 import lombok.NonNull;
 
 import java.util.Collection;
@@ -10,24 +11,31 @@ import java.util.Set;
 
 public record Modifiers(
 		@JsonProperty("lootDropping")
+		@Json(name = "lootDropping")
 		boolean allowLootDropping,
 
 		@JsonProperty("skipGuessing")
+		@Json(name = "skipGuessing")
 		boolean allowGuessPhaseSkipping,
 
 		@JsonProperty("skipReplay")
+		@Json(name = "skipReplay")
 		boolean allowReplayPhaseSkipping,
 
 		@JsonProperty("queueing")
+		@Json(name = "queueing")
 		boolean allowRoomQueueing,
 
 		@JsonProperty("duplicates")
+		@Json(name = "duplicates")
 		boolean allowDuplicateShows,
 
 		@JsonProperty("rebroadcastSongs")
+		@Json(name = "rebroadcastSongs")
 		boolean allowRebroadcastSongs,
 
 		@JsonProperty("dubSongs")
+		@Json(name = "dubSongs")
 		boolean allowDubSongs
 
 

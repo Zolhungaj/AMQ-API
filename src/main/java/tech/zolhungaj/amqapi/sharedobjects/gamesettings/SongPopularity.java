@@ -4,27 +4,34 @@ import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 import lombok.NonNull;
 
 public record SongPopularity(
 
 	@JsonProperty("standardValue")
+	@Json(name = "standardValue")
 	PopularityToggle standardToggles,
 
 	@JsonProperty("advancedValue")
+	@Json(name = "advancedValue")
 	List<Integer> advancedRange,
 
 	@JsonProperty("advancedOn")
+	@Json(name = "advancedOn")
 	boolean advancedOn
 ) {
 	public record PopularityToggle(
 			@JsonProperty("liked")
+	@Json(name = "liked")
 			boolean liked,
 
 			@JsonProperty("mixed")
+	@Json(name = "mixed")
 			boolean mixed,
 
 			@JsonProperty("disliked")
+	@Json(name = "disliked")
 			boolean disliked
 	){}
 

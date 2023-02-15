@@ -14,7 +14,7 @@ public record NewQuestEvents(
         ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.SERVER_RESTART.commandName;
+        return CommandType.NEW_QUEST_EVENTS.commandName;
     }
     public record EventsItem(
             @Json(name = "questEvent")

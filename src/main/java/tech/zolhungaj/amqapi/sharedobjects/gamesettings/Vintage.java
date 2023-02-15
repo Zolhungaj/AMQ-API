@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 
 /**One or more ranges in which songs may appear
  * @param seasonRange the selected range iff seasonRanges is empty
@@ -14,17 +15,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * */
 public record Vintage(
 		@JsonProperty("advancedValueList")
+		@Json(name = "advancedValueList")
 		List<SeasonRange> seasonRanges,
 
 		@JsonProperty("standardValue")
+		@Json(name = "standardValue")
 		SeasonRange seasonRange
 ) {
 	public record SeasonRange(
 
 			@JsonProperty("seasons")
+			@Json(name = "seasons")
 			List<Integer> seasons,
 
 			@JsonProperty("years")
+			@Json(name = "years")
 			List<Integer> years
 	) {
 		public static SeasonRange of(int startYear, Season startSeason, int endYear, Season endSeason){

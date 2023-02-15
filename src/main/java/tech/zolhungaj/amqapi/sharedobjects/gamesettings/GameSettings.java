@@ -3,6 +3,7 @@ package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 import lombok.Builder;
 import lombok.With;
 
@@ -11,95 +12,126 @@ import lombok.With;
 public record GameSettings(
 
 	@JsonProperty("endingCategories")
+	@Json(name = "endingCategories")
 	Categories endingCategories,
 
 	@JsonProperty("guessTime")
+	@Json(name = "guessTime")
 	GuessTime guessTime,
 
 	@JsonProperty("scoreType")
+	@Json(name = "scoreType")
 	int scoreType,
 
 	@JsonProperty("animeScore")
+	@Json(name = "animeScore")
 	AnimeScore animeScore,
 
 	@JsonProperty("samplePoint")
+	@Json(name = "samplePoint")
 	SamplePoint samplePoint,
 
 	@JsonProperty("modifiers")
+	@Json(name = "modifiers")
 	Modifiers modifiers,
 
 	@JsonProperty("type")
+	@Json(name = "type")
 	ShowFormat showFormat,
 
 	@JsonProperty("openingCategories")
+	@Json(name = "openingCategories")
 	Categories openingCategories,
 
 	@JsonProperty("password")
+	@Json(name = "password")
 	String password,
 
 	@JsonProperty("watchedDistribution")
+	@Json(name = "watchedDistribution")
 	int watchedDistribution,
 
 	@JsonProperty("songPopularity")
+	@Json(name = "songPopularity")
 	SongPopularity songPopularity,
 
 	@JsonProperty("roomSize")
+	@Json(name = "roomSize")
 	int roomSize,
 
 	@JsonProperty("genre")
+	@Json(name = "genre")
 	List<GenreTag> genre,
 
 	@JsonProperty("lootingTime")
+	@Json(name = "lootingTime")
 	LootingTime lootingTime,
 
 	@JsonProperty("extraGuessTime")
+	@Json(name = "extraGuessTime")
 	ExtraGuessTime extraGuessTime,
 
 	@JsonProperty("playbackSpeed")
+	@Json(name = "playbackSpeed")
 	PlaybackSpeed playbackSpeed,
 
 	@JsonProperty("lives")
+	@Json(name = "lives")
 	int lives,
 
 	@JsonProperty("songSelection")
+	@Json(name = "songSelection")
 	SongSelection songSelection,
 
 	@JsonProperty("songType")
+	@Json(name = "songType")
     SongTypeSelection songTypeSelection,
 
 	@JsonProperty("roomName")
+	@Json(name = "roomName")
 	String roomName,
 
 	@JsonProperty("inventorySize")
+	@Json(name = "inventorySize")
 	InventorySize inventorySize,
 
 	@JsonProperty("tags")
+	@Json(name = "tags")
 	List<GenreTag> tags,
 
 	@JsonProperty("insertCategories")
+	@Json(name = "insertCategories")
 	Categories insertCategories,
 
 	@JsonProperty("showSelection")
+	@Json(name = "showSelection")
 	int showSelection,
 
 	@JsonProperty("teamSize")
+	@Json(name = "teamSize")
 	int teamSize,
 
 	@JsonProperty("playerScore")
+	@Json(name = "playerScore")
 	PlayerScore playerScore,
 
 	@JsonProperty("vintage")
+	@Json(name = "vintage")
 	Vintage vintage,
 
 	@JsonProperty("privateRoom")
+	@Json(name = "privateRoom")
 	boolean privateRoom,
 
 	@JsonProperty("numberOfSongs")
+	@Json(name = "numberOfSongs")
 	int numberOfSongs,
 
 	@JsonProperty("songDifficulity")
+	@Json(name = "songDifficulity")
 	SongDifficulty songDifficulty,
 	@JsonProperty("gameMode")
+	@Json(name = "gameMode")
 	String gameMode
 ) {
 	public enum ScoreType{

@@ -6,17 +6,21 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 import lombok.NonNull;
 
 public record PlaybackSpeed(
 
 	@JsonProperty("standardValue")
+	@Json(name = "standardValue")
 	double standardValue,
 
 	@JsonProperty("randomValue")
+	@Json(name = "randomValue")
 	List<Boolean> enabledSpeeds,
 
 	@JsonProperty("randomOn")
+	@Json(name = "randomOn")
 	boolean randomOn
 ) {
 	public enum PlaybackSpeedValue{

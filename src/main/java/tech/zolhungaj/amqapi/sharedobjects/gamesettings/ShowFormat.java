@@ -1,6 +1,7 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,18 +10,23 @@ import java.util.Set;
 
 public record ShowFormat(
 	@JsonProperty("tv")
+	@Json(name = "tv")
 	boolean tv,
 
 	@JsonProperty("special")
+	@Json(name = "special")
 	boolean special,
 
 	@JsonProperty("ona")
+	@Json(name = "ona")
 	boolean ona,
 
 	@JsonProperty("ova")
+	@Json(name = "ova")
 	boolean ova,
 
 	@JsonProperty("movie")
+	@Json(name = "movie")
 	boolean movie
 
 ) {

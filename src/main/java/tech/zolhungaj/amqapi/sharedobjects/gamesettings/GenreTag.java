@@ -1,11 +1,14 @@
 package tech.zolhungaj.amqapi.sharedobjects.gamesettings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.moshi.Json;
 
 public record GenreTag(
         @JsonProperty("id")
+	    @Json(name = "id")
         int id,
         @JsonProperty("state")
+	    @Json(name = "state")
         int stateIdentifier
 ) {
     public enum State{
