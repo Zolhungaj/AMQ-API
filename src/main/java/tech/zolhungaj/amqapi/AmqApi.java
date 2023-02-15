@@ -140,6 +140,7 @@ public class AmqApi implements Runnable{
                 case NEW_QUEST_EVENTS -> NewQuestEvents.class;
                 case PLAYER_READY_CHANGE -> PlayerReadyChange.class;
                 case NEW_PLAYER -> NewPlayer.class;
+                case AVATAR_DRIVE_UPDATE -> AvatarDriveUpdate.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
@@ -177,7 +178,6 @@ public class AmqApi implements Runnable{
                         DELETE_FAVOURITE_AVATAR_RESPONSE,
                         TICKET_ROLL_RESULT,
                         TICKET_ROLL_ERROR,
-                        AVATAR_DRIVE_UPDATE,
                         AVATAR_DRIVE_LEADERBOARD,
                         PATREON_UPDATE,
                         FREE_AVATAR_DONATION_RESPONSE,

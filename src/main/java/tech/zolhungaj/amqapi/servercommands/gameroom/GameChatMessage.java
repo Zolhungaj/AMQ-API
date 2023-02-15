@@ -14,7 +14,7 @@ public record GameChatMessage(
     @Json(name = "modMessage") Boolean isModMessage,
     @Json(name = "teamMessage") Boolean isTeamMessage,
     @Json(name = "nameGlow") Boolean hasNameGlow,
-    @Json(name = "nameColor") Integer nameColor,
+    @Json(name = "nameColor") Boolean nameColor,
     List<Badge> badges,
     Integer messageId,
     MessageEmoji emojis,
