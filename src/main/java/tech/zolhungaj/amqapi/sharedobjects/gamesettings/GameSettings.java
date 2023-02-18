@@ -5,12 +5,12 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.squareup.moshi.Json;
 import lombok.Builder;
+import lombok.Singular;
 import lombok.With;
 
-@Builder
+@Builder(toBuilder = true)
 @With
 public record GameSettings(
-
 	@JsonProperty("endingCategories")
 	@Json(name = "endingCategories")
 	Categories endingCategories,
@@ -61,7 +61,8 @@ public record GameSettings(
 
 	@JsonProperty("genre")
 	@Json(name = "genre")
-	List<GenreTag> genre,
+	@Singular("genres")
+	List<GenreTag> genres,
 
 	@JsonProperty("lootingTime")
 	@Json(name = "lootingTime")
@@ -97,6 +98,7 @@ public record GameSettings(
 
 	@JsonProperty("tags")
 	@Json(name = "tags")
+	@Singular("tags")
 	List<GenreTag> tags,
 
 	@JsonProperty("insertCategories")
@@ -132,8 +134,15 @@ public record GameSettings(
 	SongDifficulty songDifficulty,
 	@JsonProperty("gameMode")
 	@Json(name = "gameMode")
-	String gameMode
+	String gameMode,
+
+	@JsonProperty("answeringMode")
+	@Json(name = "answeringMode")
+	int answeringMode
 ) {
+	public GameSettings{
+		privateRoom = password != null && !password.isBlank();
+	}
 	public enum ScoreType{
 		COUNT(1),
 		SPEED(2),
@@ -172,6 +181,17 @@ public record GameSettings(
 			this.value = value;
 		}
 	}
+
+	public enum AnsweringMode{
+		TYPING(1),
+		MIXED(2),
+		MULTIPLE_CHOICE(3);
+		final int value;
+		AnsweringMode(int value){
+			this.value = value;
+		}
+		static final AnsweringMode DEFAULT = TYPING;
+	}
 	public static int DEFAULT_NUMBER_OF_SONGS = 20;
 	public static int DEFAULT_ROOM_SIZE = 8;
 	public static int DEFAULT_TEAM_SIZE = 1;
@@ -188,12 +208,10 @@ public record GameSettings(
 			.samplePoint(SamplePoint.DEFAULT)
 			.modifiers(Modifiers.DEFAULT)
 			.showFormat(ShowFormat.DEFAULT)
-			.password("")
+			.password("DEFAULT")
 			.watchedDistribution(WatchedDistribution.DEFAULT.value)
 			.songPopularity(SongPopularity.DEFAULT)
 			.roomSize(DEFAULT_ROOM_SIZE)
-			.genre(List.of())
-			.tags(List.of())
 			.lootingTime(LootingTime.DEFAULT)
 			.extraGuessTime(ExtraGuessTime.DEFAULT)
 			.playbackSpeed(PlaybackSpeed.DEFAULT)
@@ -209,5 +227,6 @@ public record GameSettings(
 			.privateRoom(false)
 			.songDifficulty(SongDifficulty.DEFAULT)
 			.gameMode(GameMode.MULTIPLAYER.value)
+			.answeringMode(AnsweringMode.DEFAULT.value)
 			.build();
 }
