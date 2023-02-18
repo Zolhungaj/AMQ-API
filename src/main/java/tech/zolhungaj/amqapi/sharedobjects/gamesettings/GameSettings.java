@@ -8,6 +8,11 @@ import lombok.Builder;
 import lombok.Singular;
 import lombok.With;
 
+/**
+ * A representation of Game Settings, reused across the board
+ * @param password The password to be used if isPrivateRoom is set
+ * @param isPrivateRoom Whether a room is password protected
+ * */
 @Builder(toBuilder = true)
 @With
 public record GameSettings(
@@ -46,6 +51,10 @@ public record GameSettings(
 	@JsonProperty("password")
 	@Json(name = "password")
 	String password,
+
+	@JsonProperty("privateRoom")
+	@Json(name = "privateRoom")
+	boolean isPrivateRoom,
 
 	@JsonProperty("watchedDistribution")
 	@Json(name = "watchedDistribution")
@@ -120,11 +129,6 @@ public record GameSettings(
 	@JsonProperty("vintage")
 	@Json(name = "vintage")
 	Vintage vintage,
-
-	@JsonProperty("privateRoom")
-	@Json(name = "privateRoom")
-	boolean privateRoom,
-
 	@JsonProperty("numberOfSongs")
 	@Json(name = "numberOfSongs")
 	int numberOfSongs,
@@ -140,9 +144,6 @@ public record GameSettings(
 	@Json(name = "answeringMode")
 	int answeringMode
 ) {
-	public GameSettings{
-		privateRoom = password != null && !password.isBlank();
-	}
 	public enum ScoreType{
 		COUNT(1),
 		SPEED(2),
@@ -208,7 +209,7 @@ public record GameSettings(
 			.samplePoint(SamplePoint.DEFAULT)
 			.modifiers(Modifiers.DEFAULT)
 			.showFormat(ShowFormat.DEFAULT)
-			.password("DEFAULT")
+			.password("")
 			.watchedDistribution(WatchedDistribution.DEFAULT.value)
 			.songPopularity(SongPopularity.DEFAULT)
 			.roomSize(DEFAULT_ROOM_SIZE)
@@ -224,7 +225,7 @@ public record GameSettings(
 			.showSelection(ShowSelection.DEFAULT.value)
 			.teamSize(DEFAULT_TEAM_SIZE)
 			.vintage(Vintage.DEFAULT)
-			.privateRoom(false)
+			.isPrivateRoom(false)
 			.songDifficulty(SongDifficulty.DEFAULT)
 			.gameMode(GameMode.MULTIPLAYER.value)
 			.answeringMode(AnsweringMode.DEFAULT.value)
