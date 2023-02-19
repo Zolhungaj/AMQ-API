@@ -36,7 +36,7 @@ public record SongSelection(
 		MIX(2),
 		WATCHED(3)
 		;
-		final int value;
+		public final int value;
 		SelectionIdentifier(int value){
 			this.value = value;
 		}

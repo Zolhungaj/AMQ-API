@@ -148,7 +148,7 @@ public record GameSettings(
 		COUNT(1),
 		SPEED(2),
 		LIVES(3);
-		final int value;
+		public final int value;
 		ScoreType(int value){
 			this.value = value;
 		}
@@ -159,7 +159,7 @@ public record GameSettings(
 		RANDOM(1),
 		WEIGHTED(2),
 		EQUAL(3);
-		final int value;
+		public final int value;
 		WatchedDistribution(int value){
 			this.value = value;
 		}
@@ -168,7 +168,7 @@ public record GameSettings(
 	public enum ShowSelection{
 		AUTO(1),
 		LOOT(2);
-		final int value;
+		public final int value;
 		ShowSelection(int value){
 			this.value = value;
 		}
@@ -187,7 +187,7 @@ public record GameSettings(
 		TYPING(1),
 		MIXED(2),
 		MULTIPLE_CHOICE(3);
-		final int value;
+		public final int value;
 		AnsweringMode(int value){
 			this.value = value;
 		}

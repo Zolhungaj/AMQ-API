@@ -42,7 +42,7 @@ public record Vintage(
 		SUMMER(2),
 		AUTUMN(3), FALL(3) //i18n
 		;
-		final int value;
+		public final int value;
 		Season(int value){
 			this.value = value;
 		}

@@ -15,7 +15,7 @@ public record GenreTag(
         INCLUDED(1),
         EXCLUDED(2),
         OPTIONAL(3);
-        final int value;
+        public final int value;
         State(int value){
             this.value = value;
         }
