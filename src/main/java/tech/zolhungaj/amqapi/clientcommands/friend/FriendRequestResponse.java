@@ -12,7 +12,7 @@ import tech.zolhungaj.amqapi.clientcommands.ClientCommandType;
 @ToString
 public final class FriendRequestResponse extends AbstractClientCommand {
     public FriendRequestResponse(){
-        super(ClientCommandType.FRIEND_REQUEST_RESPONSE);
+        super(ClientCommandType.RESPOND_TO_FRIEND_REQUEST);
     }
     private String target;
     private Boolean accept;
