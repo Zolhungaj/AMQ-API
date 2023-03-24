@@ -1,6 +1,6 @@
 package tech.zolhungaj.amqapi.clientcommands.social;
 
-public record FriendRequestResponse(
+public record RespondToFriendRequest(
         String target,
         boolean accept
 ) implements SocialCommand {

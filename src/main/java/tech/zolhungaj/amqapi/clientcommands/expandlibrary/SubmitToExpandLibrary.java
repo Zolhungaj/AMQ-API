@@ -3,7 +3,7 @@ package tech.zolhungaj.amqapi.clientcommands.expandlibrary;
 import lombok.*;
 
 @Builder
-public record ExpandLibrarySubmit(
+public record SubmitToExpandLibrary(
         int annId,
         int annSongId,
         @NonNull
