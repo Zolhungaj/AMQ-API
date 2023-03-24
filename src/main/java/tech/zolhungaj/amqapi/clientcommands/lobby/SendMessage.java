@@ -1,26 +1,25 @@
 package tech.zolhungaj.amqapi.clientcommands.lobby;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
-import tech.zolhungaj.amqapi.clientcommands.AbstractClientCommand;
-import tech.zolhungaj.amqapi.clientcommands.ClientCommandType;
 
-import java.util.Objects;
-
-@Getter
-@ToString
-public final class SendMessage extends AbstractClientCommand {
-    public SendMessage(){
-        super(ClientCommandType.SEND_CHAT_MESSAGE);
+@Builder
+public record SendMessage(
+        @JsonProperty("msg")
+        String message,
+        @JsonProperty("teamMessage")
+        Boolean isTeamMessage
+) implements LobbyCommand {
+    public SendMessage{
+        if(isTeamMessage == null){
+            isTeamMessage = false;
+        }
     }
-    private String msg;
-    private Boolean teamMessage;
-
-    @Builder
-    public SendMessage(String message, Boolean isTeamMessage) {
-        this();
-        this.msg = message;
-        this.teamMessage = Objects.requireNonNullElse(isTeamMessage, Boolean.FALSE);
+    public SendMessage(String message){
+        this(message, null);
+    }
+    @Override
+    public String command() {
+        return "game chat message";
     }
 }

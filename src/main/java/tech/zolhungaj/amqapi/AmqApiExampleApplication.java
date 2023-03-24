@@ -3,7 +3,7 @@ package tech.zolhungaj.amqapi;
 import lombok.extern.slf4j.Slf4j;
 import tech.zolhungaj.amqapi.clientcommands.lobby.Kick;
 import tech.zolhungaj.amqapi.clientcommands.lobby.SendMessage;
-import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostGame;
+import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostRoom;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
 import tech.zolhungaj.amqapi.servercommands.NotStartedCommand;
@@ -71,7 +71,7 @@ public class AmqApiExampleApplication {
 		Thread apiThread = new Thread(api);
 		apiThread.start();
 		Thread.sleep(5000);
-		api.sendCommand(new HostGame(GameSettings.DEFAULT));
+		api.sendCommand(new HostRoom(GameSettings.DEFAULT));
 		apiThread.join();
 		System.exit(0);
 	}

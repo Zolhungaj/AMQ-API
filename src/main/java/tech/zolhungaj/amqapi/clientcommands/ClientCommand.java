@@ -1,6 +1,10 @@
 package tech.zolhungaj.amqapi.clientcommands;
 
-public sealed interface ClientCommand permits AbstractClientCommand{
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public interface ClientCommand{
+    @JsonIgnore
     String type();
+    @JsonIgnore
     String command();
 }
