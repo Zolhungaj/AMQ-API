@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi;
 
 import lombok.extern.slf4j.Slf4j;
 import tech.zolhungaj.amqapi.clientcommands.lobby.Kick;
-import tech.zolhungaj.amqapi.clientcommands.lobby.SendMessage;
+import tech.zolhungaj.amqapi.clientcommands.lobby.SendPublicChatMessage;
 import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostRoom;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
@@ -64,7 +64,7 @@ public class AmqApiExampleApplication {
 			return true;
 		});
 
-		SendMessage message = SendMessage.builder().message("Hello World").build();
+		SendPublicChatMessage message = new SendPublicChatMessage("Hello World");
 		Kick kick = new Kick("Zolhungaj");
 		log.info("{}", message);
 		log.info("{}", kick);
@@ -72,6 +72,10 @@ public class AmqApiExampleApplication {
 		apiThread.start();
 		Thread.sleep(5000);
 		api.sendCommand(new HostRoom(GameSettings.DEFAULT));
+		Thread.sleep(10000);
+		api.sendCommand(message);
+		Thread.sleep(5000);
+		api.sendCommand(kick);
 		apiThread.join();
 		System.exit(0);
 	}
