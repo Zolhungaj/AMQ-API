@@ -26,7 +26,7 @@ public enum PlayerStatus {
     /**
      * @return for valid values return corresponding PlayerStatus, otherwise return {@link #OFFLINE}
      */
-    public static PlayerStatus forId(Integer id){
+    public static PlayerStatus forId(int id){
         return ID_MAP.getOrDefault(id, OFFLINE);
     }
 }

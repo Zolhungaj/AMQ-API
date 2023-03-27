@@ -9,7 +9,7 @@ import tech.zolhungaj.amqapi.constants.AmqRanked;
 import java.util.List;
 
 public record RankedLeaderboardUpdate(
-        @Json(name = "serieId") Integer seriesId,
+        @Json(name = "serieId") int seriesId,
         @Json(name = "standings") List<RankedLeaderboardEntry> leaderboard
 )implements Command {
 

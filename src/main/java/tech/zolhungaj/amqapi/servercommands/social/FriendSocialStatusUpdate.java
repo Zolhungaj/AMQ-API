@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public record FriendSocialStatusUpdate(
         String name,
-        @Json(name = "socialStatus") Integer statusId,
+        @Json(name = "socialStatus") int statusId,
         Optional<PlayerGameState> gameState
 ) implements Command {
 

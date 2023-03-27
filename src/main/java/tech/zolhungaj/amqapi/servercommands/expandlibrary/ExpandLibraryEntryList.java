@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public record ExpandLibraryEntryList (
-        Boolean success,
+        boolean success,
         String issue,
         @Json(name = "questions") List<ExpandLibraryEntry> entries
 ) implements Command {
@@ -21,13 +21,13 @@ public record ExpandLibraryEntryList (
 
     public record ExpandLibraryEntry (
             @Json(name = "name") String animeName,
-            @Json(name = "annId") Integer animeNewsNetworkId,
+            @Json(name = "annId") int animeNewsNetworkId,
             List<ExpandLibrarySong> songs
     ) {}
     public record ExpandLibrarySong (
-        @Json(name = "annSongId") Integer songId,
-        @Json(name = "type") Integer typeId,
-        Integer number,
+        @Json(name = "annSongId") int songId,
+        @Json(name = "type") int typeId,
+        int number,
         String artist,
         @Json(name = "name") String songName,
         @Json(name = "examples") Map<String, String> resolutionUrlMap,
@@ -64,7 +64,7 @@ public record ExpandLibraryEntryList (
 
     public record ExpandLibrarySongVersionEntryClosed (
             Optional<Integer> resolution,
-            Integer status
+            int status
     ) {}
     public enum EXPAND_SONG_STATUS{
         APPROVED(1),
@@ -78,8 +78,8 @@ public record ExpandLibraryEntryList (
                 ID_MAP.put(gs.id, gs);
             }
         }
-        public final Integer id;
-        EXPAND_SONG_STATUS(Integer id){
+        public final int id;
+        EXPAND_SONG_STATUS(int id){
             this.id = id;
         }
 
@@ -87,7 +87,7 @@ public record ExpandLibraryEntryList (
         /**
          * @return for valid values return corresponding EXPAND_SONG_STATUS, otherwise return {@link #UNKNOWN}
          */
-        public static EXPAND_SONG_STATUS forId(Integer id){
+        public static EXPAND_SONG_STATUS forId(int id){
             return ID_MAP.getOrDefault(id, UNKNOWN);
         }
     }

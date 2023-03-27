@@ -7,8 +7,8 @@ import tech.zolhungaj.amqapi.servercommands.objects.PlayerGameState;
 
 public record FriendAdded(
         @Json(name = "name") String playerName,
-        Boolean online,
-        Integer status,
+        boolean online,
+        int status,
         PlayerGameState gameState
 ) implements Command {
     @Override

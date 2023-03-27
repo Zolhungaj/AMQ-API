@@ -9,7 +9,7 @@ import java.util.Optional;
 public record GameChatSystemMessage(
     String title,
     @Json(name = "msg") Optional<String> message,
-    @Json(name = "teamMessage") Boolean isTeamMessage
+    @Json(name = "teamMessage") boolean isTeamMessage
 ) implements Command {
     @Override
     public String commandName() {

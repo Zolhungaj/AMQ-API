@@ -20,15 +20,15 @@ public record FriendProfileImageChange(
             String avatarName,
             String outfitName,
             String optionName,
-            Boolean optionActive,
+            boolean optionActive,
             String colorName,
             Optional<String> editor,
-            Integer colorId,
-            Boolean active,
+            int colorId,
+            boolean active,
             String backgroundFileName,
-            Boolean colorActive,
-            Integer avatarId,
-            Integer sizeModifier,
-            Integer characterId
+            boolean colorActive,
+            int avatarId,
+            int sizeModifier,
+            int characterId
     ) {}
 }

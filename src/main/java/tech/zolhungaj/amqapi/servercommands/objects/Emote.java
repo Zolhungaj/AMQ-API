@@ -3,7 +3,7 @@ package tech.zolhungaj.amqapi.servercommands.objects;
 import com.squareup.moshi.Json;
 
 public record Emote (
-        Integer tierId,
+        int tierId,
         @Json(name = "name") String emoteName,
-        Integer emoteId
+        int emoteId
 ){}

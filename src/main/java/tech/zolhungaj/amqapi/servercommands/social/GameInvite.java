@@ -4,7 +4,7 @@ import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 
 public record GameInvite(
-        Integer gameId,
+        int gameId,
         String sender
 )implements Command {
 

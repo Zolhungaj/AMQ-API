@@ -5,44 +5,44 @@ import java.util.Optional;
 
 public record StoreAvatar(
         String colorName,
-        Integer outfitId,
+        int outfitId,
         Optional<Integer> patreonTierToUnlock,
-        Integer notePrice,
+        int notePrice,
         String lore,
-        Boolean limited,
+        boolean limited,
         String artist,
         String badgeName,
         String backgroundVert,
-        Boolean active,
+        boolean active,
         List<AvatarColor> colors,
-        Integer defaultColorId,
+        int defaultColorId,
         String badgeFileName,
         String avatarName,
-        Boolean defaultAvatar,
-        Integer avatarId,
+        boolean defaultAvatar,
+        int avatarId,
         String world,
         Optional<Integer> tierId,
-        Integer realMoneyPrice,
+        int realMoneyPrice,
         String outfitName,
-        Boolean exclusive,
-        Integer sizeModifier,
+        boolean exclusive,
+        int sizeModifier,
         String optionName
 ){
 
     public record AvatarColor (
             Optional<String> editor,
-            Boolean limited,
-            Integer colorId,
-            Boolean active,
+            boolean limited,
+            int colorId,
+            boolean active,
             String backgroundVert,
-            Boolean defaultColor,
+            boolean defaultColor,
             Optional<Integer> tierId,
-            Integer price,
-            Boolean eventColor, //Always 0?
-            Boolean unique,
+            int price,
+            boolean eventColor, //Always 0?
+            boolean unique,
             String name,
-            Boolean exclusive,
-            Integer sizeModifier
+            boolean exclusive,
+            int sizeModifier
     ){}
 }
 

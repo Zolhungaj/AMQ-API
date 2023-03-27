@@ -3,9 +3,9 @@ package tech.zolhungaj.amqapi.servercommands.objects;
 import org.jetbrains.annotations.NotNull;
 
 public record RankedLeaderboardEntry(
-        Integer score,
+        int score,
         String name,
-        Integer position
+        int position
 ) implements Comparable<RankedLeaderboardEntry>
 {
     @Override

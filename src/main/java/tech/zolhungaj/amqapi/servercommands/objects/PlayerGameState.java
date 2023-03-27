@@ -1,22 +1,24 @@
 package tech.zolhungaj.amqapi.servercommands.objects;
 
 import com.squareup.moshi.Json;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public record PlayerGameState (
         Optional<Integer> gameId,
-        Boolean isSpectator,
-        @Json(name = "private") Boolean isPrivateRoom,
-        @Json(name = "soloGame") @Nullable Boolean isSoloGame,
-        @Json(name = "isRanked") @Nullable Boolean isRankedGame,
-        Boolean inLobby
+        boolean isSpectator,
+        @Json(name = "private") boolean isPrivateRoom,
+        @Json(name = "soloGame") Optional<Boolean> isSoloGame,
+        @Json(name = "isRanked") Optional<Boolean> isRankedGame,
+        boolean inLobby
 ){
-    public Optional<Boolean> isSoloGameOptional(){
-        return Optional.ofNullable(isSoloGame);
-    }
-    public Optional<Boolean> isRankedGameOptional(){
-        return Optional.ofNullable(isRankedGame);
+    public PlayerGameState{
+        // check if optional because of mapping issues in moshi with null values in inner objects
+        if(isSoloGame == null){
+            isSoloGame = Optional.empty();
+        }
+        if(isRankedGame == null){
+            isRankedGame = Optional.empty();
+        }
     }
 }

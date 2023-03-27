@@ -9,25 +9,25 @@ public record PlayerAvatar(
         BackgroundDescription background
 ) {
     public record AvatarDescription(
-            Integer avatarId,
-            Integer colorId,
-            Integer characterId,
+            int avatarId,
+            int colorId,
+            int characterId,
             String avatarName,
             String outfitName,
             String colorName,
             @Json(name = "backgroundFileName") String backgroundFilename,
-            Boolean colorActive,
+            boolean colorActive,
             Optional<String> editor,
-            Integer sizeModifier,
+            int sizeModifier,
             String optionName,
-            Boolean optionActive,
-            Boolean active
+            boolean optionActive,
+            boolean active
     ) {
     }
 
     public record BackgroundDescription(
-            Integer avatarId,
-            Integer colorId,
+            int avatarId,
+            int colorId,
             String avatarName,
             String outfitName,
             String backgroundHori,

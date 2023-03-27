@@ -6,8 +6,8 @@ import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 
 public record RankedGameStateChanged(
-        @Json(name = "serieId") Integer seriesId,
-        @Json(name = "state") Integer stateId
+        @Json(name = "serieId") int seriesId,
+        @Json(name = "state") int stateId
 )implements Command {
 
     public AmqRanked.GAME_SERIES series(){

@@ -2,7 +2,6 @@ package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 
-import org.jetbrains.annotations.Nullable;
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.*;
@@ -16,24 +15,24 @@ import java.util.Map;
 import java.util.Optional;
 
 public record LoginComplete(
-        Boolean gameAdmin,
+        boolean gameAdmin,
         List<QuestDescription> questDescriptions,
         List<SavedQuizSetting> savedQuizSettings,
         PatreonBadgeInfo patreonBadgeInfo,
         Optional<RewardAlert> rewardAlert,
-        Double driveTotal,
+        double driveTotal,
         List<AvatarDriveContribution> top5AllTime,
-        Boolean displayArtContestPopUp,
+        boolean displayArtContestPopUp,
         @Json(name = "top5AvatarNominatios") List<AvatarDriveNomination> top5AvatarNominations,
-        Integer patreonId,
+        int patreonId,
         Map<String, Integer> avatarUnlockCount,
         Map<String, Map<String, Boolean>> unlockedDesigns,
         List<TicketReward> recentTicketRewards,
         RankedState rankedState,
         List<SuperAvatar> defaultAvatars,
-        Integer backerLevel,
+        int backerLevel,
         UserSettings settings,
-        Integer level,
+        int level,
         List<Integer> unlockedEmoteIds,
         @Json(name = "malName") Optional<String> mal,
         Optional<String> aniList,
@@ -43,47 +42,47 @@ public record LoginComplete(
         Optional<String> kitsuLastUpdate,
         List<FriendEntry> friends,
         RankedChampions rankedChampions,
-        Integer nameChangeTokens,
+        int nameChangeTokens,
         List<String> blockedPlayers,
         List<EmoteGroup> emoteGroups,
-        Integer tickets,
+        int tickets,
         @Json(name = "top5Montly") List<AvatarDriveContribution> top5Monthly,
         List<ServerStatus> serverStatuses,
-        Boolean topAdmin,
-        Boolean useRomajiNames,
-        Integer questTokenProgress,
+        boolean topAdmin,
+        boolean useRomajiNames,
+        int questTokenProgress,
         @Json(name = "tagInfo") List<AnimeTag> tags,
         RankedLeaderboard rankedLeaderboards,
         List<RollTarget> rollTargets,
         XPInfo xpInfo,
-        Integer credits,
+        int credits,
         @Json(name = "genreInfo") List<AnimeGenre> genres,
-        Integer tutorial,
-        @Json(name = "canReconnectGame") Boolean canReconnectToGame,
+        int tutorial,
+        @Json(name = "canReconnectGame") boolean canReconnectToGame,
         List<AvatarDonation> recentDonations,
-        Integer avatarTokens,
-        Boolean freeDonation,
+        int avatarTokens,
+        boolean freeDonation,
         Map<String, Integer> characterUnlockCount,
         List<CustomEmoji> customEmojis,
         PlayerAvatar avatar,
         Optional<Boolean> patreonDesynced,
-        Integer rhythm,
+        int rhythm,
         List<String> videoHostNames,
-        Boolean twitterClaimed,
+        boolean twitterClaimed,
         List<FavoriteAvatar> favoriteAvatars,
         List<AvatarDriveContribution> top5Weekly,
-        Boolean discordClaimed,
-        Integer expandCount,
+        boolean discordClaimed,
+        int expandCount,
         List<RecentEmote> recentEmotes,
-        Boolean saleTax,
+        boolean saleTax,
         @Json(name = "self") String selfName,
-        Integer badgeLevel,
-        Boolean guestAccount,
+        int badgeLevel,
+        boolean guestAccount,
         TutorialState tutorialState,
         List<NexusBuff> nexusBuffs,
-        @Json(name = "canReconnectNexus") Boolean canReconnectToNexus,
-        @Json(name = "nexusStatBaseMax") Integer nexusStatsBaseMaximum,
-        @Json(name ="nexusAccess") Boolean hasNexusAccess
+        @Json(name = "canReconnectNexus") boolean canReconnectToNexus,
+        @Json(name = "nexusStatBaseMax") int nexusStatsBaseMaximum,
+        @Json(name ="nexusAccess") boolean hasNexusAccess
 )
 implements Command {
     public Optional<Instant> aniListLastUpdateInstant(){
@@ -104,20 +103,20 @@ implements Command {
     }
 
     public record QuestDescription(
-            Integer ticketReward,
-            Integer questId,
-            Integer targetState,
-            Integer weekSlot,
+            int ticketReward,
+            int questId,
+            int targetState,
+            int weekSlot,
             String name,
             String description,
-            Integer state,
-            Integer noteReward
+            int state,
+            int noteReward
     ){}
 
     public record SavedQuizSetting (
             String name,
             String settingString,
-            Integer id
+            int id
     ){}
 
     public record PatreonBadgeInfo (
@@ -126,121 +125,90 @@ implements Command {
     ){}
 
     public record PatreonBadge (
-            Boolean special,
+            boolean special,
             String fileName,
             String name,
-            Integer id,
-            Integer type,
+            int id,
+            int type,
             String unlockDescription
     ){}
 
     public record TicketReward (
-            Integer tier,
+            int tier,
             TicketRewardDescription description,
             String type,
-            Integer rhythm
+            int rhythm
     ){}
-
-    /**
-     * Until a <a href="https://github.com/square/moshi/pull/1412">fix is merged</a>
-     * all objects here are nullable
-     * To remedy this utility functions that return Optionals are included
-     */
+    
     public record TicketRewardDescription (
-            @Nullable Integer tierId,
-            @Nullable String name,
-            @Nullable Integer emoteId,
-            @Nullable String colorName,
-            @Nullable String editor,
-            @Nullable Integer colorId,
-            @Nullable Boolean active,
-            @Nullable Boolean optionActive,
-            @Nullable String backGroundFileName,
-            @Nullable Boolean colorActive,
-            @Nullable String avatarName,
-            @Nullable Integer avatarId,
-            @Nullable String outfitName,
-            @Nullable Integer sizeModifier,
-            @Nullable String optionName,
-            @Nullable Integer characterId
+            Optional<Integer> tierId,
+            @Json(name = "name")
+            Optional<String> rewardName,
+            Optional<Integer> emoteId,
+            Optional<String> colorName,
+            Optional<String> editor,
+            Optional<Integer> colorId,
+            Optional<Boolean> active,
+            Optional<Boolean> optionActive,
+            Optional<String> backGroundFileName,
+            Optional<Boolean> colorActive,
+            Optional<String> avatarName,
+            Optional<Integer> avatarId,
+            Optional<String> outfitName,
+            Optional<Integer> sizeModifier,
+            Optional<String> optionName,
+            Optional<Integer> characterId
     ){
-        public Optional<Integer> tierIdOptional(){
-            return Optional.ofNullable(tierId);
+        public TicketRewardDescription{
+            /*
+             * Until a <a href="https://github.com/square/moshi/pull/1412">fix is merged</a>
+             * all objects here are nullable, and this is a workaround to make them consistently Optional
+             */
+            if (tierId == null) tierId = Optional.empty();
+            if (rewardName == null) rewardName = Optional.empty();
+            if (emoteId == null) emoteId = Optional.empty();
+            if (colorName == null) colorName = Optional.empty();
+            if (editor == null) editor = Optional.empty();
+            if (colorId == null) colorId = Optional.empty();
+            if (active == null) active = Optional.empty();
+            if (optionActive == null) optionActive = Optional.empty();
+            if (backGroundFileName == null) backGroundFileName = Optional.empty();
+            if (colorActive == null) colorActive = Optional.empty();
+            if (avatarName == null) avatarName = Optional.empty();
+            if (avatarId == null) avatarId = Optional.empty();
+            if (outfitName == null) outfitName = Optional.empty();
+            if (sizeModifier == null) sizeModifier = Optional.empty();
+            if (optionName == null) optionName = Optional.empty();
+            if (characterId == null) characterId = Optional.empty();
         }
-        public Optional<String> nameOptional(){
-            return Optional.ofNullable(name);
-        }
-        public Optional<Integer> emoteIdOptional(){
-            return Optional.ofNullable(emoteId);
-        }
-        public Optional<String> colorNameOptional(){
-            return Optional.ofNullable(colorName);
-        }
-        public Optional<String> editorOptional(){
-            return Optional.ofNullable(editor);
-        }
-        public Optional<Integer> colorIdOptional(){
-            return Optional.ofNullable(colorId);
-        }
-        public Optional<Boolean> activeOptional(){
-            return Optional.ofNullable(active);
-        }
-        public Optional<Boolean> optionActiveOptional(){
-            return Optional.ofNullable(optionActive);
-        }
-        public Optional<String> backGroundFileNameOptional(){
-            return Optional.ofNullable(backGroundFileName);
-        }
-        public Optional<Boolean> colorActiveOptional(){
-            return Optional.ofNullable(colorActive);
-        }
-        public Optional<String> avatarNameOptional(){
-            return Optional.ofNullable(avatarName);
-        }
-        public Optional<Integer> avatarIdOptional(){
-            return Optional.ofNullable(avatarId);
-        }
-        public Optional<String> outfitNameOptional(){
-            return Optional.ofNullable(outfitName);
-        }
-        public Optional<Integer> sizeModifierOptional(){
-            return Optional.ofNullable(sizeModifier);
-        }
-        public Optional<String> optionNameOptional(){
-            return Optional.ofNullable(optionName);
-        }
-        public Optional<Integer> characterIdOptional(){
-            return Optional.ofNullable(characterId);
-        }
-
     }
 
     public record SuperAvatar(
-            Integer characterId,
+            int characterId,
             List<StoreAvatar> avatars
     ){}
     public record UserSettings (
-            Boolean autoHideInserts,
-            Boolean disableEmojis,
-            Integer animeList,
-            Boolean voteSkipReplay,
-            Boolean showTeamAnswersState,
-            Boolean autoHideEndings,
-            Boolean useOnHold,
-            Boolean useRomajiNames,
-            Boolean equalizeSound,
-            Boolean shareScore,
-            Boolean voteSkipGuess,
-            Boolean usePlanning,
-            Boolean autoSubmit,
-            @Json(name = "shareMal") Boolean shareList,
-            Boolean autoHideOpenings,
-            Boolean autoHideHighRisk,
-            @Json(name = "autoSwitchFavoritedAvatars") Boolean autoSwitchFavoriteAvatars,
-            Boolean useWatched,
-            Boolean useCompleted,
-            Boolean useDropped,
-            Boolean autoHideUnwatched
+            boolean autoHideInserts,
+            boolean disableEmojis,
+            int animeList,
+            boolean voteSkipReplay,
+            boolean showTeamAnswersState,
+            boolean autoHideEndings,
+            boolean useOnHold,
+            boolean useRomajiNames,
+            boolean equalizeSound,
+            boolean shareScore,
+            boolean voteSkipGuess,
+            boolean usePlanning,
+            boolean autoSubmit,
+            @Json(name = "shareMal") boolean shareList,
+            boolean autoHideOpenings,
+            boolean autoHideHighRisk,
+            @Json(name = "autoSwitchFavoritedAvatars") boolean autoSwitchFavoriteAvatars,
+            boolean useWatched,
+            boolean useCompleted,
+            boolean useDropped,
+            boolean autoHideUnwatched
     ){}
 
     public record FriendEntry (
@@ -249,19 +217,20 @@ implements Command {
             String colorName,
             Optional<Integer> profileEmoteId,
             String name,
-            Boolean online,
+            boolean online,
             String outfitName,
-            Boolean optionActive,
+            boolean optionActive,
             String optionName,
-            @Nullable PlayerGameState gameState,
-            @Json(name = "status") Integer statusId
+            Optional<PlayerGameState> gameState,
+            @Json(name = "status") int statusId
     ){
+        public FriendEntry{
+            if (avatarProfileImage == null) avatarProfileImage = Optional.empty();
+            if (profileEmoteId == null) profileEmoteId = Optional.empty();
+            if (gameState == null) gameState = Optional.empty();
+        }
         public PlayerStatus status(){
             return PlayerStatus.forId(statusId);
-        }
-
-        public Optional<PlayerGameState> gameStateOptional(){
-            return Optional.ofNullable(gameState);
         }
     }
 
@@ -273,8 +242,8 @@ implements Command {
 
     public record RankedState (
             ActiveRankedGameModes games,
-            @Json(name = "serieId") Integer seriesId,
-            Integer state
+            @Json(name = "serieId") int seriesId,
+            int state
     ){
         public AmqRanked.RANKED_STATE getRankedState(){
             return AmqRanked.RANKED_STATE.forId(state);
@@ -285,24 +254,24 @@ implements Command {
     }
 
     public record ActiveRankedGameModes (
-            Boolean expert,
-            Boolean novice
+            boolean expert,
+            boolean novice
     ){}
 
 
     public record EmoteGroup (
-            Integer orderNumber,
+            int orderNumber,
             List<Emote> emotes
     ){}
 
     public record ServerStatus (
             String name,
-            Boolean online
+            boolean online
     ){}
 
     public record AnimeTag (
             String name,
-            Integer id
+            int id
     ){}
 
     public record RankedLeaderboard(
@@ -314,37 +283,37 @@ implements Command {
     public record RollTarget (
             String fileName,
             String name,
-            Integer id
+            int id
     ){}
 
     public record XPInfo (
-            Double xpPercent, //literally just xpIntoLevel / xpForLevel
-            Integer lastGain,
-            Integer xpForLevel,
-            Integer xpIntoLevel
+            double xpPercent, //literally just xpIntoLevel / xpForLevel
+            int lastGain,
+            int xpForLevel,
+            int xpIntoLevel
     ){
-        public Integer xpForNextLevel(){
+        public int xpForNextLevel(){
             return xpForLevel - xpIntoLevel;
         }
     }
 
     public record AnimeGenre (
             String name,
-            Integer id
+            int id
     ){}
 
     public record AvatarDonation (
             String avatarName,
-            Double amount,
+            double amount,
             String username
     ){}
 
     public record CustomEmoji (
-            Boolean validated,
+            boolean validated,
             String name,
-            Boolean active,
-            Integer id,
-            Integer type
+            boolean active,
+            int id,
+            int type
     ){}
 
 
@@ -369,27 +338,27 @@ implements Command {
     }
 
     public record TutorialState (
-            Boolean initialShow,
-            Boolean firstGameComplete,
-            Boolean teamPlayed,
-            Boolean avatarCompleted,
-            Boolean socialCompleted,
-            Boolean livesPlayed,
-            Boolean rankedCompleted,
-            Boolean lootingPlayed,
-            Boolean speedPlayed
+            boolean initialShow,
+            boolean firstGameComplete,
+            boolean teamPlayed,
+            boolean avatarCompleted,
+            boolean socialCompleted,
+            boolean livesPlayed,
+            boolean rankedCompleted,
+            boolean lootingPlayed,
+            boolean speedPlayed
     ){}
 
     public record RewardAlert (
             String fileName,
             String name,
-            Integer userRewardAlertId
+            int userRewardAlertId
     ){}
 
 
 
     public record FavoriteAvatar(
-            Integer favoriteId,
+            int favoriteId,
             @Json(name = "avatar") AvatarIdentifier avatarIdentifier,
             @Json(name = "background") AvatarBackgroundIdentifier avatarBackgroundIdentifier
     ){}

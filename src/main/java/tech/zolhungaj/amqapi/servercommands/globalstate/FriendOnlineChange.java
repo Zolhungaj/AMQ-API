@@ -6,7 +6,7 @@ import tech.zolhungaj.amqapi.servercommands.CommandType;
 
 public record FriendOnlineChange (
         @Json(name = "name") String playerName,
-        Boolean online
+        boolean online
 ) implements Command {
     @Override
     public String commandName() {

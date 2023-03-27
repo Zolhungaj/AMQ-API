@@ -11,14 +11,14 @@ import java.util.List;
 public record GameChatMessage(
     String sender,
     String message,
-    @Json(name = "modMessage") Boolean isModMessage,
-    @Json(name = "teamMessage") Boolean isTeamMessage,
-    @Json(name = "nameGlow") Boolean hasNameGlow,
-    @Json(name = "nameColor") Boolean nameColor,
+    @Json(name = "modMessage") boolean isModMessage,
+    @Json(name = "teamMessage") boolean isTeamMessage,
+    @Json(name = "nameGlow") boolean hasNameGlow,
+    @Json(name = "nameColor") boolean nameColor,
     List<Badge> badges,
-    Integer messageId,
+    int messageId,
     MessageEmoji emojis,
-    @Json(name = "atEveryone") Boolean isAtEveryone
+    @Json(name = "atEveryone") boolean isAtEveryone
 ) implements Command {
     @Override
     public String commandName() {
