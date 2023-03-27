@@ -6,11 +6,11 @@ import java.util.Optional;
 
 public record PlayerGameState (
         Optional<Integer> gameId,
-        boolean isSpectator,
-        @Json(name = "private") boolean isPrivateRoom,
+        Boolean isSpectator,
+        @Json(name = "private") Boolean isPrivateRoom,
         @Json(name = "soloGame") Optional<Boolean> isSoloGame,
         @Json(name = "isRanked") Optional<Boolean> isRankedGame,
-        boolean inLobby
+        Boolean inLobby
 ){
     public PlayerGameState{
         // check if optional because of mapping issues in moshi with null values in inner objects

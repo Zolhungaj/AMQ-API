@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public record ExpandLibraryEntryList (
-        boolean success,
+        Boolean success,
         String issue,
         @Json(name = "questions") List<ExpandLibraryEntry> entries
 ) implements Command {

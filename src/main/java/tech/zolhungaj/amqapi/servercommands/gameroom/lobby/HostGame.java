@@ -28,7 +28,7 @@ public record HostGame(
 	List<NewPlayer> players,
 
 	@Json(name = "inLobby")
-	boolean inLobby,
+	Boolean inLobby,
 
 	@Json(name = "teamFullMap")
 	Map<Integer, Boolean> mapOfFullTeams,

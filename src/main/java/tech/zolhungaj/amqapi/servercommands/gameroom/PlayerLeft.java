@@ -9,7 +9,7 @@ import java.util.Optional;
 public record PlayerLeft(
         Optional<Boolean> kicked,
         Optional<Boolean> disconnect,
-        String newHost, //TODO: test behaviour, this is either a boolean false or a string ...
+        Optional<String> newHost,
         PlayerIdentifier player
 ) implements Command {
     @Override

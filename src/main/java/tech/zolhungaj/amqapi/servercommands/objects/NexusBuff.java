@@ -8,7 +8,7 @@ public record NexusBuff(
     String filename,
 
     @Json(name = "debuff")
-    boolean isDebuff,
+    Boolean isDebuff,
 
     @Json(name = "name")
     String buffName,

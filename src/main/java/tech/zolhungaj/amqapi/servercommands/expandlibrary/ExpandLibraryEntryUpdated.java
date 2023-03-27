@@ -11,7 +11,7 @@ public record ExpandLibraryEntryUpdated(
 	int annSongId,
 	String host,
 	int resolution,
-	@Json(name = "animeStillAvaliable") boolean animeStillAvailable,
+	@Json(name = "animeStillAvaliable") Boolean animeStillAvailable,
 	@Json(name = "songStillAvaliable") Optional<Boolean> songStillAvailable
 ) implements Command {
 	@Override

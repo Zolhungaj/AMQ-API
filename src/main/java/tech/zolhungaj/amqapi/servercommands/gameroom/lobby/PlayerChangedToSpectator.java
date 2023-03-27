@@ -7,7 +7,7 @@ import tech.zolhungaj.amqapi.servercommands.objects.PlayerIdentifier;
 public record PlayerChangedToSpectator(
         PlayerIdentifier spectatorDescription,
         PlayerIdentifier playerDescription,
-        boolean isHost
+        Boolean isHost
 ) implements Command {
     @Override
     public String commandName() {

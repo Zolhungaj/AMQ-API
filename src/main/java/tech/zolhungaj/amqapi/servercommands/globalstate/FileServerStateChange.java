@@ -7,7 +7,7 @@ import tech.zolhungaj.amqapi.servercommands.CommandType;
 public record FileServerStateChange(
         @Json(name = "name")
         String serverName,
-        boolean online
+        Boolean online
         ) implements Command {
     @Override
     public String commandName() {

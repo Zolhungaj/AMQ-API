@@ -4,7 +4,7 @@ import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 
 public record PlayerReadyChange(
-        boolean ready,
+        Boolean ready,
         int gamePlayerId
 ) implements Command {
     @Override

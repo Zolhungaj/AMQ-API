@@ -15,16 +15,16 @@ import java.util.Map;
 import java.util.Optional;
 
 public record LoginComplete(
-        boolean gameAdmin,
+        Boolean gameAdmin,
         List<QuestDescription> questDescriptions,
         List<SavedQuizSetting> savedQuizSettings,
         PatreonBadgeInfo patreonBadgeInfo,
         Optional<RewardAlert> rewardAlert,
         double driveTotal,
         List<AvatarDriveContribution> top5AllTime,
-        boolean displayArtContestPopUp,
+        Boolean displayArtContestPopUp,
         @Json(name = "top5AvatarNominatios") List<AvatarDriveNomination> top5AvatarNominations,
-        int patreonId,
+        Optional<Integer> patreonId,
         Map<String, Integer> avatarUnlockCount,
         Map<String, Map<String, Boolean>> unlockedDesigns,
         List<TicketReward> recentTicketRewards,
@@ -48,8 +48,8 @@ public record LoginComplete(
         int tickets,
         @Json(name = "top5Montly") List<AvatarDriveContribution> top5Monthly,
         List<ServerStatus> serverStatuses,
-        boolean topAdmin,
-        boolean useRomajiNames,
+        Boolean topAdmin,
+        Boolean useRomajiNames,
         int questTokenProgress,
         @Json(name = "tagInfo") List<AnimeTag> tags,
         RankedLeaderboard rankedLeaderboards,
@@ -58,31 +58,31 @@ public record LoginComplete(
         int credits,
         @Json(name = "genreInfo") List<AnimeGenre> genres,
         int tutorial,
-        @Json(name = "canReconnectGame") boolean canReconnectToGame,
+        @Json(name = "canReconnectGame") Boolean canReconnectToGame,
         List<AvatarDonation> recentDonations,
         int avatarTokens,
-        boolean freeDonation,
+        Boolean freeDonation,
         Map<String, Integer> characterUnlockCount,
         List<CustomEmoji> customEmojis,
         PlayerAvatar avatar,
         Optional<Boolean> patreonDesynced,
         int rhythm,
         List<String> videoHostNames,
-        boolean twitterClaimed,
+        Boolean twitterClaimed,
         List<FavoriteAvatar> favoriteAvatars,
         List<AvatarDriveContribution> top5Weekly,
-        boolean discordClaimed,
+        Boolean discordClaimed,
         int expandCount,
         List<RecentEmote> recentEmotes,
-        boolean saleTax,
+        Boolean saleTax,
         @Json(name = "self") String selfName,
         int badgeLevel,
-        boolean guestAccount,
+        Boolean guestAccount,
         TutorialState tutorialState,
         List<NexusBuff> nexusBuffs,
-        @Json(name = "canReconnectNexus") boolean canReconnectToNexus,
+        @Json(name = "canReconnectNexus") Boolean canReconnectToNexus,
         @Json(name = "nexusStatBaseMax") int nexusStatsBaseMaximum,
-        @Json(name ="nexusAccess") boolean hasNexusAccess
+        @Json(name ="nexusAccess") Boolean hasNexusAccess
 )
 implements Command {
     public Optional<Instant> aniListLastUpdateInstant(){
@@ -125,7 +125,7 @@ implements Command {
     ){}
 
     public record PatreonBadge (
-            boolean special,
+            Boolean special,
             String fileName,
             String name,
             int id,
@@ -188,27 +188,27 @@ implements Command {
             List<StoreAvatar> avatars
     ){}
     public record UserSettings (
-            boolean autoHideInserts,
-            boolean disableEmojis,
+            Boolean autoHideInserts,
+            Boolean disableEmojis,
             int animeList,
-            boolean voteSkipReplay,
-            boolean showTeamAnswersState,
-            boolean autoHideEndings,
-            boolean useOnHold,
-            boolean useRomajiNames,
-            boolean equalizeSound,
-            boolean shareScore,
-            boolean voteSkipGuess,
-            boolean usePlanning,
-            boolean autoSubmit,
-            @Json(name = "shareMal") boolean shareList,
-            boolean autoHideOpenings,
-            boolean autoHideHighRisk,
-            @Json(name = "autoSwitchFavoritedAvatars") boolean autoSwitchFavoriteAvatars,
-            boolean useWatched,
-            boolean useCompleted,
-            boolean useDropped,
-            boolean autoHideUnwatched
+            Boolean voteSkipReplay,
+            Boolean showTeamAnswersState,
+            Boolean autoHideEndings,
+            Boolean useOnHold,
+            Boolean useRomajiNames,
+            Boolean equalizeSound,
+            Boolean shareScore,
+            Boolean voteSkipGuess,
+            Boolean usePlanning,
+            Boolean autoSubmit,
+            @Json(name = "shareMal") Boolean shareList,
+            Boolean autoHideOpenings,
+            Boolean autoHideHighRisk,
+            @Json(name = "autoSwitchFavoritedAvatars") Boolean autoSwitchFavoriteAvatars,
+            Boolean useWatched,
+            Boolean useCompleted,
+            Boolean useDropped,
+            Boolean autoHideUnwatched
     ){}
 
     public record FriendEntry (
@@ -217,9 +217,9 @@ implements Command {
             String colorName,
             Optional<Integer> profileEmoteId,
             String name,
-            boolean online,
+            Boolean online,
             String outfitName,
-            boolean optionActive,
+            Boolean optionActive,
             String optionName,
             Optional<PlayerGameState> gameState,
             @Json(name = "status") int statusId
@@ -242,20 +242,23 @@ implements Command {
 
     public record RankedState (
             ActiveRankedGameModes games,
-            @Json(name = "serieId") int seriesId,
+            @Json(name = "serieId") Optional<Integer> seriesId,
             int state
     ){
+        public RankedState{
+            if (seriesId == null) seriesId = Optional.empty();
+        }
         public AmqRanked.RANKED_STATE getRankedState(){
             return AmqRanked.RANKED_STATE.forId(state);
         }
-        public AmqRanked.GAME_SERIES getRankedSeries(){
-            return AmqRanked.GAME_SERIES.forId(seriesId);
+        public Optional<AmqRanked.GAME_SERIES> getRankedSeries(){
+            return seriesId.map(AmqRanked.GAME_SERIES::forId);
         }
     }
 
     public record ActiveRankedGameModes (
-            boolean expert,
-            boolean novice
+            Boolean expert,
+            Boolean novice
     ){}
 
 
@@ -266,7 +269,7 @@ implements Command {
 
     public record ServerStatus (
             String name,
-            boolean online
+            Boolean online
     ){}
 
     public record AnimeTag (
@@ -309,9 +312,9 @@ implements Command {
     ){}
 
     public record CustomEmoji (
-            boolean validated,
+            Boolean validated,
             String name,
-            boolean active,
+            Boolean active,
             int id,
             int type
     ){}
@@ -338,15 +341,15 @@ implements Command {
     }
 
     public record TutorialState (
-            boolean initialShow,
-            boolean firstGameComplete,
-            boolean teamPlayed,
-            boolean avatarCompleted,
-            boolean socialCompleted,
-            boolean livesPlayed,
-            boolean rankedCompleted,
-            boolean lootingPlayed,
-            boolean speedPlayed
+            Boolean initialShow,
+            Boolean firstGameComplete,
+            Boolean teamPlayed,
+            Boolean avatarCompleted,
+            Boolean socialCompleted,
+            Boolean livesPlayed,
+            Boolean rankedCompleted,
+            Boolean lootingPlayed,
+            Boolean speedPlayed
     ){}
 
     public record RewardAlert (

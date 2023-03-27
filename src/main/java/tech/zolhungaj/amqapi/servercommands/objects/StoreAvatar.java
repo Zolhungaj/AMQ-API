@@ -9,39 +9,39 @@ public record StoreAvatar(
         Optional<Integer> patreonTierToUnlock,
         int notePrice,
         String lore,
-        boolean limited,
+        Boolean limited,
         String artist,
         String badgeName,
         String backgroundVert,
-        boolean active,
+        Boolean active,
         List<AvatarColor> colors,
         int defaultColorId,
         String badgeFileName,
         String avatarName,
-        boolean defaultAvatar,
+        Boolean defaultAvatar,
         int avatarId,
         String world,
         Optional<Integer> tierId,
         int realMoneyPrice,
         String outfitName,
-        boolean exclusive,
+        Boolean exclusive,
         int sizeModifier,
         String optionName
 ){
 
     public record AvatarColor (
             Optional<String> editor,
-            boolean limited,
+            Boolean limited,
             int colorId,
-            boolean active,
+            Boolean active,
             String backgroundVert,
-            boolean defaultColor,
+            Boolean defaultColor,
             Optional<Integer> tierId,
             int price,
-            boolean eventColor, //Always 0?
-            boolean unique,
+            Boolean eventColor, //Always 0?
+            Boolean unique,
             String name,
-            boolean exclusive,
+            Boolean exclusive,
             int sizeModifier
     ){}
 }

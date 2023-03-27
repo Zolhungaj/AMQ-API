@@ -12,7 +12,7 @@ public record DirectMessage(
         DirectMessageEmojis emojis,
         String sender,
         String message,
-        boolean modMessage
+        Boolean modMessage
 ) implements Command {
 
 

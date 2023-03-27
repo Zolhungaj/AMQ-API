@@ -10,7 +10,7 @@ public record Player(
         int gamePlayerId,
         int level,
         PlayerAvatar avatar,
-        boolean ready,
-        boolean inGame,
+        Boolean ready,
+        Boolean inGame,
         Optional<Integer> teamNumber
 ) {}

@@ -16,12 +16,12 @@ public record PlayerAvatar(
             String outfitName,
             String colorName,
             @Json(name = "backgroundFileName") String backgroundFilename,
-            boolean colorActive,
+            Boolean colorActive,
             Optional<String> editor,
             int sizeModifier,
             String optionName,
-            boolean optionActive,
-            boolean active
+            Boolean optionActive,
+            Boolean active
     ) {
     }
 

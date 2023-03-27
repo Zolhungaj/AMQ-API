@@ -7,7 +7,7 @@ import tech.zolhungaj.amqapi.servercommands.objects.PlayerGameState;
 
 public record FriendAdded(
         @Json(name = "name") String playerName,
-        boolean online,
+        Boolean online,
         int status,
         PlayerGameState gameState
 ) implements Command {

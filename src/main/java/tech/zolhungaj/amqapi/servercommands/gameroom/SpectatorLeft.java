@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public record SpectatorLeft(
         Optional<Boolean> kicked,
-        String newHost, //TODO: test behaviour, this is either a boolean false or a string ...
+        Optional<String> newHost,
         @Json(name = "spectator") String playerName
 ) implements Command {
     @Override

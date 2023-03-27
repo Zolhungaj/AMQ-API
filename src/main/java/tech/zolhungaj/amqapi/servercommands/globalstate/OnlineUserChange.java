@@ -7,7 +7,7 @@ import tech.zolhungaj.amqapi.servercommands.CommandType;
 public record OnlineUserChange(
     @Json(name = "name")
     String username,
-    boolean online
+    Boolean online
 ) implements Command {
     @Override
     public String commandName() {

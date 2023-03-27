@@ -13,7 +13,7 @@ public record NewPlayer(
 	int level,
 
 	@Json(name = "ready")
-	boolean ready,
+	Boolean ready,
 
 	@Json(name = "name")
 	String playerName,
@@ -28,7 +28,7 @@ public record NewPlayer(
 	PlayerAvatar avatar,
 
 	@Json(name = "inGame")
-	boolean inGame
+	Boolean inGame
 ) implements Command {
 	@Override
 	public String commandName() {
