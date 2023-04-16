@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import tech.zolhungaj.amqapi.clientcommands.lobby.Kick;
 import tech.zolhungaj.amqapi.clientcommands.lobby.SendPublicChatMessage;
 import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostRoom;
+import tech.zolhungaj.amqapi.clientcommands.social.GetProfile;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
 import tech.zolhungaj.amqapi.servercommands.NotStartedCommand;
@@ -76,6 +77,8 @@ public class AmqApiExampleApplication {
 		api.sendCommand(message);
 		Thread.sleep(5000);
 		api.sendCommand(kick);
+		api.sendCommand(new GetProfile("Zolhungaj"));
+		api.sendCommand(new GetProfile("HermesBOT"));
 		apiThread.join();
 		System.exit(0);
 	}

@@ -26,6 +26,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 
@@ -36,6 +38,7 @@ public class AmqApi implements Runnable{
             .add(new CustomBooleanAdapter())
             .add(new CustomOptionalBooleanAdapter())
             .add(new CustomOptionalStringAdapter())
+            .add(new CustomLocalDateAdapter())
             .add(new OptionalFactory())
             .build();
     private final List<EventHandler> onList = new ArrayList<>();
@@ -144,6 +147,7 @@ public class AmqApi implements Runnable{
                 case NEW_PLAYER -> NewPlayer.class;
                 case AVATAR_DRIVE_UPDATE -> AvatarDriveUpdate.class;
                 case HOST_GAME -> HostGame.class;
+                case PLAYER_PROFILE -> PlayerProfile.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
@@ -169,7 +173,6 @@ public class AmqApi implements Runnable{
                         SELF_NAME_UPDATE,
                         UNKNOWN_ERROR,
                         RANKED_SCORE_UPDATE,
-                        PLAYER_PROFILE,
                         SAVED_QUIZ_SETTINGS_DELETED,
                         SAVE_QUIZ_SETTINGS,
                         USE_AVATAR_RESPONSE,
@@ -286,6 +289,10 @@ public class AmqApi implements Runnable{
                         throw new JsonDataException("Integer " + i + " is out of range [0-1]");
                     }
                 }
+                case NULL -> {
+                    reader.nextNull();
+                    yield false;
+                }
                 default -> throw new JsonDataException("Expected an Integer but got a " + reader.peek().name());
             };
         }
@@ -294,6 +301,25 @@ public class AmqApi implements Runnable{
         @ToJson
         public void toJson(JsonWriter writer, Boolean value) throws IOException {
             writer.value(Boolean.TRUE.equals(value) ? 1 : 0);
+        }
+    }
+
+    private static class CustomLocalDateAdapter extends JsonAdapter<LocalDate> {
+        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        @Override
+        @FromJson
+        public LocalDate fromJson(JsonReader reader) throws IOException {
+            if(reader.peek() == JsonReader.Token.STRING){
+                return LocalDate.parse(reader.nextString(), FORMATTER);
+            }else{
+                throw new JsonDataException("Expected an String, but got a " + reader.peek().name());
+            }
+        }
+
+        @Override
+        @ToJson
+        public void toJson(JsonWriter writer, LocalDate value) throws IOException {
+            writer.value(FORMATTER.format(value));
         }
     }
 
