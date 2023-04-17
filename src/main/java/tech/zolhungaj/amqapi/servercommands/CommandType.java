@@ -105,7 +105,8 @@ public enum CommandType {
     NEW_QUEST_EVENTS("new quest events"),
     PLAYER_READY_CHANGE("Player Ready Change"),
     NEW_PLAYER("New Player"),
-    HOST_GAME("Host Game");
+    HOST_GAME("Host Game"),
+    AVATAR_CHANGE("avatar change");
     public final String commandName;
 
     private static final Map<String, CommandType> map = new HashMap<>();

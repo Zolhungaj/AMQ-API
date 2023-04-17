@@ -148,6 +148,7 @@ public class AmqApi implements Runnable{
                 case AVATAR_DRIVE_UPDATE -> AvatarDriveUpdate.class;
                 case HOST_GAME -> HostGame.class;
                 case PLAYER_PROFILE -> PlayerProfile.class;
+                case AVATAR_CHANGE -> PlayerChangedAvatar.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
