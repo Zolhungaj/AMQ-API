@@ -5,20 +5,21 @@ import tech.zolhungaj.amqapi.sharedobjects.gamesettings.GameSettings;
 
 public record HostRoom(
         GameSettings settings,
-        Boolean isSoloRoom
+        boolean isSoloRoom
 ) implements RoomBrowserCommand, DirectDataCommand {
     public HostRoom{
-        if(isSoloRoom == null){
-            isSoloRoom = false;
-        }
+        var settingsBuilder = settings.toBuilder();
         if (isSoloRoom) {
-            settings = settings.withGameMode(GameSettings.GameMode.SOLO.value).withRoomName("Solo");
+            settingsBuilder
+                    .gameMode(GameSettings.GameMode.SOLO.value)
+                    .roomName("Solo");
         } else {
-            settings = settings.withGameMode(GameSettings.GameMode.MULTIPLAYER.value);
+            settingsBuilder.gameMode(GameSettings.GameMode.MULTIPLAYER.value);
         }
+        settings = settingsBuilder.build();
     }
     public HostRoom(GameSettings settings){
-        this(settings, null);
+        this(settings, false);
     }
 
     @Override
@@ -28,7 +29,7 @@ public record HostRoom(
 
     @Override
     public String command() {
-        if (Boolean.TRUE.equals(isSoloRoom)) {
+        if (isSoloRoom) {
             return "host solo room";
         } else {
             return "host room";
