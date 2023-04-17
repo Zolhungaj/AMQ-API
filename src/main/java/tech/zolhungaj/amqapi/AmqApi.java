@@ -154,6 +154,7 @@ public class AmqApi implements Runnable{
                 case HTML_ALERT -> HtmlAlert.class;
                 case SELF_NAME_UPDATE -> SelfNameChange.class;
                 case UNKNOWN_ERROR -> ServerUnknownError.class;
+                case RANKED_SCORE_UPDATE -> RankedScoreUpdate.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
@@ -173,7 +174,6 @@ public class AmqApi implements Runnable{
                         BATTLE_ROYALE_RETURN_TO_MAP,
                         PLAYER_NAME_CHANGE,
                         JOIN_GAME,
-                        RANKED_SCORE_UPDATE,
                         SAVED_QUIZ_SETTINGS_DELETED,
                         SAVE_QUIZ_SETTINGS,
                         USE_AVATAR_RESPONSE,
