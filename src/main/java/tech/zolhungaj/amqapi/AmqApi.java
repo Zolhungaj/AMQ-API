@@ -151,6 +151,7 @@ public class AmqApi implements Runnable{
                 case AVATAR_CHANGE -> PlayerChangedAvatar.class;
                 case ALERT -> Alert.class;
                 case PLAYER_REJOIN -> PlayerRejoin.class;
+                case HTML_ALERT -> HtmlAlert.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
@@ -170,7 +171,6 @@ public class AmqApi implements Runnable{
                         BATTLE_ROYALE_RETURN_TO_MAP,
                         PLAYER_NAME_CHANGE,
                         JOIN_GAME,
-                        HTML_ALERT,
                         SELF_NAME_UPDATE,
                         UNKNOWN_ERROR,
                         RANKED_SCORE_UPDATE,
