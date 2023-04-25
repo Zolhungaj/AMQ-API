@@ -2,6 +2,7 @@ package tech.zolhungaj.amqapi;
 
 
 import com.squareup.moshi.*;
+import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import tech.zolhungaj.amqapi.client.Client;
@@ -19,6 +20,7 @@ import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.PlayerReadyChange;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.SpectatorChangedToPlayer;
 import tech.zolhungaj.amqapi.servercommands.globalstate.*;
 import tech.zolhungaj.amqapi.servercommands.social.*;
+import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -40,6 +42,11 @@ public class AmqApi implements Runnable{
             .add(new CustomOptionalStringAdapter())
             .add(new CustomLocalDateAdapter())
             .add(new OptionalFactory())
+            .add(PolymorphicJsonAdapterFactory.of(TicketRollResult.Reward.class, "rewardType")
+                    .withSubtype(TicketRollResult.SkinReward.class, "avatar")
+                    .withSubtype(TicketRollResult.ColorReward.class, "color")
+                    .withSubtype(TicketRollResult.EmoteReward.class, "emote")
+            )
             .build();
     private final List<EventHandler> onList = new ArrayList<>();
     private final List<EventHandler> onceList = new ArrayList<>();
@@ -155,6 +162,7 @@ public class AmqApi implements Runnable{
                 case SELF_NAME_UPDATE -> SelfNameChange.class;
                 case UNKNOWN_ERROR -> ServerUnknownError.class;
                 case RANKED_SCORE_UPDATE -> RankedScoreUpdate.class;
+                case TICKET_ROLL_RESULT -> TicketRollResult.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
@@ -183,7 +191,6 @@ public class AmqApi implements Runnable{
                         LOCK_EMOTE,
                         ADD_FAVOURITE_AVATAR_RESPONSE,
                         DELETE_FAVOURITE_AVATAR_RESPONSE,
-                        TICKET_ROLL_RESULT,
                         TICKET_ROLL_ERROR,
                         AVATAR_DRIVE_LEADERBOARD,
                         PATREON_UPDATE,
