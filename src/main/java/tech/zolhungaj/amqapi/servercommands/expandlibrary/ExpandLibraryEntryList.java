@@ -38,7 +38,7 @@ public record ExpandLibraryEntryList (
             @Json(name = "2")
             ENDING,
             @Json(name = "3")
-            INSERT;
+            INSERT
         }
         public String typeName(){
             return switch(songType){
@@ -67,6 +67,6 @@ public record ExpandLibraryEntryList (
         @Json(name = "3")
         MISSING,
         @Json(name = "0")
-        UNKNOWN;
+        UNKNOWN
     }
 }
