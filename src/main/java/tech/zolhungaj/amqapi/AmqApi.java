@@ -24,6 +24,7 @@ import tech.zolhungaj.amqapi.servercommands.globalstate.*;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
 import tech.zolhungaj.amqapi.servercommands.social.*;
 import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult;
+import tech.zolhungaj.amqapi.sharedobjects.AnimeList;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -56,6 +57,7 @@ public class AmqApi implements Runnable{
             .add(AmqRanked.RankedState.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedState.class))
             .add(ExpandLibraryEntryList.ExpandSongStatus.class, IntegerEnumJsonAdapter.create(ExpandLibraryEntryList.ExpandSongStatus.class).withUnknownFallback(ExpandLibraryEntryList.ExpandSongStatus.UNKNOWN))
             .add(ExpandLibraryEntryList.ExpandLibrarySong.SongType.class, IntegerEnumJsonAdapter.create(ExpandLibraryEntryList.ExpandLibrarySong.SongType.class).withUnknownFallback(ExpandLibraryEntryList.ExpandLibrarySong.SongType.UNKNOWN))
+            .add(AnimeList.class, IntegerEnumJsonAdapter.create(AnimeList.class))
             .build();
     private final List<EventHandler> onList = new ArrayList<>();
     private final List<EventHandler> onceList = new ArrayList<>();

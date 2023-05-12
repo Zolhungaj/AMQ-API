@@ -103,15 +103,12 @@ public record PlayerProfile(
             @Json(name = "adminView")
             boolean isAdminView,
             @Json(name = "listId")
-            Optional<Integer> listSiteId,
+            Optional<AnimeList> listSite,
             @Json(name = "listUserUrl")
             Optional<String> listSiteUserUrl,
             @Json(name = "listUser")
             Optional<String> listSiteUsername
     ) {
-        Optional<AnimeList> listSite(){
-            return listSiteId.map(AnimeList::forId);
-        }
     }
 
     public record DisplayedPlayerBadge(
