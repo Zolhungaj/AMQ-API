@@ -54,6 +54,8 @@ public class AmqApi implements Runnable{
             .add(NewQuestEvents.QuestEventState.class, IntegerEnumJsonAdapter.create(NewQuestEvents.QuestEventState.class))
             .add(AmqRanked.RankedSeries.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedSeries.class))
             .add(AmqRanked.RankedState.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedState.class))
+            .add(ExpandLibraryEntryList.ExpandSongStatus.class, IntegerEnumJsonAdapter.create(ExpandLibraryEntryList.ExpandSongStatus.class))
+            .add(ExpandLibraryEntryList.ExpandLibrarySong.SongType.class, IntegerEnumJsonAdapter.create(ExpandLibraryEntryList.ExpandLibrarySong.SongType.class))
             .build();
     private final List<EventHandler> onList = new ArrayList<>();
     private final List<EventHandler> onceList = new ArrayList<>();
