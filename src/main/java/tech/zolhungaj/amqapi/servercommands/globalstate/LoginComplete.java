@@ -222,15 +222,12 @@ implements Command {
             Boolean optionActive,
             String optionName,
             Optional<PlayerGameState> gameState,
-            @Json(name = "status") int statusId
+            PlayerStatus status
     ){
         public FriendEntry{
             if (avatarProfileImage == null) avatarProfileImage = Optional.empty();
             if (profileEmoteId == null) profileEmoteId = Optional.empty();
             if (gameState == null) gameState = Optional.empty();
-        }
-        public PlayerStatus status(){
-            return PlayerStatus.forId(statusId);
         }
     }
 

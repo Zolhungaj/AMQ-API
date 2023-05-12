@@ -10,13 +10,9 @@ import java.util.Optional;
 
 public record FriendSocialStatusUpdate(
         String name,
-        @Json(name = "socialStatus") int statusId,
+        @Json(name = "socialStatus") PlayerStatus status,
         Optional<PlayerGameState> gameState
 ) implements Command {
-
-    public PlayerStatus status() {
-        return PlayerStatus.forId(statusId);
-    }
 
     @Override
     public String commandName() {

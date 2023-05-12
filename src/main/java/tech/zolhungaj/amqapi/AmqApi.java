@@ -5,6 +5,7 @@ import com.squareup.moshi.*;
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import tech.zolhungaj.amqapi.adapters.IntegerEnumJsonAdapter;
 import tech.zolhungaj.amqapi.client.Client;
 import tech.zolhungaj.amqapi.client.DummyClient;
 import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
@@ -19,6 +20,7 @@ import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.PlayerChangedToSpecta
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.PlayerReadyChange;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.SpectatorChangedToPlayer;
 import tech.zolhungaj.amqapi.servercommands.globalstate.*;
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
 import tech.zolhungaj.amqapi.servercommands.social.*;
 import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult;
 
@@ -47,6 +49,7 @@ public class AmqApi implements Runnable{
                     .withSubtype(TicketRollResult.ColorReward.class, "color")
                     .withSubtype(TicketRollResult.EmoteReward.class, "emote")
             )
+            .add(PlayerStatus.class, IntegerEnumJsonAdapter.create(PlayerStatus.class).withUnknownFallback(PlayerStatus.UNKNOWN))
             .build();
     private final List<EventHandler> onList = new ArrayList<>();
     private final List<EventHandler> onceList = new ArrayList<>();
