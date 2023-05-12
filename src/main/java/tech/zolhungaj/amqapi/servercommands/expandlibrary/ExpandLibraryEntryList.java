@@ -38,13 +38,16 @@ public record ExpandLibraryEntryList (
             @Json(name = "2")
             ENDING,
             @Json(name = "3")
-            INSERT
+            INSERT,
+            @Json(name = "0")
+            UNKNOWN
         }
         public String typeName(){
             return switch(songType){
                 case OPENING -> "OP" + number;
                 case ENDING -> "ED" + number;
                 case INSERT -> "IN";
+                case UNKNOWN -> "UNKNOWN " + number;
             };
         }
 
