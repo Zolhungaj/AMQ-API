@@ -1,36 +1,26 @@
 package tech.zolhungaj.amqapi.constants;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.squareup.moshi.Json;
+
 import java.util.TimeZone;
 
 public class AmqRanked {
-    public enum GAME_SERIES {
-        CENTRAL(1, "Central", 'C', TimeZone.getTimeZone("Europe/Copenhagen")),
-        WEST(2, "West", 'W', TimeZone.getTimeZone("America/Chicago")),
-        EAST(3, "East", 'E', TimeZone.getTimeZone("Asia/Tokyo")),
+    public enum RankedSeries {
+        @Json(name = "1")
+        CENTRAL("Central", 'C', TimeZone.getTimeZone("Europe/Copenhagen")),
+        @Json(name = "2")
+        WEST("West", 'W', TimeZone.getTimeZone("America/Chicago")),
+        @Json(name = "3")
+        EAST("East", 'E', TimeZone.getTimeZone("Asia/Tokyo")),
         ;
-        public final int id;
         public final String seriesName;
         public final Character symbol;
         public final TimeZone timeZone;
 
-        private static final Map<Integer, GAME_SERIES> ID_MAP = new HashMap<>();
-        static{
-            for(GAME_SERIES gs : GAME_SERIES.values()){
-                ID_MAP.put(gs.id, gs);
-            }
-        }
-
-        GAME_SERIES(int id, String seriesName, Character symbol, TimeZone timeZone){
-            this.id = id;
+        RankedSeries(String seriesName, Character symbol, TimeZone timeZone){
             this.seriesName = seriesName;
             this.symbol = symbol;
             this.timeZone = timeZone;
-        }
-
-        public static GAME_SERIES forId(int id){
-            return ID_MAP.get(id);
         }
     }
 
@@ -45,34 +35,29 @@ public class AmqRanked {
         }
     }
 
-    public enum RANKED_STATE {
-        OFFLINE(0, "Offline"),
-        LOBBY(1, "Lobby Up"),
-        RUNNING(2, "Playing"),
-        FINISHED(3, "Completed"),
-        CHAMP_OFFLINE(4, "Championship - Offline"),
-        CHAMP_LOBBY(5, "Championship - Lobby"),
-        CHAMP_RUNNING(6, "Championship - Playing"),
-        CHAMP_FINISHED(7, "Completed"),
-        BREAK_DAY(8, "Ranked Rest Day")
+    public enum RankedState {
+        @Json(name = "0")
+        OFFLINE("Offline"),
+        @Json(name = "1")
+        LOBBY("Lobby Up"),
+        @Json(name = "2")
+        RUNNING("Playing"),
+        @Json(name = "3")
+        FINISHED("Completed"),
+        @Json(name = "4")
+        CHAMP_OFFLINE("Championship - Offline"),
+        @Json(name = "5")
+        CHAMP_LOBBY("Championship - Lobby"),
+        @Json(name = "6")
+        CHAMP_RUNNING("Championship - Playing"),
+        @Json(name = "7")
+        CHAMP_FINISHED("Completed"),
+        @Json(name = "8")
+        BREAK_DAY("Ranked Rest Day")
         ;
-
-        private static final Map<Integer, RANKED_STATE> ID_MAP = new HashMap<>();
-        static{
-            for(RANKED_STATE rs : RANKED_STATE.values()){
-                ID_MAP.put(rs.id, rs);
-            }
-        }
-
-        public final int id;
         public final String message;
-        RANKED_STATE(int id, String message){
-            this.id = id;
+        RankedState(String message){
             this.message = message;
-        }
-
-        public static RANKED_STATE forId(int id){
-            return ID_MAP.get(id);
         }
     }
 }

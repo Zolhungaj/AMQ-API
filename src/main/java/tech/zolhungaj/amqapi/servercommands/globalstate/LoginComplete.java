@@ -239,17 +239,13 @@ implements Command {
 
     public record RankedState (
             ActiveRankedGameModes games,
-            @Json(name = "serieId") Optional<Integer> seriesId,
-            int state
+            @Json(name = "serieId")
+            Optional<AmqRanked.RankedSeries> rankedSeries,
+            @Json(name = "state")
+            AmqRanked.RankedState state
     ){
         public RankedState{
-            if (seriesId == null) seriesId = Optional.empty();
-        }
-        public AmqRanked.RANKED_STATE getRankedState(){
-            return AmqRanked.RANKED_STATE.forId(state);
-        }
-        public Optional<AmqRanked.GAME_SERIES> getRankedSeries(){
-            return seriesId.map(AmqRanked.GAME_SERIES::forId);
+            if (rankedSeries == null) rankedSeries = Optional.empty();
         }
     }
 

@@ -4,9 +4,7 @@ import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public record NewQuestEvents(
         @Json(name = "events")
@@ -18,32 +16,13 @@ public record NewQuestEvents(
     }
     public record EventsItem(
             @Json(name = "questEvent")
-            int questEventEnumId,
+            QuestEventState questEventState,
             Data data
-    ){
-        public QuestEventState questEventEnumValue(){
-            return QuestEventState.forId(questEventEnumId());
-        }
-    }
+    ){}
 
     public enum QuestEventState{
-        STATE_UPDATE(1);
-        public final int id;
-
-        private static final Map<Integer, QuestEventState> ID_MAP = new HashMap<>();
-        static{
-            for(QuestEventState qes : QuestEventState.values()){
-                ID_MAP.put(qes.id, qes);
-            }
-        }
-
-        QuestEventState(int id){
-            this.id = id;
-        }
-
-        public static QuestEventState forId(int id){
-            return ID_MAP.get(id);
-        }
+        @Json(name = "1")
+        STATE_UPDATE()
     }
     public record Data(QuestState newState){}
 

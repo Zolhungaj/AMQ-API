@@ -11,6 +11,7 @@ import tech.zolhungaj.amqapi.client.DummyClient;
 import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
 import tech.zolhungaj.amqapi.clientcommands.DirectDataCommand;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
+import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.servercommands.*;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryList;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryUpdated;
@@ -49,7 +50,10 @@ public class AmqApi implements Runnable{
                     .withSubtype(TicketRollResult.ColorReward.class, "color")
                     .withSubtype(TicketRollResult.EmoteReward.class, "emote")
             )
-            .add(PlayerStatus.class, IntegerEnumJsonAdapter.create(PlayerStatus.class).withUnknownFallback(PlayerStatus.UNKNOWN))
+            .add(PlayerStatus.class, IntegerEnumJsonAdapter.create(PlayerStatus.class))
+            .add(NewQuestEvents.QuestEventState.class, IntegerEnumJsonAdapter.create(NewQuestEvents.QuestEventState.class))
+            .add(AmqRanked.RankedSeries.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedSeries.class))
+            .add(AmqRanked.RankedState.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedState.class))
             .build();
     private final List<EventHandler> onList = new ArrayList<>();
     private final List<EventHandler> onceList = new ArrayList<>();

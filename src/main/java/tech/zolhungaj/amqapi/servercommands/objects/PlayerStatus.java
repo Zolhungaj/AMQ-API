@@ -10,9 +10,7 @@ public enum PlayerStatus {
     @Json(name = "2")
     DO_NOT_DISTURB("Do Not Disturb"),
     @Json(name = "3")
-    AWAY("Away"),
-    @Json(name = "-1")
-    UNKNOWN("Unknown")
+    AWAY("Away")
     ;
     public final String text;
     PlayerStatus(String text){
