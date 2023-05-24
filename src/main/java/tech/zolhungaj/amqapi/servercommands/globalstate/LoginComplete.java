@@ -47,7 +47,7 @@ public record LoginComplete(
         List<EmoteGroup> emoteGroups,
         int tickets,
         @Json(name = "top5Montly") List<AvatarDriveContribution> top5Monthly,
-        List<ServerStatus> serverStatuses,
+        List<FileServerStatus> serverStatuses,
         Boolean topAdmin,
         Boolean useRomajiNames,
         int questTokenProgress,
@@ -258,11 +258,6 @@ implements Command {
     public record EmoteGroup (
             int orderNumber,
             List<Emote> emotes
-    ){}
-
-    public record ServerStatus (
-            String name,
-            Boolean online
     ){}
 
     public record AnimeTag (

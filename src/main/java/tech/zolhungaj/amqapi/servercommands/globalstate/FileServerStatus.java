@@ -4,10 +4,10 @@ import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 
-public record FileServerStateChange(
+public record FileServerStatus(
         @Json(name = "name")
         String serverName,
-        Boolean online
+        boolean online
         ) implements Command {
     @Override
     public String commandName() {

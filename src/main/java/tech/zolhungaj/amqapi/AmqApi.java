@@ -158,7 +158,7 @@ public class AmqApi implements Runnable{
                 case NEW_DONATION -> NewDonation.class;
                 case ALL_ONLINE_USERS -> AllOnlineUsers.class;
                 case ONLINE_USER_CHANGE -> OnlineUserChange.class;
-                case FILE_SERVER_STATE_CHANGE -> FileServerStateChange.class;
+                case FILE_SERVER_STATE_CHANGE -> FileServerStatus.class;
                 case SERVER_RESTART -> ServerRestartWarning.class;
                 case NEW_QUEST_EVENTS -> NewQuestEvents.class;
                 case PLAYER_READY_CHANGE -> PlayerReadyChange.class;
