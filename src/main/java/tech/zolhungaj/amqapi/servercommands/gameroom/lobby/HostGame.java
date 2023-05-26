@@ -6,7 +6,6 @@ import java.util.Map;
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.gameroom.NewPlayer;
 import tech.zolhungaj.amqapi.servercommands.gameroom.SpectatorJoined;
 import tech.zolhungaj.amqapi.sharedobjects.gamesettings.GameSettings;
 

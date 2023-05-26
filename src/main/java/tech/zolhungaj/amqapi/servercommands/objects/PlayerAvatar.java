@@ -15,7 +15,8 @@ public record PlayerAvatar(
             String avatarName,
             String outfitName,
             String colorName,
-            @Json(name = "backgroundFileName") String backgroundFilename,
+            @Json(name = "backgroundFileName")
+            String backgroundFilename,
             Boolean colorActive,
             Optional<String> editor,
             int sizeModifier,
@@ -30,8 +31,10 @@ public record PlayerAvatar(
             int colorId,
             String avatarName,
             String outfitName,
-            String backgroundHori,
-            String backgroundVert
+            @Json(name = "backgroundHori")
+            String backgroundHorizontal,
+            @Json(name = "backgroundVert")
+            String backgroundVertical
     ) {
     }
 }

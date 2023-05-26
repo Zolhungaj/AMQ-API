@@ -106,6 +106,7 @@ public enum CommandType {
     PLAYER_READY_CHANGE("Player Ready Change"),
     NEW_PLAYER("New Player"),
     HOST_GAME("Host Game"),
+    GAME_STARTING("Game Starting"),
     AVATAR_CHANGE("avatar change");
     public final String commandName;
 

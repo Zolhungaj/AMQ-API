@@ -1,5 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.objects;
 
+import com.squareup.moshi.Json;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +14,8 @@ public record StoreAvatar(
         Boolean limited,
         String artist,
         String badgeName,
-        String backgroundVert,
+        @Json(name = "backgroundVert")
+        String backgroundVertical,
         Boolean active,
         List<AvatarColor> colors,
         int defaultColorId,
@@ -34,7 +37,8 @@ public record StoreAvatar(
             Boolean limited,
             int colorId,
             Boolean active,
-            String backgroundVert,
+            @Json(name = "backgroundVert")
+            String backgroundVertical,
             Boolean defaultColor,
             Optional<Integer> tierId,
             int price,

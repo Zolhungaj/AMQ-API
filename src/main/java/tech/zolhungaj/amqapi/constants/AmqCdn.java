@@ -96,6 +96,11 @@ public final class AmqCdn {
             this.size = size;
         }
     }
+
+    public enum BackgroundOrientation {
+        LANDSCAPE,
+        PORTRAIT
+    }
     public static final int BACKGROUND_STORE_TILE_SIZE = BACKGROUND_SIZE.LARGE.size;
     public static final int BACKGROUND_STORE_PREVIEW_SIZE = BACKGROUND_SIZE.MEDIUM.size;
     public static final int BACKGROUND_ROOM_BROWSER_SIZE = BACKGROUND_SIZE.MEDIUM.size;
@@ -231,12 +236,16 @@ public final class AmqCdn {
     }
 
 
-    public static URI createAvatarBackgroundUrl(PlayerAvatar avatar, BACKGROUND_SIZE size){
-        return createAvatarBackgroundUrl(avatar.background().backgroundVert(), size);
+    public static URI createAvatarBackgroundUrl(PlayerAvatar avatar, BACKGROUND_SIZE size, BackgroundOrientation orientation){
+        String background = switch (orientation){
+            case LANDSCAPE -> avatar.background().backgroundHorizontal();
+            case PORTRAIT -> avatar.background().backgroundVertical();
+        };
+        return createAvatarBackgroundUrl(background, size);
     }
 
     public static URI createAvatarBackgroundUrl(StoreAvatar avatar, BACKGROUND_SIZE size){
-        return createAvatarBackgroundUrl(avatar.backgroundVert(), size);
+        return createAvatarBackgroundUrl(avatar.backgroundVertical(), size);
     }
 
     public static URI createAvatarBackgroundUrl(String filename, BACKGROUND_SIZE size){

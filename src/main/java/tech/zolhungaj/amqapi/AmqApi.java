@@ -16,10 +16,9 @@ import tech.zolhungaj.amqapi.servercommands.*;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryList;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryUpdated;
 import tech.zolhungaj.amqapi.servercommands.gameroom.*;
-import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.HostGame;
-import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.PlayerChangedToSpectator;
-import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.PlayerReadyChange;
-import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.SpectatorChangedToPlayer;
+import tech.zolhungaj.amqapi.servercommands.gameroom.game.GameStarting;
+import tech.zolhungaj.amqapi.servercommands.gameroom.game.PlayerRejoin;
+import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.*;
 import tech.zolhungaj.amqapi.servercommands.globalstate.*;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
 import tech.zolhungaj.amqapi.servercommands.social.*;
@@ -215,6 +214,7 @@ public class AmqApi implements Runnable{
                 case UNKNOWN_ERROR -> ServerUnknownError.class;
                 case RANKED_SCORE_UPDATE -> RankedScoreUpdate.class;
                 case TICKET_ROLL_RESULT -> TicketRollResult.class;
+                case GAME_STARTING -> GameStarting.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
