@@ -108,7 +108,8 @@ public enum CommandType {
     HOST_GAME("Host Game"),
     GAME_STARTING("Game Starting"),
     QUIZ_READY("quiz ready"),
-    AVATAR_CHANGE("avatar change");
+    AVATAR_CHANGE("avatar change"),
+    QUIZ_NEXT_VIDEO_INFO("quiz next video info");
     public final String commandName;
 
     private static final Map<String, CommandType> map = new HashMap<>();
