@@ -4,14 +4,13 @@ import com.squareup.moshi.Json;
 
 import java.time.OffsetDateTime;
 
-public class QuizIdentifier {
+public record QuizIdentifier(
+		@Json(name = "quizId")
+		String quizUuid,
+		@Json(name = "startTime")
+		OffsetDateTime startTime,
+		@Json(name = "roomName")
+		String roomName
+) {
 
-	@Json(name = "quizId")
-	private String quizUuid;
-
-	@Json(name = "startTime")
-	private OffsetDateTime startTime;
-
-	@Json(name = "roomName")
-	private String roomName;
 }

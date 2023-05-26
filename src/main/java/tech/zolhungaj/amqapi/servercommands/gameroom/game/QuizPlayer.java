@@ -3,9 +3,11 @@ package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
 
+import java.util.Optional;
+
 public record QuizPlayer(
 		@Json(name = "name")
-		String displayName,
+		String playerName,
 		@Json(name = "level")
 		int level,
 		@Json(name = "gamePlayerId")
@@ -16,28 +18,18 @@ public record QuizPlayer(
 		PlayerAvatar avatarInfo,
 		@Json(name = "inGame")
 		boolean inGame,
-		@Json(name = "positionSlot")
-		int positionSlot,
-		@Json(name = "teamPlayer") Object teamPlayer,
-		@Json(name = "teamNumber") Object teamNumber,
-		@Json(name = "hidden") Object hidden,
-		@Json(name = "slot") Object groupSlot,
-		Object maxHp,
-		Object hp,
-		Object shield,
-		Object abilityInfo,
-		Object buffs,
-		Object genreInfo,
-		@Json(name = "playerName")
-		Object playerNameForNexus, //???????
+		@Json(name = "teamPlayer") Optional<Boolean> teamPlayer,
+		@Json(name = "teamNumber") Optional<Integer> teamNumber,
 		@Json(name = "pose")
 		int pose,
-		@Json(name = "score") int score,
+		@Json(name = "score")
+		int score,
 		@Json(name = "teamCaptain")
-		Object teamCaptain,
+		Optional<Boolean> teamCaptain,
 		@Json(name = "multiChoiceActive")
-		boolean isMultiChoiceActive,
-		@Json(name = "position") Integer position
+		boolean hasMultiChoiceActive,
+		@Json(name = "position") int position,
+		@Json(name = "positionSlot") Optional<Integer> positionSlot
 ) {
 
 }
