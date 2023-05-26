@@ -4,6 +4,7 @@ import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.QuizIdentifier;
+import tech.zolhungaj.amqapi.servercommands.objects.QuizPlayer;
 
 import java.util.List;
 import java.util.Map;

@@ -18,6 +18,7 @@ import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryUpda
 import tech.zolhungaj.amqapi.servercommands.gameroom.*;
 import tech.zolhungaj.amqapi.servercommands.gameroom.game.GameStarting;
 import tech.zolhungaj.amqapi.servercommands.gameroom.game.PlayerRejoin;
+import tech.zolhungaj.amqapi.servercommands.gameroom.game.QuizReady;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.*;
 import tech.zolhungaj.amqapi.servercommands.globalstate.*;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
@@ -215,6 +216,7 @@ public class AmqApi implements Runnable{
                 case RANKED_SCORE_UPDATE -> RankedScoreUpdate.class;
                 case TICKET_ROLL_RESULT -> TicketRollResult.class;
                 case GAME_STARTING -> GameStarting.class;
+                case QUIZ_READY -> QuizReady.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,

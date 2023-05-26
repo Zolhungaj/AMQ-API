@@ -1,7 +1,6 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.game;
+package tech.zolhungaj.amqapi.servercommands.objects;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
 
 import java.util.Optional;
 
