@@ -16,10 +16,7 @@ import tech.zolhungaj.amqapi.servercommands.*;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryList;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryUpdated;
 import tech.zolhungaj.amqapi.servercommands.gameroom.*;
-import tech.zolhungaj.amqapi.servercommands.gameroom.game.GameStarting;
-import tech.zolhungaj.amqapi.servercommands.gameroom.game.NextVideoInfo;
-import tech.zolhungaj.amqapi.servercommands.gameroom.game.PlayerRejoin;
-import tech.zolhungaj.amqapi.servercommands.gameroom.game.QuizReady;
+import tech.zolhungaj.amqapi.servercommands.gameroom.game.*;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.*;
 import tech.zolhungaj.amqapi.servercommands.globalstate.*;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
@@ -219,6 +216,7 @@ public class AmqApi implements Runnable{
                 case GAME_STARTING -> GameStarting.class;
                 case QUIZ_READY -> QuizReady.class;
                 case QUIZ_NEXT_VIDEO_INFO -> NextVideoInfo.class;
+                case QUIZ_WAITING_BUFFERING -> WaitingForBuffering.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
