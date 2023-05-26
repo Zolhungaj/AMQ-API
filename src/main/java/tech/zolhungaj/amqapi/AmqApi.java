@@ -36,6 +36,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 @Slf4j
 public class AmqApi implements Runnable{
@@ -61,6 +63,8 @@ public class AmqApi implements Runnable{
             .build();
     private final List<EventHandler> onList = new ArrayList<>();
     private final List<EventHandler> onceList = new ArrayList<>();
+    private final Map<Class<? extends Command>, List<Consumer<? extends Command>>> onMap = new HashMap<>();
+    private final Map<Class<? extends Command>, List<Predicate<? extends Command>>> onceMap = new HashMap<>();
 
     private final String username;
 
@@ -92,11 +96,29 @@ public class AmqApi implements Runnable{
         }
     }
 
+    /**
+     * @deprecated
+     */
+    @Deprecated(since = "0.8.0", forRemoval = true)
     public void on(EventHandler event){
         this.onList.add(event);
     }
+    /**
+     * @deprecated
+     */
+    @Deprecated(since = "0.8.0", forRemoval = true)
     public void once(EventHandler event){
         this.onceList.add(event);
+    }
+
+    public <T extends Command> void on(Class<T> clazz, Consumer<T> consumer){
+        this.onMap.putIfAbsent(clazz, new ArrayList<>());
+        this.onMap.get(clazz).add(consumer);
+    }
+
+    public <T extends Command> void once(Class<T> clazz, Predicate<T> predicate){
+        this.onceMap.putIfAbsent(clazz, new ArrayList<>());
+        this.onceMap.get(clazz).add(predicate);
     }
 
     /** Trigger every EventHandler with the provided Command.
@@ -104,11 +126,30 @@ public class AmqApi implements Runnable{
      *
      * @param command the Command to be handled
      */
+    @SuppressWarnings("unchecked")
     public void handle(Command command){
         log.info("{}, {}, {}", command, command.getClass(), command.commandName());
-
         onList
                 .forEach(c -> c.call(command));
+        if(onMap.containsKey(command.getClass())){
+            List<Consumer<? extends Command>> consumers = onMap.get(command.getClass());
+            for(Consumer<? extends Command> consumer : consumers){
+                Consumer<Command> wayBetterConsumer = (Consumer<Command>) consumer;
+                wayBetterConsumer.accept(command);
+            }
+        }
+        if(onceMap.containsKey(command.getClass())){
+            List<Predicate<? extends Command>> predicates = onceMap.get(command.getClass());
+            Iterator<Predicate<? extends Command>> iterator = predicates.iterator();
+            while(iterator.hasNext()){
+                Predicate<? extends Command> predicate = iterator.next();
+                Predicate<Command> wayBetterPredicate = (Predicate<Command>) predicate;
+                boolean result = wayBetterPredicate.test(command);
+                if(result){
+                    iterator.remove();
+                }
+            }
+        }
         onceList.removeIf(eventHandler -> eventHandler.call(command));
     }
 

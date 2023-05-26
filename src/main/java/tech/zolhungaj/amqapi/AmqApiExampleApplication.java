@@ -8,12 +8,16 @@ import tech.zolhungaj.amqapi.clientcommands.social.GetProfile;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
 import tech.zolhungaj.amqapi.servercommands.NotStartedCommand;
+import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatMessage;
+import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatUpdate;
 import tech.zolhungaj.amqapi.sharedobjects.gamesettings.GameSettings;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 @Slf4j
 public class AmqApiExampleApplication {
@@ -64,7 +68,25 @@ public class AmqApiExampleApplication {
 			}
 			return true;
 		});
-
+		Consumer<GameChatMessage> gcmConsumer = message -> {
+			if(!message.sender().equals(username)){
+				api.sendCommand(new SendPublicChatMessage("Yo"));
+			}
+			log.info("{}", message);
+		};
+		Consumer<GameChatUpdate> gcuConsumer = message -> message.messages().forEach(gcmConsumer);
+		api.on(GameChatMessage.class, gcmConsumer);
+		api.on(GameChatUpdate.class, gcuConsumer);
+		Predicate<GameChatMessage> gcmPredicate = message -> {
+			if(message.message().equals("Predicate")){
+				api.sendCommand(new SendPublicChatMessage("Predicates work"));
+				return true;
+			}
+			return false;
+		};
+		Predicate<GameChatUpdate> gcuPredicate = message -> message.messages().stream().anyMatch(gcmPredicate);
+		api.once(GameChatMessage.class, gcmPredicate);
+		api.once(GameChatUpdate.class, gcuPredicate);
 		SendPublicChatMessage message = new SendPublicChatMessage("Hello World");
 		Kick kick = new Kick("Zolhungaj");
 		log.info("{}", message);
