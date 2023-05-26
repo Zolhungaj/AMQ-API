@@ -217,6 +217,7 @@ public class AmqApi implements Runnable{
                 case QUIZ_READY -> QuizReady.class;
                 case QUIZ_NEXT_VIDEO_INFO -> NextVideoInfo.class;
                 case QUIZ_WAITING_BUFFERING -> WaitingForBuffering.class;
+                case PLAY_NEXT_SONG -> PlayNextSong.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,

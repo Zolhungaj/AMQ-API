@@ -110,7 +110,8 @@ public enum CommandType {
     QUIZ_READY("quiz ready"),
     AVATAR_CHANGE("avatar change"),
     QUIZ_NEXT_VIDEO_INFO("quiz next video info"),
-    QUIZ_WAITING_BUFFERING("quiz waiting buffering");
+    QUIZ_WAITING_BUFFERING("quiz waiting buffering"),
+    PLAY_NEXT_SONG("play next song");
     public final String commandName;
 
     private static final Map<String, CommandType> map = new HashMap<>();
