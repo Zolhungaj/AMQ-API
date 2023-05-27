@@ -403,7 +403,7 @@ public class AmqApi implements Runnable{
     }
 
     private static class CustomOffsetDateTimeAdapter extends JsonAdapter<OffsetDateTime> {
-        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_INSTANT;
+        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         @Override
         @FromJson
         public OffsetDateTime fromJson(JsonReader reader) throws IOException {
