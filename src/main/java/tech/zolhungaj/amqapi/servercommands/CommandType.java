@@ -112,7 +112,8 @@ public enum CommandType {
     QUIZ_NEXT_VIDEO_INFO("quiz next video info"),
     QUIZ_WAITING_BUFFERING("quiz waiting buffering"),
     PLAY_NEXT_SONG("play next song"),
-    QUIZ_SKIP_MESSAGE("quiz skip message");
+    QUIZ_SKIP_MESSAGE("quiz skip message"),
+    GUESS_PHASE_OVER("guess phase over");
     public final String commandName;
 
     private static final Map<String, CommandType> map = new HashMap<>();
