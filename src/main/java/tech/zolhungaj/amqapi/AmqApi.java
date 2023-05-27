@@ -210,7 +210,7 @@ public class AmqApi implements Runnable{
                 case PLAYER_READY_CHANGE -> PlayerReadyChange.class;
                 case NEW_PLAYER -> NewPlayer.class;
                 case AVATAR_DRIVE_UPDATE -> AvatarDriveUpdate.class;
-                case HOST_GAME -> HostGame.class;
+                case HOST_GAME -> GameHosted.class;
                 case PLAYER_PROFILE -> PlayerProfile.class;
                 case AVATAR_CHANGE -> PlayerChangedAvatar.class;
                 case ALERT -> Alert.class;
@@ -232,6 +232,7 @@ public class AmqApi implements Runnable{
                 case SEND_FEEDBACK -> SongFeedbackRequest.class;
                 case PLAYER_ANSWERED -> PlayersAnswered.class;
                 case QUIZ_END_RESULT -> QuizEndResult.class;
+                case QUIZ_OVER -> QuizOver.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,

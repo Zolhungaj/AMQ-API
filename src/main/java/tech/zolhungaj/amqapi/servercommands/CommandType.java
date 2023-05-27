@@ -118,7 +118,8 @@ public enum CommandType {
     ANSWER_RESULTS("answer results"),
     SEND_FEEDBACK("send feedback"),
     PLAYER_ANSWERED("player answered"),
-    QUIZ_END_RESULT("quiz end result");
+    QUIZ_END_RESULT("quiz end result"),
+    QUIZ_OVER("quiz over");
     public final String commandName;
 
     private static final Map<String, CommandType> map = new HashMap<>();
