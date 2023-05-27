@@ -229,6 +229,7 @@ public class AmqApi implements Runnable{
                 case GUESS_PHASE_OVER -> GuessPhaseOver.class;
                 case PLAYER_ANSWERS -> AnswerReveal.class;
                 case ANSWER_RESULTS -> AnswerResults.class;
+                case SEND_FEEDBACK -> SongFeedbackRequest.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
