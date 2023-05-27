@@ -2,11 +2,9 @@ package tech.zolhungaj.amqapi.servercommands.objects;
 
 import com.squareup.moshi.Json;
 
-public class ProgressBarState{
+public record ProgressBarState(
+        @Json(name = "length") double totalLength,
+        @Json(name = "played") double currentPosition
+) {
 
-    @Json(name = "length")
-    private double totalLength;
-
-    @Json(name = "played")
-    private double currentPosition;
 }

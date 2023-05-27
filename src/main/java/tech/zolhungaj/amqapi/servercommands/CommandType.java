@@ -114,7 +114,8 @@ public enum CommandType {
     PLAY_NEXT_SONG("play next song"),
     QUIZ_SKIP_MESSAGE("quiz skip message"),
     GUESS_PHASE_OVER("guess phase over"),
-    PLAYER_ANSWERS("player answers");
+    PLAYER_ANSWERS("player answers"),
+    ANSWER_RESULTS("answer results");
     public final String commandName;
 
     private static final Map<String, CommandType> map = new HashMap<>();

@@ -1,5 +1,6 @@
 package tech.zolhungaj.amqapi.constants;
 
+import tech.zolhungaj.amqapi.servercommands.objects.AvatarPose;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
 import tech.zolhungaj.amqapi.servercommands.objects.StoreAvatar;
 import tech.zolhungaj.amqapi.servercommands.objects.Emote;
@@ -35,20 +36,7 @@ public final class AmqCdn {
             this.size = size;
         }
     }
-    public enum AVATAR_POSE {
-        BASIC(1, "Basic" + IMAGE_FILE_EXTENSION),
-        THINKING(2, "Thinking" + IMAGE_FILE_EXTENSION),
-        WAITING(3, "Waiting" + IMAGE_FILE_EXTENSION),
-        WRONG(4, "Wrong" + IMAGE_FILE_EXTENSION),
-        RIGHT(5, "Right" + IMAGE_FILE_EXTENSION),
-        CONFUSED(6, "Confused" + IMAGE_FILE_EXTENSION);
-        public final int id;
-        public final String filename;
-        AVATAR_POSE(int id, String filename){
-            this.id = id;
-            this.filename = filename;
-        }
-    }
+
     public enum AVATAR_HEAD_SIZE {
         SMALL(100),
         MEDIUM(150),
@@ -155,7 +143,7 @@ public final class AmqCdn {
 
 	public static final URI RHYTHM_ICON_PATH = TICKET_URL.resolve("30px").resolve("rhythm" + IMAGE_FILE_EXTENSION);
 
-    public static URI createAvatarUrl(PlayerAvatar avatar, boolean optionOn, AVATAR_SIZE size, AVATAR_POSE pose){
+    public static URI createAvatarUrl(PlayerAvatar avatar, boolean optionOn, AVATAR_SIZE size, AvatarPose pose){
         return createAvatarUrl(
                 avatar.avatar().avatarName(),
                 avatar.avatar().outfitName(),
@@ -166,7 +154,7 @@ public final class AmqCdn {
                 pose);
     }
 
-    public static URI createAvatarUrl(StoreAvatar avatar, boolean optionOn, AVATAR_SIZE size, AVATAR_POSE pose){
+    public static URI createAvatarUrl(StoreAvatar avatar, boolean optionOn, AVATAR_SIZE size, AvatarPose pose){
         return createAvatarUrl(
                 avatar.avatarName(),
                 avatar.outfitName(),
@@ -182,7 +170,7 @@ public final class AmqCdn {
                                       String color,
                                       boolean optionOn,
                                       AVATAR_SIZE size,
-                                      AVATAR_POSE pose){
+                                      AvatarPose pose){
         if(!optionOn){
             option = "No " + option;
         }
@@ -192,7 +180,18 @@ public final class AmqCdn {
                 .resolve(option)
                 .resolve(color)
                 .resolve(getSizePath(size.size))
-                .resolve(pose.filename);
+                .resolve(resolveAvatarPoseFilename(pose));
+    }
+
+    public static String resolveAvatarPoseFilename(AvatarPose pose){
+        return switch(pose){
+            case BASIC -> "Basic";
+            case THINKING -> "Thinking";
+            case WAITING -> "Waiting";
+            case WRONG -> "Wrong";
+            case RIGHT -> "Right";
+            case CONFUSED -> "Confused";
+        } + IMAGE_FILE_EXTENSION;
     }
 
     public static URI createAvatarHeadUrl(PlayerAvatar avatar, boolean optionOn, AVATAR_HEAD_SIZE size){

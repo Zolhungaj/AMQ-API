@@ -3,6 +3,7 @@ package tech.zolhungaj.amqapi.servercommands.expandlibrary;
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.objects.SongType;
 
 import java.util.List;
 import java.util.Map;
@@ -32,16 +33,6 @@ public record ExpandLibraryEntryList (
         @Json(name = "examples") Map<String, String> resolutionUrlMap,
         @Json(name = "versions") ExpandLibrarySongVersionEntry versionStatus
     ) {
-        public enum SongType{
-            @Json(name = "1")
-            OPENING,
-            @Json(name = "2")
-            ENDING,
-            @Json(name = "3")
-            INSERT,
-            @Json(name = "0")
-            UNKNOWN
-        }
         public String typeName(){
             return switch(songType){
                 case OPENING -> "OP" + number;

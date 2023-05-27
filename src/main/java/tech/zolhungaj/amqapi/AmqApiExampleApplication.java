@@ -3,6 +3,7 @@ package tech.zolhungaj.amqapi;
 import lombok.extern.slf4j.Slf4j;
 import tech.zolhungaj.amqapi.clientcommands.lobby.Kick;
 import tech.zolhungaj.amqapi.clientcommands.lobby.SendPublicChatMessage;
+import tech.zolhungaj.amqapi.clientcommands.lobby.StartGame;
 import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostRoom;
 import tech.zolhungaj.amqapi.clientcommands.social.GetProfile;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
@@ -11,6 +12,7 @@ import tech.zolhungaj.amqapi.servercommands.NotStartedCommand;
 import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatMessage;
 import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatUpdate;
 import tech.zolhungaj.amqapi.sharedobjects.gamesettings.GameSettings;
+import tech.zolhungaj.amqapi.sharedobjects.gamesettings.SongSelection;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -94,7 +96,14 @@ public class AmqApiExampleApplication {
 		Thread apiThread = new Thread(api);
 		apiThread.start();
 		Thread.sleep(5000);
-		api.sendCommand(new HostRoom(GameSettings.DEFAULT));
+		api.sendCommand(new HostRoom(
+				GameSettings.DEFAULT.toBuilder()
+						.songSelection(SongSelection.of(2, 1, 2, 5))
+						.numberOfSongs(5)
+						.build()
+		));
+		Thread.sleep(5000);
+		api.sendCommand(new StartGame());
 		Thread.sleep(10000);
 		api.sendCommand(message);
 		Thread.sleep(5000);

@@ -11,6 +11,9 @@ public record SpectatorLeft(
         Optional<String> newHost,
         @Json(name = "spectator") String playerName
 ) implements Command {
+    public SpectatorLeft{
+        if(newHost == null) newHost = Optional.empty();
+    }
     @Override
     public String commandName() {
         return CommandType.SPECTATOR_LEFT.commandName;

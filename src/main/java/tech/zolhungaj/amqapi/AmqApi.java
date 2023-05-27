@@ -19,7 +19,10 @@ import tech.zolhungaj.amqapi.servercommands.gameroom.*;
 import tech.zolhungaj.amqapi.servercommands.gameroom.game.*;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.*;
 import tech.zolhungaj.amqapi.servercommands.globalstate.*;
+import tech.zolhungaj.amqapi.servercommands.objects.AvatarPose;
+import tech.zolhungaj.amqapi.servercommands.objects.ListStatus;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
+import tech.zolhungaj.amqapi.servercommands.objects.SongType;
 import tech.zolhungaj.amqapi.servercommands.social.*;
 import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult;
 import tech.zolhungaj.amqapi.sharedobjects.AnimeList;
@@ -31,6 +34,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
@@ -45,6 +49,7 @@ public class AmqApi implements Runnable{
             .add(new CustomOptionalBooleanAdapter())
             .add(new CustomOptionalStringAdapter())
             .add(new CustomLocalDateAdapter())
+            .add(new CustomOffsetDateTimeAdapter())
             .add(new OptionalFactory())
             .add(PolymorphicJsonAdapterFactory.of(TicketRollResult.Reward.class, "rewardType")
                     .withSubtype(TicketRollResult.SkinReward.class, "avatar")
@@ -56,8 +61,10 @@ public class AmqApi implements Runnable{
             .add(AmqRanked.RankedSeries.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedSeries.class))
             .add(AmqRanked.RankedState.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedState.class))
             .add(ExpandLibraryEntryList.ExpandSongStatus.class, IntegerEnumJsonAdapter.create(ExpandLibraryEntryList.ExpandSongStatus.class).withUnknownFallback(ExpandLibraryEntryList.ExpandSongStatus.UNKNOWN))
-            .add(ExpandLibraryEntryList.ExpandLibrarySong.SongType.class, IntegerEnumJsonAdapter.create(ExpandLibraryEntryList.ExpandLibrarySong.SongType.class).withUnknownFallback(ExpandLibraryEntryList.ExpandLibrarySong.SongType.UNKNOWN))
+            .add(SongType.class, IntegerEnumJsonAdapter.create(SongType.class).withUnknownFallback(SongType.UNKNOWN))
             .add(AnimeList.class, IntegerEnumJsonAdapter.create(AnimeList.class))
+            .add(AvatarPose.class, IntegerEnumJsonAdapter.create(AvatarPose.class))
+            .add(ListStatus.class, IntegerEnumJsonAdapter.create(ListStatus.class))
             .build();
     private final List<EventHandler> onList = new ArrayList<>();
     private final List<EventHandler> onceList = new ArrayList<>();
@@ -221,6 +228,7 @@ public class AmqApi implements Runnable{
                 case QUIZ_SKIP_MESSAGE -> QuizSkipMessage.class;
                 case GUESS_PHASE_OVER -> GuessPhaseOver.class;
                 case PLAYER_ANSWERS -> AnswerReveal.class;
+                case ANSWER_RESULTS -> AnswerResults.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,
@@ -267,6 +275,7 @@ public class AmqApi implements Runnable{
             };
             return MOSHI.adapter(clazz).fromJson(dataAsString);
         } catch (IllegalArgumentException e){
+            log.error("",e);
             return new NotImplementedCommand(commandName, data);
         } catch(JsonDataException e){
             log.warn("Something went wrong", e);
@@ -385,6 +394,25 @@ public class AmqApi implements Runnable{
         @Override
         @ToJson
         public void toJson(JsonWriter writer, LocalDate value) throws IOException {
+            writer.value(FORMATTER.format(value));
+        }
+    }
+
+    private static class CustomOffsetDateTimeAdapter extends JsonAdapter<OffsetDateTime> {
+        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_INSTANT;
+        @Override
+        @FromJson
+        public OffsetDateTime fromJson(JsonReader reader) throws IOException {
+            if(reader.peek() == JsonReader.Token.STRING){
+                return OffsetDateTime.parse(reader.nextString(), FORMATTER);
+            }else{
+                throw new JsonDataException("Expected an String, but got a " + reader.peek().name());
+            }
+        }
+
+        @Override
+        @ToJson
+        public void toJson(JsonWriter writer, OffsetDateTime value) throws IOException {
             writer.value(FORMATTER.format(value));
         }
     }

@@ -20,7 +20,7 @@ public record QuizPlayer(
 		@Json(name = "teamPlayer") Optional<Boolean> teamPlayer,
 		@Json(name = "teamNumber") Optional<Integer> teamNumber,
 		@Json(name = "pose")
-		int pose,
+		AvatarPose pose,
 		@Json(name = "score")
 		int score,
 		@Json(name = "teamCaptain")
