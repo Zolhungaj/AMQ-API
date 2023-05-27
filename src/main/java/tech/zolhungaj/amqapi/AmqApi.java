@@ -230,6 +230,7 @@ public class AmqApi implements Runnable{
                 case PLAYER_ANSWERS -> AnswerReveal.class;
                 case ANSWER_RESULTS -> AnswerResults.class;
                 case SEND_FEEDBACK -> SongFeedbackRequest.class;
+                case PLAYER_ANSWERED -> PlayersAnswered.class;
                 case //TODO: implement each of these
                         BATTLE_ROYALE_READY,
                         BATTLE_ROYALE_BEGIN,

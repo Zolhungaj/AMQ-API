@@ -116,7 +116,8 @@ public enum CommandType {
     GUESS_PHASE_OVER("guess phase over"),
     PLAYER_ANSWERS("player answers"),
     ANSWER_RESULTS("answer results"),
-    SEND_FEEDBACK("send feedback");
+    SEND_FEEDBACK("send feedback"),
+    PLAYER_ANSWERED("player answered");
     public final String commandName;
 
     private static final Map<String, CommandType> map = new HashMap<>();
