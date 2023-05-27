@@ -79,6 +79,13 @@ public class Client implements AutoCloseable{
                     command,
                     wrapper
             );
+        }else if(jsonObject.optString("data") != null){
+            JSONObject wrapper = new JSONObject();
+            wrapper.put("string", jsonObject.getString("data"));
+            return new ServerCommand(
+                    command,
+                    wrapper
+            );
         }else{
             log.error("Unknown command format: {}", jsonObject);
             return new ServerCommand(
