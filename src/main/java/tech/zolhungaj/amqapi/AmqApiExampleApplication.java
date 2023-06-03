@@ -32,8 +32,7 @@ public class AmqApiExampleApplication {
 		String password = args[1];
 		boolean force = true;
 		var api = new AmqApi(username, password, force);
-
-		api.on(command -> {
+		api.onAllCommands(command -> {
 			var fileExtension = ".json";
 			if(command instanceof NotImplementedCommand notImplementedCommand) {
 				var path = Path.of("UNIMPLEMENTED-" + notImplementedCommand.commandName().replace(" ", "-") + fileExtension);
@@ -41,7 +40,7 @@ public class AmqApiExampleApplication {
 					Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 					Files.writeString(path, notImplementedCommand.data().toString(4), StandardOpenOption.APPEND);
 				}catch (IOException e){
-					return false;
+					log.error("UNIMPLEMENTED file write error", e);
 				}
 			}else if (command instanceof ErrorParsingCommand errorParsingCommand){
 				var path = Path.of("ERROR-" + errorParsingCommand.commandName().replace(" ", "-") + fileExtension);
@@ -52,7 +51,7 @@ public class AmqApiExampleApplication {
 					Files.writeString(path, "\n\n", StandardOpenOption.APPEND);
 					Files.writeString(path, errorParsingCommand.error().toString(), StandardOpenOption.APPEND);
 				}catch (IOException e){
-					return false;
+					log.error("ERROR file write error", e);
 				}
 			} else if (command instanceof NotStartedCommand notStartedCommand){
 				log.info("""
@@ -65,10 +64,9 @@ public class AmqApiExampleApplication {
 					Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 					Files.writeString(path, notStartedCommand.data().toString(4), StandardOpenOption.APPEND);
 				}catch (IOException e){
-					return false;
+					log.error("UNINITIATED file write error", e);
 				}
 			}
-			return true;
 		});
 		Consumer<GameChatMessage> gcmConsumer = message -> {
 			if(!message.sender().equals(username)){

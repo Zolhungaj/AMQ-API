@@ -66,10 +66,11 @@ public class AmqApi implements Runnable{
             .add(AvatarPose.class, IntegerEnumJsonAdapter.create(AvatarPose.class))
             .add(ListStatus.class, IntegerEnumJsonAdapter.create(ListStatus.class))
             .build();
-    private final List<EventHandler> onList = new ArrayList<>();
-    private final List<EventHandler> onceList = new ArrayList<>();
     private final Map<Class<? extends Command>, List<Consumer<? extends Command>>> onMap = new HashMap<>();
     private final Map<Class<? extends Command>, List<Predicate<? extends Command>>> onceMap = new HashMap<>();
+    private final Map<String, List<Consumer<JSONObject>>> interceptJsonMap = new HashMap<>();
+    private final List<Consumer<Command>> interceptCommandList = new ArrayList<>();
+    private final List<Consumer<JSONObject>> interceptJsonList = new ArrayList<>();
 
     private final String username;
 
@@ -101,21 +102,6 @@ public class AmqApi implements Runnable{
         }
     }
 
-    /**
-     * @deprecated
-     */
-    @Deprecated(since = "0.8.0", forRemoval = true)
-    public void on(EventHandler event){
-        this.onList.add(event);
-    }
-    /**
-     * @deprecated
-     */
-    @Deprecated(since = "0.8.0", forRemoval = true)
-    public void once(EventHandler event){
-        this.onceList.add(event);
-    }
-
     public <T extends Command> void on(Class<T> clazz, Consumer<T> consumer){
         this.onMap.putIfAbsent(clazz, new ArrayList<>());
         this.onMap.get(clazz).add(consumer);
@@ -126,6 +112,19 @@ public class AmqApi implements Runnable{
         this.onceMap.get(clazz).add(predicate);
     }
 
+    public void onJson(String command, Consumer<JSONObject> consumer){
+        this.interceptJsonMap.putIfAbsent(command, new ArrayList<>());
+        this.interceptJsonMap.get(command).add(consumer);
+    }
+
+    public void onAllJson(Consumer<JSONObject> consumer){
+        this.interceptJsonList.add(consumer);
+    }
+
+    public void onAllCommands(Consumer<Command> consumer){
+        this.interceptCommandList.add(consumer);
+    }
+
     /** Trigger every EventHandler with the provided Command.
      * Usage from outside this class is primarily intended to be for testing/debugging purposes.
      *
@@ -134,8 +133,7 @@ public class AmqApi implements Runnable{
     @SuppressWarnings("unchecked")
     public void handle(Command command){
         log.info("{}, {}, {}", command, command.getClass(), command.commandName());
-        onList
-                .forEach(c -> c.call(command));
+        interceptCommandList.forEach(c -> c.accept(command));
         if(onMap.containsKey(command.getClass())){
             List<Consumer<? extends Command>> consumers = onMap.get(command.getClass());
             for(Consumer<? extends Command> consumer : consumers){
@@ -155,12 +153,16 @@ public class AmqApi implements Runnable{
                 }
             }
         }
-        onceList.removeIf(eventHandler -> eventHandler.call(command));
     }
 
     private Command serverCommandToCommand(Client.ServerCommand serverCommand) throws IOException {
         String commandName = serverCommand.command();
         JSONObject data = serverCommand.data();
+        if(interceptJsonMap.containsKey(commandName)){
+            interceptJsonMap.get(commandName).forEach(consumer -> consumer.accept(data));
+        }
+        interceptJsonList.forEach(consumer -> consumer.accept(data));
+
         CommandType commandType = CommandType.forName(commandName);
         log.info("""
                 ServerCommand: {}
