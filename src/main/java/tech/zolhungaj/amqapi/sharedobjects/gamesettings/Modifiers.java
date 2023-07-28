@@ -36,7 +36,10 @@ public record Modifiers(
 
 		@JsonProperty("dubSongs")
 		@Json(name = "dubSongs")
-		boolean allowDubSongs
+		boolean allowDubSongs,
+		@JsonProperty("fullSongRange")
+		@Json(name = "fullSongRange")
+		boolean useFullSongRange
 
 
 ) {
@@ -48,10 +51,13 @@ public record Modifiers(
 		ALLOW_DUPLICATE_SHOWS,
 		ALLOW_REBROADCAST_SONGS,
 		ALLOW_DUB_SONGS,
+		USE_FULL_SONG_RANGE,
 		ALL
 	}
 
-	public static Modifiers DEFAULT = of(Modifier.ALL).without(Modifier.ALLOW_DUB_SONGS);
+	public static Modifiers DEFAULT = of(Modifier.ALL)
+			.without(Modifier.ALLOW_DUB_SONGS)
+			.without(Modifier.USE_FULL_SONG_RANGE);
 
 	public static Modifiers of(Modifier... modifiers){
 		return of(List.of(modifiers));
@@ -60,6 +66,7 @@ public record Modifiers(
 	public static Modifiers of(@NonNull Collection<Modifier> modifiers){
 		if(modifiers.contains(Modifier.ALL)){
 			return new Modifiers(
+					true,
 					true,
 					true,
 					true,
@@ -75,7 +82,8 @@ public record Modifiers(
 				modifiers.contains(Modifier.ALLOW_ROOM_QUEUING),
 				modifiers.contains(Modifier.ALLOW_DUPLICATE_SHOWS),
 				modifiers.contains(Modifier.ALLOW_REBROADCAST_SONGS),
-				modifiers.contains(Modifier.ALLOW_DUB_SONGS)
+				modifiers.contains(Modifier.ALLOW_DUB_SONGS),
+				modifiers.contains(Modifier.USE_FULL_SONG_RANGE)
 		);
 	}
 	public Modifiers with(Modifier... categories){
@@ -120,6 +128,9 @@ public record Modifiers(
 		}
 		if(allowDubSongs){
 			set.add(Modifier.ALLOW_DUB_SONGS);
+		}
+		if(useFullSongRange){
+			set.add(Modifier.USE_FULL_SONG_RANGE);
 		}
 		return set;
 	}
