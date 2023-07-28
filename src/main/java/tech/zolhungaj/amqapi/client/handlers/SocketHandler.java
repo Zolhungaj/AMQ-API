@@ -3,8 +3,6 @@ package tech.zolhungaj.amqapi.client.handlers;
 import io.socket.client.IO;
 import io.socket.client.Manager;
 import io.socket.client.Socket;
-import io.socket.engineio.client.transports.Polling;
-import io.socket.engineio.client.transports.WebSocket;
 import io.socket.parser.Packet;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -50,7 +48,7 @@ public class SocketHandler implements Closeable {
         socket.onAnyIncoming(args -> socketInfo("Incoming event:", args));
 
         socket.on("sessionId", args -> {
-            socketInfo("sessionId", args);
+            socketDebug("sessionId", args);
             Object sessionId = args[0];
             if(sessionId instanceof Integer i){
                 this.sessionId = i;
@@ -58,7 +56,7 @@ public class SocketHandler implements Closeable {
             }
         });
         socket.on(EVENT_COMMAND, args -> {
-            socketInfo(EVENT_COMMAND, args);
+            socketDebug(EVENT_COMMAND, args);
             if(args[0] instanceof JSONObject payload){
                 //object with two entries: "command" and "data"
                 addCommand(payload);
@@ -85,10 +83,10 @@ public class SocketHandler implements Closeable {
             socketInfo("reconnect failed", args);
             throw new SocketDisconnectedException("Unable to reconnect to the server");
         });
-        manager.on(Manager.EVENT_TRANSPORT, args -> socketInfo("transport", args));
+        manager.on(Manager.EVENT_TRANSPORT, args -> socketDebug("transport", args));
         manager.on(Manager.EVENT_CLOSE, args -> socketInfo("close", args));
         manager.on(Manager.EVENT_OPEN, args -> socketInfo("open", args));
-        manager.on(Manager.EVENT_PACKET, args -> socketInfo("packet", args));
+        manager.on(Manager.EVENT_PACKET, args -> socketDebug("packet", args));
 
         socket.connect();
     }
@@ -128,7 +126,18 @@ public class SocketHandler implements Closeable {
         if(log.isDebugEnabled()){
             log.debug(event);
             for(Object o : args){
-                log.debug("    {}", o);
+                if(o instanceof Packet<?> packet){
+                    log.debug("""
+                                 Packet:
+                                     type: {}
+                                     id: {}
+                                     nsp: {}
+                                     data: {}
+                                     attachments: {}
+                             """, packet.type, packet.id, packet.nsp, packet.data, packet.attachments);
+                }else{
+                    log.debug("    {}, {}", o, o.getClass());
+                }
             }
         }else{
             socketInfo(event, args);//replace later
@@ -139,18 +148,7 @@ public class SocketHandler implements Closeable {
         if(log.isInfoEnabled()){
             log.info(event);
             for(Object o : args){
-                if(o instanceof Packet<?> packet){
-                    log.info("""
-                                 Packet:
-                                     type: {}
-                                     id: {}
-                                     nsp: {}
-                                     data: {}
-                                     attachments: {}
-                             """, packet.type, packet.id, packet.nsp, packet.data, packet.attachments);
-                }else{
-                    log.info("    {}, {}", o, o.getClass());
-                }
+                log.info("    {}, {}", o, o.getClass());
             }
         }
     }
