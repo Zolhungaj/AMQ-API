@@ -1,7 +1,11 @@
 package tech.zolhungaj.amqapi.client.handlers;
 
 import io.socket.client.IO;
+import io.socket.client.Manager;
 import io.socket.client.Socket;
+import io.socket.engineio.client.transports.Polling;
+import io.socket.engineio.client.transports.WebSocket;
+import io.socket.parser.Packet;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import tech.zolhungaj.amqapi.client.exceptions.CommandBufferFullException;
@@ -11,6 +15,7 @@ import tech.zolhungaj.amqapi.client.exceptions.UncheckedInterruptedException;
 import java.io.Closeable;
 import java.net.URI;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -36,21 +41,24 @@ public class SocketHandler implements Closeable {
         options.reconnectionDelay = 1000;
         options.reconnectionDelayMax = 3000;
         options.query = "token=%s".formatted(token);
+        options.auth = Collections.singletonMap("token", token);
         this.socket = IO.socket(URI.create(SOCKET_URL +":%d".formatted(port)), options);
-        log.debug("Created socket {}", socket);
+        log.info("Created socket {}", socket);
     }
 
     public void connect(){
+        socket.onAnyIncoming(args -> socketInfo("Incoming event:", args));
 
         socket.on("sessionId", args -> {
-            socketDebug("sessionId", args);
+            socketInfo("sessionId", args);
             Object sessionId = args[0];
             if(sessionId instanceof Integer i){
                 this.sessionId = i;
+                log.info("Session id: {}", sessionId);
             }
         });
         socket.on(EVENT_COMMAND, args -> {
-            socketDebug(EVENT_COMMAND, args);
+            socketInfo(EVENT_COMMAND, args);
             if(args[0] instanceof JSONObject payload){
                 //object with two entries: "command" and "data"
                 addCommand(payload);
@@ -59,35 +67,28 @@ public class SocketHandler implements Closeable {
             }
         });
         socket.on(Socket.EVENT_CONNECT, args -> socketInfo("Connected!", args));
-        socket.on(Socket.EVENT_CONNECTING, args -> socketInfo("Connecting...", args));
-        socket.on(Socket.EVENT_CONNECT_TIMEOUT, args -> socketInfo("Connect timed out...", args));
         socket.on(Socket.EVENT_CONNECT_ERROR, args -> {
             socketInfo("Connection error", args);
             throw new SocketDisconnectedException("connect_error");
         });
-        socket.on(Socket.EVENT_PING, args -> socketDebug("ping", args));
-        socket.on(Socket.EVENT_PONG, args -> {
-            if(args[0] instanceof Long l) {
-                currentPing = l;
-            }
-            socketDebug("pong", args);
-        });
-
-        socket.on(Socket.EVENT_MESSAGE, args -> socketDebug("message", args));
-
         socket.on(Socket.EVENT_DISCONNECT, args -> socketInfo("Socket disconnected...", args));
-        socket.on(Socket.EVENT_RECONNECT_ERROR, args -> socketInfo("Reconnection error", args));
-        socket.on(Socket.EVENT_RECONNECT, args -> socketInfo("Successfully reconnected! " + this.sessionId, args));
-        socket.on(Socket.EVENT_RECONNECTING, args -> socketInfo("Reconnecting...", args));
-        socket.on(Socket.EVENT_RECONNECT_FAILED, args -> {
-            socketInfo("reconnect failed", args);
-            throw new SocketDisconnectedException("Unable to reconnect to the server");
-        });
-        socket.on(Socket.EVENT_RECONNECT_ATTEMPT, args -> socketInfo("Attempting to reconnect: " + this.sessionId, args));
-        socket.on(Socket.EVENT_ERROR, args -> {
+        Manager manager = socket.io();
+
+        manager.on(Manager.EVENT_ERROR, args -> {
             socketInfo("socket error", args);
             throw new SocketDisconnectedException("error");
         });
+        manager.on(Manager.EVENT_RECONNECT, args -> socketInfo("Successfully reconnected! " + this.sessionId, args));
+        manager.on(Manager.EVENT_RECONNECT_ATTEMPT, args -> socketInfo("Attempting to reconnect: " + this.sessionId, args));
+        manager.on(Manager.EVENT_RECONNECT_ERROR, args -> socketInfo("Reconnection error", args));
+        manager.on(Manager.EVENT_RECONNECT_FAILED, args -> {
+            socketInfo("reconnect failed", args);
+            throw new SocketDisconnectedException("Unable to reconnect to the server");
+        });
+        manager.on(Manager.EVENT_TRANSPORT, args -> socketInfo("transport", args));
+        manager.on(Manager.EVENT_CLOSE, args -> socketInfo("close", args));
+        manager.on(Manager.EVENT_OPEN, args -> socketInfo("open", args));
+        manager.on(Manager.EVENT_PACKET, args -> socketInfo("packet", args));
 
         socket.connect();
     }
@@ -138,7 +139,18 @@ public class SocketHandler implements Closeable {
         if(log.isInfoEnabled()){
             log.info(event);
             for(Object o : args){
-                log.info("    {}, {}", o, o.getClass());
+                if(o instanceof Packet<?> packet){
+                    log.info("""
+                                 Packet:
+                                     type: {}
+                                     id: {}
+                                     nsp: {}
+                                     data: {}
+                                     attachments: {}
+                             """, packet.type, packet.id, packet.nsp, packet.data, packet.attachments);
+                }else{
+                    log.info("    {}, {}", o, o.getClass());
+                }
             }
         }
     }
