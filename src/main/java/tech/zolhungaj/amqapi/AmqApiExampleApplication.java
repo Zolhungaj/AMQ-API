@@ -13,6 +13,7 @@ import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatMessage;
 import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatUpdate;
 import tech.zolhungaj.amqapi.sharedobjects.gamesettings.GameSettings;
 import tech.zolhungaj.amqapi.sharedobjects.gamesettings.SongSelection;
+import tech.zolhungaj.amqapi.sharedobjects.gamesettings.SongTypeSelection;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -97,6 +98,7 @@ public class AmqApiExampleApplication {
 		api.sendCommand(new HostRoom(
 				GameSettings.DEFAULT.toBuilder()
 						.songSelection(SongSelection.of(2, 1, 2, 5))
+						.songTypeSelection(SongTypeSelection.of(5, SongTypeSelection.SongType.ALL))
 						.numberOfSongs(5)
 						.build()
 		));
