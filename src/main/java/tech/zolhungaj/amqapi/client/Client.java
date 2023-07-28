@@ -55,10 +55,6 @@ public class Client implements AutoCloseable{
         }
     }
 
-    public long getCurrentPing(){
-        return socketHandler.getCurrentPing();
-    }
-
     public ServerCommand pollCommand(Duration duration) throws InterruptedException, TimeoutException {
         JSONObject jsonObject = socketHandler.pollCommand(duration);
         String command = jsonObject.getString("command");

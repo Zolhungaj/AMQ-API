@@ -27,7 +27,6 @@ public class SocketHandler implements Closeable {
 
 
     private final BlockingQueue<JSONObject> commandQueue = new ArrayBlockingQueue<>(500);
-    private Long currentPing = 0L;
 
     private final Socket socket;
     private int sessionId;
@@ -116,10 +115,6 @@ public class SocketHandler implements Closeable {
     public void sendCommand(JSONObject payload){
         socket.emit(EVENT_COMMAND, payload);
         log.debug("Sent command: {}", payload);
-    }
-
-    public long getCurrentPing(){
-        return currentPing;
     }
 
     private void socketDebug(String event, Object... args){

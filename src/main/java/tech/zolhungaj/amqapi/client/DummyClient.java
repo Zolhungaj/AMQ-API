@@ -15,8 +15,6 @@ public class DummyClient extends Client{
 
     Map<String, Map<String, Collection<Consumer<Object>>>> listeners = new HashMap<>();
 
-    private long currentPing = 42;
-
     @Override
     public void start(boolean forceConnect){
         throw new UnsupportedOperationException("Dummy Client should not be started");
@@ -53,14 +51,6 @@ public class DummyClient extends Client{
         consumers.forEach(consumer -> consumer.accept(data));
     }
 
-    public void setCurrentPing(long ping){
-        this.currentPing = ping;
-    }
-
-    @Override
-    public long getCurrentPing(){
-        return currentPing;
-    }
 
     @Override
     public ServerCommand pollCommand(Duration duration) {
