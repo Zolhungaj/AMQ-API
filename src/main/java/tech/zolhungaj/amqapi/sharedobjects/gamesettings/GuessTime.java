@@ -4,7 +4,7 @@ import java.util.List;
 
 public final class GuessTime extends StaticValueOrRandomRange{
 	public static final int DEFAULT_STANDARD_VALUE = 20;
-	public static final int MIN = 2;
+	public static final int MIN = 1;
 	public static final int MAX = 60;
 	public static final List<Integer> DEFAULT_RANDOM_RANGE = List.of(MIN,MAX);
 	public static final GuessTime DEFAULT = new GuessTime(DEFAULT_STANDARD_VALUE, DEFAULT_RANDOM_RANGE, false);
