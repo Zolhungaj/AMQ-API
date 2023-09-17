@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'tech.zolhungaj'
-version = '0.11.0'
+version = '0.11.1'
 sourceCompatibility = '17'
 
 configurations {

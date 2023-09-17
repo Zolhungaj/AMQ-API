@@ -68,30 +68,56 @@ public final class IntegerEnumJsonAdapter<T extends Enum<T>> extends JsonAdapter
 
     @Override
     public T fromJson(JsonReader reader) throws IOException {
+        String path = reader.getPath();
         if(reader.peek() == JsonReader.Token.NUMBER){
             int value = reader.nextInt();
             String valueAsString = String.valueOf(value);
             int index = options.strings().indexOf(valueAsString);
-            if (index != -1) return constants[index];
+            if (index != -1) {
+                return constants[index];
+            }
+            else if (useFallbackValue) {
+                return fallbackValue;
+            } else {
+                if(value == 0){
+                    //in this case 0 is not a valid value, so we return null
+                    //because Ege decided to use 0 as a falsy value, against better judgement
+                    return null;
+                }
+                throw new JsonDataException(
+                        "Expected one of "
+                                + Arrays.asList(nameStrings)
+                                + " but was "
+                                + value
+                                + " at path "
+                                + reader.getPath());
+            }
         }
-
-        String path = reader.getPath();
-        if (!useFallbackValue) {
-            String name = reader.nextString();
-            throw new JsonDataException(
-                    "Expected one of "
-                            + Arrays.asList(nameStrings)
-                            + " but was "
-                            + name
-                            + " at path "
-                            + path);
+        else if(reader.peek() == JsonReader.Token.BOOLEAN){
+            //in some rare cases we get false as a falsy value
+            boolean value = reader.nextBoolean();
+            if(!value){
+                throw new JsonDataException(
+                        "Expected boolean false but was true at path %s".formatted(path));
+            }
+            return null;
         }
-        if (reader.peek() != JsonReader.Token.NUMBER) {
+        else if (useFallbackValue){
+            reader.skipValue();
+            return fallbackValue;
+        }
+        else if (reader.peek() != JsonReader.Token.NUMBER) {
             throw new JsonDataException(
                     "Expected a number but was " + reader.peek() + " at path " + path);
         }
-        reader.skipValue();
-        return fallbackValue;
+        String name = reader.nextString();
+        throw new JsonDataException(
+                "Expected one of "
+                        + Arrays.asList(nameStrings)
+                        + " but was "
+                        + name
+                        + " at path "
+                        + path);
     }
 
     @Override
