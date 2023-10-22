@@ -1,6 +1,8 @@
 package tech.zolhungaj.amqapi.clientcommands.quiz;
 
-public final class StartReturnToLobbyVote implements QuizCommand {
+import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
+
+public final class StartReturnToLobbyVote implements QuizCommand, EmptyClientCommand {
     @Override
     public String command() {
         return "start return lobby vote";
