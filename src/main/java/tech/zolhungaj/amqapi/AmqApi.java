@@ -65,6 +65,7 @@ public class AmqApi implements Runnable{
             .add(AnimeList.class, IntegerEnumJsonAdapter.create(AnimeList.class))
             .add(AvatarPose.class, IntegerEnumJsonAdapter.create(AvatarPose.class))
             .add(ListStatus.class, IntegerEnumJsonAdapter.create(ListStatus.class))
+            .add(LoginComplete.QuestDescription.QuestStateWeekSlot.class, new LoginComplete.QuestDescription.QuestStateWeekSlotAdapter())
             .build();
     private final Map<Class<? extends Command>, List<Consumer<? extends Command>>> onMap = new HashMap<>();
     private final Map<Class<? extends Command>, List<Predicate<? extends Command>>> onceMap = new HashMap<>();

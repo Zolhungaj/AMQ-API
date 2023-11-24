@@ -142,12 +142,22 @@ public record GameSettings(
 
 	@JsonProperty("answeringMode")
 	@Json(name = "answeringMode")
-	int answeringMode
+	int answeringMode,
+	@JsonProperty("bossLives")
+	@Json(name = "bossLives")
+	int bossLives,
+	@JsonProperty("bossPowerUps")
+	@Json(name = "bossPowerUps")
+	int bossPowerUps,
+	@JsonProperty("bossMaxSongs")
+	@Json(name = "bossMaxSongs")
+	int bossMaxSongs
 ) {
 	public enum ScoreType{
 		COUNT(1),
 		SPEED(2),
-		LIVES(3);
+		LIVES(3),
+		BOSS(4);
 		public final int value;
 		ScoreType(int value){
 			this.value = value;
@@ -197,6 +207,9 @@ public record GameSettings(
 	public static int DEFAULT_ROOM_SIZE = 8;
 	public static int DEFAULT_TEAM_SIZE = 1;
 	public static int DEFAULT_LIVES = 5;
+	public static int DEFAULT_BOSS_LIVES = 3;
+	public static int DEFAULT_BOSS_POWER_UPS = 3;
+	public static int DEFAULT_BOSS_MAX_SONGS = 10;
 
 	public static GameSettings DEFAULT = builder()
 			.openingCategories(Categories.DEFAULT)
@@ -229,5 +242,8 @@ public record GameSettings(
 			.songDifficulty(SongDifficulty.DEFAULT)
 			.gameMode(GameMode.MULTIPLAYER.value)
 			.answeringMode(AnsweringMode.DEFAULT.value)
+			.bossLives(DEFAULT_BOSS_LIVES)
+			.bossPowerUps(DEFAULT_BOSS_POWER_UPS)
+			.bossMaxSongs(DEFAULT_BOSS_MAX_SONGS)
 			.build();
 }
