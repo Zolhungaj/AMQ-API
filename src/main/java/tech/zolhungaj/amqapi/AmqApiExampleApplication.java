@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import tech.zolhungaj.amqapi.clientcommands.lobby.Kick;
 import tech.zolhungaj.amqapi.clientcommands.lobby.SendPublicChatMessage;
 import tech.zolhungaj.amqapi.clientcommands.lobby.StartGame;
-import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostRoom;
+import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostMultiplayerRoom;
 import tech.zolhungaj.amqapi.clientcommands.social.GetProfile;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
@@ -95,7 +95,7 @@ public class AmqApiExampleApplication {
 		Thread apiThread = new Thread(api);
 		apiThread.start();
 		Thread.sleep(5000);
-		api.sendCommand(new HostRoom(
+		api.sendCommand(new HostMultiplayerRoom(
 				GameSettings.DEFAULT.toBuilder()
 						.songSelection(SongSelection.of(2, 1, 2, 5))
 						.songTypeSelection(SongTypeSelection.of(5, SongTypeSelection.SongType.ALL))

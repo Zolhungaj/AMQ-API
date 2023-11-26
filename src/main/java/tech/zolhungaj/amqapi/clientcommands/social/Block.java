@@ -1,10 +1,6 @@
 package tech.zolhungaj.amqapi.clientcommands.social;
 
-public record Block(
-        String target
-) implements SocialCommand{
-    @Override
-    public String command() {
-        return "block player";
-    }
-}
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
+
+@CommandName("block player")
+public record Block(String target) implements SocialCommand{}

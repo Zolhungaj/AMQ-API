@@ -1,10 +1,7 @@
 package tech.zolhungaj.amqapi.clientcommands.social;
 
-import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
+import tech.zolhungaj.amqapi.clientcommands.CommandGroup;
 
-public interface SocialCommand extends ClientCommand {
-    @Override
-    default String type() {
-        return "social";
-    }
+@CommandGroup("social")
+public interface SocialCommand {
 }

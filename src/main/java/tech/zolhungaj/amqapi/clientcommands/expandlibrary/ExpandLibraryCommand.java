@@ -1,10 +1,7 @@
 package tech.zolhungaj.amqapi.clientcommands.expandlibrary;
 
-import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
+import tech.zolhungaj.amqapi.clientcommands.CommandGroup;
 
-public sealed interface ExpandLibraryCommand extends ClientCommand permits StopListeningForChangesInExpandLibrary, LoadExpandLibraryAndStartListeningForChanges, SubmitToExpandLibrary {
-    @Override
-    default String type() {
-        return "library";
-    }
+@CommandGroup("library")
+public interface ExpandLibraryCommand {
 }

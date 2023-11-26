@@ -1,10 +1,6 @@
 package tech.zolhungaj.amqapi.clientcommands.social;
 
-public record OpenChat(
-        String target
-) implements SocialCommand{
-    @Override
-    public String command() {
-        return "opened chat";
-    }
-}
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
+
+@CommandName("opened chat")
+public record OpenChat(String target) implements SocialCommand{}

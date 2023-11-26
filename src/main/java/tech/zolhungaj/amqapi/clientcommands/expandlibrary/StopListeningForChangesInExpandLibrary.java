@@ -1,10 +1,9 @@
 package tech.zolhungaj.amqapi.clientcommands.expandlibrary;
 
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 
-public final class StopListeningForChangesInExpandLibrary implements EmptyClientCommand, ExpandLibraryCommand {
-    @Override
-    public String command() {
-        return "expandLibrary closed";
-    }
+@EmptyClientCommand
+@CommandName("expandLibrary closed")
+public final class StopListeningForChangesInExpandLibrary implements ExpandLibraryCommand {
 }
