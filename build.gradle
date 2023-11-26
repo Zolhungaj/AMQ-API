@@ -43,8 +43,8 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.14.1'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
 	implementation 'org.json:json:20230227'
-	implementation('com.squareup.moshi:moshi:1.14.0')
-	implementation 'com.squareup.moshi:moshi-adapters:1.14.0'
+	implementation('com.squareup.moshi:moshi:1.15.0')
+	implementation 'com.squareup.moshi:moshi-adapters:1.15.0'
 	implementation ('io.socket:socket.io-client:2.1.0') {
 		// excluding org.json because the one imported in socket-io has flaws
 		exclude group: 'org.json', module: 'json'
