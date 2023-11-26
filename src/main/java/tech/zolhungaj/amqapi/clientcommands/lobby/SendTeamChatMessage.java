@@ -1,12 +1,14 @@
 package tech.zolhungaj.amqapi.clientcommands.lobby;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
 
-@Builder
+@CommandName("game chat message")
 public record SendTeamChatMessage(
+        @JsonProperty("msg")
         String message
-) implements SendChatMessage {
-    @Override
+) implements LobbyCommand {
+    @JsonProperty("teamMessage")
     public boolean isTeamMessage() {
         return true;
     }

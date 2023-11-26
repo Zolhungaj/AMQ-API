@@ -3,14 +3,13 @@ package tech.zolhungaj.amqapi;
 
 import com.squareup.moshi.*;
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import tech.zolhungaj.amqapi.adapters.IntegerEnumJsonAdapter;
 import tech.zolhungaj.amqapi.client.Client;
 import tech.zolhungaj.amqapi.client.DummyClient;
-import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
-import tech.zolhungaj.amqapi.clientcommands.DirectDataCommand;
-import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
+import tech.zolhungaj.amqapi.clientcommands.*;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.servercommands.*;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryList;
@@ -30,8 +29,7 @@ import tech.zolhungaj.amqapi.sharedobjects.AnimeList;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -40,6 +38,8 @@ import java.util.*;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 public class AmqApi implements Runnable{
@@ -87,16 +87,78 @@ public class AmqApi implements Runnable{
         this.forceConnect = forceConnect;
     }
 
-    public void sendCommand(ClientCommand command){
-        if(command instanceof EmptyClientCommand){
-            this.client.sendCommand(command.type(), command.command(), null);
+    public void sendCommand(@NonNull @CommandGroup @CommandName Object command){
+        Class<?> clazz = command.getClass();
+        final String group;
+        if(clazz.isAnnotationPresent(CommandGroup.class)) {
+            group = clazz.getAnnotation(CommandGroup.class).value();
         }else{
-            if(command instanceof DirectDataCommand ddc){
-                this.client.sendCommand(command.type(), command.command(), ddc.data());
-            }else{
-                this.client.sendCommand(command.type(), command.command(), command);
+            Set<String> types = Stream.of(clazz.getInterfaces())
+                    .filter(c -> c.isAnnotationPresent(CommandGroup.class))
+                    .map(c -> c.getAnnotation(CommandGroup.class))
+                    .map(CommandGroup::value)
+                    .collect(Collectors.toSet());
+            if(types.isEmpty()){
+                throw new IllegalArgumentException("No CommandGroup annotation found on " + clazz + " or its interfaces");
+            }
+            if(types.size() > 1){
+                throw new IllegalArgumentException("Multiple CommandGroup annotations found on " + clazz + " or its interfaces");
+            }
+            group = types.iterator().next();
+        }
+        String commandName = clazz.getAnnotation(CommandName.class).value();
+
+        if(clazz.isAnnotationPresent(EmptyClientCommand.class)){
+            this.client.sendCommand(group, commandName, null);
+        }else if(clazz.isAnnotationPresent(DirectDataCommand.class)){
+            this.client.sendCommand(group, commandName, extractDirectData(command));
+        }else{
+            this.client.sendCommand(group, commandName, command);
+        }
+    }
+
+    private Object extractDirectData(@NonNull Object command){
+        Class<?> clazz = command.getClass();
+        DirectDataCommand ddc = clazz.getAnnotation(DirectDataCommand.class);
+        String fieldName = ddc.value();
+        RecordComponent[] recordComponents = clazz.getRecordComponents();
+        if(recordComponents != null){
+            for(RecordComponent recordComponent : recordComponents){
+                if(recordComponent.getName().equals(fieldName)){
+                    try{
+                        return recordComponent.getAccessor().invoke(command);
+                    }catch (IllegalAccessException | InvocationTargetException e){
+                        throw new IllegalArgumentException("Could not access record component " + fieldName + " in " + clazz,e);
+                    }
+                }
             }
         }
+        try{
+            String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+            Method method = clazz.getMethod(getterName);
+            return method.invoke(command);
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            throw new IllegalArgumentException("Could not access getter for " + fieldName + " in " + clazz,e);
+        } catch(NoSuchMethodException e){
+            //ignoring so we can try the other options
+        }
+        try{
+            Method method = clazz.getMethod(fieldName);
+            return method.invoke(command);
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            throw new IllegalArgumentException("Could not access method " + fieldName + " in " + clazz,e);
+        } catch(NoSuchMethodException e){
+            //ignoring so we can try the other options
+        }
+        try{
+            Field field = command.getClass().getDeclaredField(fieldName);
+            return field.get(command);
+        }catch (NoSuchFieldException e){
+            //ignoring so we can try the other options
+        }catch (IllegalAccessException e){
+            throw new IllegalArgumentException("Could not access field " + fieldName + " in " + clazz,e);
+        }
+        throw new IllegalArgumentException("Could not find field/component/method '" + fieldName + "' in " + clazz);
     }
 
     public <T extends Command> void on(Class<T> clazz, Consumer<T> consumer){

@@ -1,10 +1,7 @@
 package tech.zolhungaj.amqapi.clientcommands.quiz;
 
-import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
+import tech.zolhungaj.amqapi.clientcommands.CommandGroup;
 
-public sealed interface QuizCommand extends ClientCommand permits ContinueQuiz, PauseQuiz, StartReturnToLobbyVote {
-    @Override
-    default String type() {
-        return "quiz";
-    }
+@CommandGroup("quiz")
+public interface QuizCommand {
 }

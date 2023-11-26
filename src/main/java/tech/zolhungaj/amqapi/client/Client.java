@@ -33,7 +33,7 @@ public class Client implements AutoCloseable{
         log.info("Started Client!");
     }
 
-    public void sendCommand(String type, String command, Object data){
+    public void sendCommand(String group, String command, Object data){
         try{
             String dataString;
             if(data != null){
@@ -46,7 +46,7 @@ public class Client implements AutoCloseable{
             }
             String completeCommand = """
                                         {"type":"%s","command":"%s"%s}\
-                                        """.formatted(type, command, dataString);
+                                        """.formatted(group, command, dataString);
             var jsonObject = new JSONObject(completeCommand);
             socketHandler.sendCommand(jsonObject);
             log.info("Sent command: {}", jsonObject);

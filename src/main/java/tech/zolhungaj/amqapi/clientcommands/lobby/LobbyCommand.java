@@ -1,10 +1,7 @@
 package tech.zolhungaj.amqapi.clientcommands.lobby;
 
-import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
+import tech.zolhungaj.amqapi.clientcommands.CommandGroup;
 
-public sealed interface LobbyCommand extends ClientCommand permits ChangeRoomSettings, JoinQueue, JoinTeam, Kick, LeaveQueue, LeaveRoom, LeaveTeam, MarkSelfAsAfkAndSurrenderHostStatusToSomeoneElse, MovePlayerToSpectator, MoveSelfToPlayer, PromoteToHost, SendChatMessage, SetSelfReadyStatus, ShuffleTeams, StartGame {
-    @Override
-    default String type() {
-        return "lobby";
-    }
+@CommandGroup("lobby")
+public interface LobbyCommand {
 }

@@ -1,10 +1,6 @@
 package tech.zolhungaj.amqapi.clientcommands.social;
 
-public record ClearProfileShowcaseBadge(
-        int slotNumber
-) implements SocialCommand{
-    @Override
-    public String command() {
-        return "player profile clear badge";
-    }
-}
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
+
+@CommandName("player profile clear badge")
+public record ClearProfileShowcaseBadge(int slotNumber) implements SocialCommand{}

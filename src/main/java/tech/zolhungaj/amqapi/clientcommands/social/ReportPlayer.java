@@ -1,7 +1,9 @@
 package tech.zolhungaj.amqapi.clientcommands.social;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
 
+@CommandName("report player")
 public record ReportPlayer(
         String target,
         @JsonProperty("reportReason")
@@ -22,9 +24,5 @@ public record ReportPlayer(
     }
     public static ReportPlayer of(String target, String reason, ReportType reportType){
         return new ReportPlayer(target, reason, reportType.value);
-    }
-    @Override
-    public String command() {
-        return "report player";
     }
 }

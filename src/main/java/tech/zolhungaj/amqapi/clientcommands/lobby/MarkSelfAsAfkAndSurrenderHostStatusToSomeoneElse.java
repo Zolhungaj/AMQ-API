@@ -1,10 +1,9 @@
 package tech.zolhungaj.amqapi.clientcommands.lobby;
 
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 
-public final class MarkSelfAsAfkAndSurrenderHostStatusToSomeoneElse implements LobbyCommand, EmptyClientCommand {
-    @Override
-    public String command() {
-        return "host afk";
-    }
+@CommandName("host afk")
+@EmptyClientCommand
+public final class MarkSelfAsAfkAndSurrenderHostStatusToSomeoneElse implements LobbyCommand {
 }

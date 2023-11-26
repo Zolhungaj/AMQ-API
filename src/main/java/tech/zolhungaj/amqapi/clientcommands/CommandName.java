@@ -2,9 +2,9 @@ package tech.zolhungaj.amqapi.clientcommands;
 
 import java.lang.annotation.*;
 
-@Inherited
 @Documented
-@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EmptyClientCommand {
+@Target({ElementType.TYPE_USE, ElementType.TYPE})
+public @interface CommandName {
+    String value() default "";
 }

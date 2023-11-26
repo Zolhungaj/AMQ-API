@@ -1,10 +1,9 @@
 package tech.zolhungaj.amqapi.clientcommands.lobby;
 
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 
-public final class MoveSelfToPlayer implements LobbyCommand, EmptyClientCommand {
-    @Override
-    public String command() {
-        return "change to player";
-    }
+@EmptyClientCommand
+@CommandName("change to player")
+public final class MoveSelfToPlayer implements LobbyCommand {
 }

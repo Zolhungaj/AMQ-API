@@ -1,10 +1,8 @@
 package tech.zolhungaj.amqapi.clientcommands.lobby;
 
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
 import tech.zolhungaj.amqapi.clientcommands.EmptyClientCommand;
 
-public final class StartGame implements LobbyCommand, EmptyClientCommand {
-    @Override
-    public String command() {
-        return "start game";
-    }
-}
+@EmptyClientCommand
+@CommandName("start game")
+public final class StartGame implements LobbyCommand {}

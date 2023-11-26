@@ -1,7 +1,9 @@
 package tech.zolhungaj.amqapi.clientcommands.social;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
 
+@CommandName("player profile toggle hide")
 public record ToggleProfileFieldVisibility(
         @JsonProperty("fieldName")
         String field
@@ -18,9 +20,5 @@ public record ToggleProfileFieldVisibility(
     }
     public static ToggleProfileFieldVisibility of(FieldName field){
         return new ToggleProfileFieldVisibility(field.value);
-    }
-    @Override
-    public String command() {
-        return "player profile toggle hide";
     }
 }

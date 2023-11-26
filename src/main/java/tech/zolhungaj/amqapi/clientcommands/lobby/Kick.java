@@ -1,10 +1,7 @@
 package tech.zolhungaj.amqapi.clientcommands.lobby;
 
 import lombok.NonNull;
+import tech.zolhungaj.amqapi.clientcommands.CommandName;
 
-public record Kick(@NonNull String playerName) implements LobbyCommand {
-    @Override
-    public String command() {
-        return "kick player";
-    }
-}
+@CommandName("kick player")
+public record Kick(@NonNull String playerName) implements LobbyCommand {}

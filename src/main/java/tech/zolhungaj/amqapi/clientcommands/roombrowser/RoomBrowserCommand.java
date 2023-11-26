@@ -1,10 +1,6 @@
 package tech.zolhungaj.amqapi.clientcommands.roombrowser;
 
-import tech.zolhungaj.amqapi.clientcommands.ClientCommand;
+import tech.zolhungaj.amqapi.clientcommands.CommandGroup;
 
-public sealed interface RoomBrowserCommand extends ClientCommand permits HostRoom {
-    @Override
-    default String type() {
-        return "roombrowser";
-    }
-}
+@CommandGroup("roombrowser")
+public interface RoomBrowserCommand {}
