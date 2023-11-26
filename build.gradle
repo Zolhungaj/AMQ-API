@@ -5,7 +5,10 @@ plugins {
 
 group = 'tech.zolhungaj'
 version = '0.14.0'
-sourceCompatibility = '17'
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+}
 
 configurations {
 	compileOnly {
