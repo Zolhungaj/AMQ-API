@@ -1,11 +1,11 @@
 package tech.zolhungaj.amqapi.servercommands.expandlibrary;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 
 import java.util.Optional;
 
+@CommandType("expandLibrary song answered")
 public record ExpandLibraryEntryUpdated(
 	int annId,
 	int annSongId,
@@ -13,9 +13,4 @@ public record ExpandLibraryEntryUpdated(
 	int resolution,
 	@Json(name = "animeStillAvaliable") Boolean animeStillAvailable,
 	@Json(name = "songStillAvaliable") Optional<Boolean> songStillAvailable
-) implements Command {
-	@Override
-	public String commandName() {
-		return CommandTypeOld.EXPAND_LIBRARY_UPDATE.commandName;
-	}
-}
+) {}

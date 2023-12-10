@@ -1,10 +1,10 @@
 package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.VideoInfo;
 
+@CommandType("quiz next video info")
 public record NextVideoInfo(
         @Json(name = "playbackSpeed")
         double playbackSpeed,
@@ -14,10 +14,4 @@ public record NextVideoInfo(
         VideoInfo videoInfo,
         @Json(name = "playLength")
         int playLength
-) implements Command {
-
-        @Override
-        public String commandName() {
-            return CommandTypeOld.QUIZ_NEXT_VIDEO_INFO.commandName;
-        }
-}
+){}

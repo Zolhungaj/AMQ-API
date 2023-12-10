@@ -1,24 +1,19 @@
 package tech.zolhungaj.amqapi.servercommands.expandlibrary;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.SongType;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@CommandType("expandLibrary questions")
 public record ExpandLibraryEntryList (
         Boolean success,
         String issue,
         @Json(name = "questions") List<ExpandLibraryEntry> entries
-) implements Command {
-    @Override
-    public String commandName() {
-        return CommandTypeOld.EXPAND_LIBRARY_ENTRIES.commandName;
-    }
-
+){
     public record ExpandLibraryEntry (
             @Json(name = "name") String animeName,
             @Json(name = "annId") int animeNewsNetworkId,
