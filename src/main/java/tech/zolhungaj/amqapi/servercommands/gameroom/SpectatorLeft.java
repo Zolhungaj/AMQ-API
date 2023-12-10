@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.gameroom;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 import java.util.Optional;
 
@@ -16,6 +16,6 @@ public record SpectatorLeft(
     }
     @Override
     public String commandName() {
-        return CommandType.SPECTATOR_LEFT.commandName;
+        return CommandTypeOld.SPECTATOR_LEFT.commandName;
     }
 }

@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveContributionCombo;
 import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveNomination;
 
@@ -13,6 +13,6 @@ public record AvatarDriveUpdate(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.AVATAR_DRIVE_UPDATE.commandName;
+        return CommandTypeOld.AVATAR_DRIVE_UPDATE.commandName;
     }
 }

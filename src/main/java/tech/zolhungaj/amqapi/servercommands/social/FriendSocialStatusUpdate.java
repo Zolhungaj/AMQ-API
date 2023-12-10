@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.social;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerGameState;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
 
@@ -16,6 +16,6 @@ public record FriendSocialStatusUpdate(
 
     @Override
     public String commandName() {
-        return CommandType.FRIEND_SOCIAL_STATUS_UPDATE.commandName;
+        return CommandTypeOld.FRIEND_SOCIAL_STATUS_UPDATE.commandName;
     }
 }

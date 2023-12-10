@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.JsonWriter;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.*;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.constants.Emojis;
@@ -103,7 +103,7 @@ implements Command {
 
     @Override
     public String commandName() {
-        return CommandType.LOGIN_COMPLETE.commandName;
+        return CommandTypeOld.LOGIN_COMPLETE.commandName;
     }
 
     public record QuestDescription(

@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerAnswerResult;
 import tech.zolhungaj.amqapi.servercommands.objects.ProgressBarState;
 import tech.zolhungaj.amqapi.servercommands.objects.SongInfo;
@@ -25,6 +25,6 @@ public record AnswerResults(
 
         @Override
         public String commandName() {
-            return CommandType.ANSWER_RESULTS.commandName;
+            return CommandTypeOld.ANSWER_RESULTS.commandName;
         }
 }

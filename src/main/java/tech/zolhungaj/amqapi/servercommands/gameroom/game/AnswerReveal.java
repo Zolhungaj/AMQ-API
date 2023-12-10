@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerAnswer;
 import tech.zolhungaj.amqapi.servercommands.objects.ProgressBarState;
 
@@ -16,6 +16,6 @@ public record AnswerReveal(
 
     @Override
     public String commandName() {
-        return CommandType.PLAYER_ANSWERS.commandName;
+        return CommandTypeOld.PLAYER_ANSWERS.commandName;
     }
 }

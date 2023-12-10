@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 public record ServerRestartWarning(
         @Json(name = "msg")
@@ -12,6 +12,6 @@ public record ServerRestartWarning(
         ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.SERVER_RESTART.commandName;
+        return CommandTypeOld.SERVER_RESTART.commandName;
     }
 }

@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerEndResult;
 import tech.zolhungaj.amqapi.servercommands.objects.ProgressBarState;
 
@@ -13,6 +13,6 @@ public record QuizEndResult(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.QUIZ_END_RESULT.commandName;
+        return CommandTypeOld.QUIZ_END_RESULT.commandName;
     }
 }

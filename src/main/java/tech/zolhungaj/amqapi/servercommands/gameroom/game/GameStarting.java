@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.QuizIdentifier;
 import tech.zolhungaj.amqapi.servercommands.objects.QuizPlayer;
 
@@ -26,6 +26,6 @@ public record GameStarting(
 
     @Override
     public String commandName() {
-        return CommandType.GAME_STARTING.commandName;
+        return CommandTypeOld.GAME_STARTING.commandName;
     }
 }

@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.RankedLeaderboardEntry;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 
@@ -15,6 +15,6 @@ public record RankedLeaderboardUpdate(
 
     @Override
     public String commandName() {
-        return CommandType.RANKED_LEADERBOARD_UPDATE.commandName;
+        return CommandTypeOld.RANKED_LEADERBOARD_UPDATE.commandName;
     }
 }

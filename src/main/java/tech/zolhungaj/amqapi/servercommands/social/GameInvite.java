@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.social;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 public record GameInvite(
         int gameId,
@@ -10,6 +10,6 @@ public record GameInvite(
 
     @Override
     public String commandName() {
-        return CommandType.GAME_INVITE.commandName;
+        return CommandTypeOld.GAME_INVITE.commandName;
     }
 }

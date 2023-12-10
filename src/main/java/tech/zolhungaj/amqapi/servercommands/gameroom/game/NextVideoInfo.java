@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.VideoInfo;
 
 public record NextVideoInfo(
@@ -18,6 +18,6 @@ public record NextVideoInfo(
 
         @Override
         public String commandName() {
-            return CommandType.QUIZ_NEXT_VIDEO_INFO.commandName;
+            return CommandTypeOld.QUIZ_NEXT_VIDEO_INFO.commandName;
         }
 }

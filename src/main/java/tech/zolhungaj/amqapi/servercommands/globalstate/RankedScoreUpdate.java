@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ public record RankedScoreUpdate(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.RANKED_SCORE_UPDATE.commandName;
+        return CommandTypeOld.RANKED_SCORE_UPDATE.commandName;
     }
     public record RankedState(
             int rank,

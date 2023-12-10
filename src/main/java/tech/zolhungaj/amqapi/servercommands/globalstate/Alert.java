@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 public record Alert(
         String title,
@@ -12,6 +12,6 @@ public record Alert(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.ALERT.commandName;
+        return CommandTypeOld.ALERT.commandName;
     }
 }

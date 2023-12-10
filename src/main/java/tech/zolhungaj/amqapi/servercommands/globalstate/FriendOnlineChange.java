@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 public record FriendOnlineChange (
         @Json(name = "name") String playerName,
@@ -10,6 +10,6 @@ public record FriendOnlineChange (
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.FRIEND_STATE_UPDATE.commandName;
+        return CommandTypeOld.FRIEND_STATE_UPDATE.commandName;
     }
 }

@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.expandlibrary;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.SongType;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public record ExpandLibraryEntryList (
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.EXPAND_LIBRARY_ENTRIES.commandName;
+        return CommandTypeOld.EXPAND_LIBRARY_ENTRIES.commandName;
     }
 
     public record ExpandLibraryEntry (

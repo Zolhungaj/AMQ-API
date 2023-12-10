@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public record NewQuestEvents(
         ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.NEW_QUEST_EVENTS.commandName;
+        return CommandTypeOld.NEW_QUEST_EVENTS.commandName;
     }
     public record EventsItem(
             @Json(name = "questEvent")

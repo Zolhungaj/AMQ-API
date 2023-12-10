@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerGameState;
 
 public record FriendAdded(
@@ -13,6 +13,6 @@ public record FriendAdded(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.NEW_FRIEND.commandName;
+        return CommandTypeOld.NEW_FRIEND.commandName;
     }
 }

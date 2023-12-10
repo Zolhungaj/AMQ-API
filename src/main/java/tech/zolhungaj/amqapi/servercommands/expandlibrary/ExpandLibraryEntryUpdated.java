@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.expandlibrary;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 import java.util.Optional;
 
@@ -16,6 +16,6 @@ public record ExpandLibraryEntryUpdated(
 ) implements Command {
 	@Override
 	public String commandName() {
-		return CommandType.EXPAND_LIBRARY_UPDATE.commandName;
+		return CommandTypeOld.EXPAND_LIBRARY_UPDATE.commandName;
 	}
 }

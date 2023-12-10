@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.gameroom;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.messages.Badge;
 import tech.zolhungaj.amqapi.servercommands.objects.messages.MessageEmoji;
 
@@ -22,6 +22,6 @@ public record GameChatMessage(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.SINGLE_CHAT_MESSAGE.commandName;
+        return CommandTypeOld.SINGLE_CHAT_MESSAGE.commandName;
     }
 }

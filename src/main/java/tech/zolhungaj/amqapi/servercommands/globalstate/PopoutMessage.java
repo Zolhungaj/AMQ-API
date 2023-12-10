@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 public record PopoutMessage(
 	String header,
@@ -9,6 +9,6 @@ public record PopoutMessage(
 )  implements Command {
 	@Override
 	public String commandName() {
-		return CommandType.POPOUT_MESSAGE.commandName;
+		return CommandTypeOld.POPOUT_MESSAGE.commandName;
 	}
 }

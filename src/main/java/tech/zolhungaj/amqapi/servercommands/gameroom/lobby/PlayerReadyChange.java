@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 public record PlayerReadyChange(
         Boolean ready,
@@ -9,6 +9,6 @@ public record PlayerReadyChange(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.PLAYER_READY_CHANGE.commandName;
+        return CommandTypeOld.PLAYER_READY_CHANGE.commandName;
     }
 }

@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.social;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.sharedobjects.AnimeList;
 
 import java.time.LocalDate;
@@ -58,7 +58,7 @@ public record PlayerProfile(
     }
     @Override
     public String commandName() {
-        return CommandType.PLAYER_PROFILE.commandName;
+        return CommandTypeOld.PLAYER_PROFILE.commandName;
     }
 
     public record ProfileAvatar(

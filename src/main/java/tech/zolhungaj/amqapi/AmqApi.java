@@ -67,10 +67,11 @@ public class AmqApi implements Runnable{
             .add(ListStatus.class, IntegerEnumJsonAdapter.create(ListStatus.class))
             .add(LoginComplete.QuestDescription.QuestStateWeekSlot.class, new LoginComplete.QuestDescription.QuestStateWeekSlotAdapter())
             .build();
-    private final Map<Class<? extends Command>, List<Consumer<? extends Command>>> onMap = new HashMap<>();
-    private final Map<Class<? extends Command>, List<Predicate<? extends Command>>> onceMap = new HashMap<>();
+    private final Map<String, Class<@CommandType ?>> nameToClassMap = new HashMap<>();
+    private final Map<Class<@CommandType ?>, List<Consumer<@CommandType ?>>> onMap = new HashMap<>();
+    private final Map<Class<@CommandType ?>, List<Predicate<@CommandType ?>>> onceMap = new HashMap<>();
     private final Map<String, List<Consumer<JSONObject>>> interceptJsonMap = new HashMap<>();
-    private final List<Consumer<Command>> interceptCommandList = new ArrayList<>();
+    private final List<Consumer<Object>> interceptCommandList = new ArrayList<>();
     private final List<Consumer<JSONObject>> interceptJsonList = new ArrayList<>();
 
     private final String username;
@@ -85,6 +86,15 @@ public class AmqApi implements Runnable{
         this.username = username;
         this.password = password;
         this.forceConnect = forceConnect;
+    }
+
+    public void registerCommand(Class<@CommandType Object> clazz){
+        if(!clazz.isAnnotationPresent(CommandType.class)){
+            throw new IllegalArgumentException("Class " + clazz + " does not have a CommandName annotation");
+        }
+        Stream.of(clazz.getAnnotationsByType(CommandType.class))
+                .map(CommandType::value)
+                .forEach(commandName -> nameToClassMap.put(commandName, clazz));
     }
 
     public void sendCommand(@NonNull @CommandGroup @CommandName Object command){
@@ -161,12 +171,18 @@ public class AmqApi implements Runnable{
         throw new IllegalArgumentException("Could not find field/component/method '" + fieldName + "' in " + clazz);
     }
 
-    public <T extends Command> void on(Class<T> clazz, Consumer<T> consumer){
+    public <@CommandType T> void on(Class<T> clazz, Consumer<T> consumer){
+        if(!nameToClassMap.containsValue(clazz)){
+            throw new IllegalArgumentException("Class " + clazz.getName() + " is not registered");
+        }
         this.onMap.putIfAbsent(clazz, new ArrayList<>());
         this.onMap.get(clazz).add(consumer);
     }
 
-    public <T extends Command> void once(Class<T> clazz, Predicate<T> predicate){
+    public <@CommandType T> void once(Class<T> clazz, Predicate<T> predicate){
+        if(!nameToClassMap.containsValue(clazz)){
+            throw new IllegalArgumentException("Class " + clazz.getName() + " is not registered");
+        }
         this.onceMap.putIfAbsent(clazz, new ArrayList<>());
         this.onceMap.get(clazz).add(predicate);
     }
@@ -180,7 +196,7 @@ public class AmqApi implements Runnable{
         this.interceptJsonList.add(consumer);
     }
 
-    public void onAllCommands(Consumer<Command> consumer){
+    public void onAllCommands(Consumer<@CommandType Object> consumer){
         this.interceptCommandList.add(consumer);
     }
 
@@ -190,22 +206,25 @@ public class AmqApi implements Runnable{
      * @param command the Command to be handled
      */
     @SuppressWarnings("unchecked")
-    public void handle(Command command){
-        log.info("{}, {}, {}", command, command.getClass(), command.commandName());
+    public void handle(@CommandType Object command){
+        if(!nameToClassMap.containsValue(command.getClass())){
+            throw new IllegalArgumentException("Class " + command.getClass().getName() + " is not registered");
+        }
+        log.info("{}, {}", command, command.getClass());
         interceptCommandList.forEach(c -> c.accept(command));
         if(onMap.containsKey(command.getClass())){
-            List<Consumer<? extends Command>> consumers = onMap.get(command.getClass());
-            for(Consumer<? extends Command> consumer : consumers){
-                Consumer<Command> wayBetterConsumer = (Consumer<Command>) consumer;
+            List<Consumer<@CommandType ?>> consumers = onMap.get(command.getClass());
+            for(Consumer<@CommandType ?> consumer : consumers){
+                Consumer<Object> wayBetterConsumer = (Consumer<Object>) consumer;
                 wayBetterConsumer.accept(command);
             }
         }
         if(onceMap.containsKey(command.getClass())){
-            List<Predicate<? extends Command>> predicates = onceMap.get(command.getClass());
-            Iterator<Predicate<? extends Command>> iterator = predicates.iterator();
+            List<Predicate<?>> predicates = onceMap.get(command.getClass());
+            Iterator<Predicate<?>> iterator = predicates.iterator();
             while(iterator.hasNext()){
-                Predicate<? extends Command> predicate = iterator.next();
-                Predicate<Command> wayBetterPredicate = (Predicate<Command>) predicate;
+                Predicate<?> predicate = iterator.next();
+                Predicate<Object> wayBetterPredicate = (Predicate<Object>) predicate;
                 boolean result = wayBetterPredicate.test(command);
                 if(result){
                     iterator.remove();
@@ -222,7 +241,7 @@ public class AmqApi implements Runnable{
         }
         interceptJsonList.forEach(consumer -> consumer.accept(data));
 
-        CommandType commandType = CommandType.forName(commandName);
+        CommandTypeOld commandType = CommandTypeOld.forName(commandName);
         log.info("""
                 ServerCommand: {}
                 data: {}

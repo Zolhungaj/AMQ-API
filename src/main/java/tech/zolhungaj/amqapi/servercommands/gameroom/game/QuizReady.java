@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 public record QuizReady(
         int numberOfSongs
@@ -9,6 +9,6 @@ public record QuizReady(
 
     @Override
     public String commandName() {
-        return CommandType.QUIZ_READY.commandName;
+        return CommandTypeOld.QUIZ_READY.commandName;
     }
 }

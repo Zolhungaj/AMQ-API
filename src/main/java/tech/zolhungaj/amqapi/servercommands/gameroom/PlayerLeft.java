@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.gameroom;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerIdentifier;
 
 import java.util.Optional;
@@ -19,6 +19,6 @@ public record PlayerLeft(
     }
     @Override
     public String commandName() {
-        return CommandType.PLAYER_LEFT.commandName;
+        return CommandTypeOld.PLAYER_LEFT.commandName;
     }
 }

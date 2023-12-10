@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ public record PlayersAnswered(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.PLAYER_ANSWERED.commandName;
+        return CommandTypeOld.PLAYER_ANSWERED.commandName;
     }
 }

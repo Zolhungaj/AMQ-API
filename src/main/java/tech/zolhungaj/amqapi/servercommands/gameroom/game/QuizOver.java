@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.gameroom.game;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.gameroom.EnterLobby;
 import tech.zolhungaj.amqapi.servercommands.gameroom.SpectatorJoined;
 import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.NewPlayer;
@@ -18,6 +18,6 @@ public class QuizOver extends EnterLobby implements Command {
 
 	@Override
 	public String commandName() {
-		return CommandType.QUIZ_OVER.commandName;
+		return CommandTypeOld.QUIZ_OVER.commandName;
 	}
 }

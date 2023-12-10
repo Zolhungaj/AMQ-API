@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 public record OnlinePlayerCountChange(
         int count
@@ -10,6 +10,6 @@ public record OnlinePlayerCountChange(
 
     @Override
     public String commandName() {
-        return CommandType.ONLINE_PLAYERS.commandName;
+        return CommandTypeOld.ONLINE_PLAYERS.commandName;
     }
 }

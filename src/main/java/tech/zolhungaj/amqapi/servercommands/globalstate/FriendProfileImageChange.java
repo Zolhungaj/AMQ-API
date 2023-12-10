@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ public record FriendProfileImageChange(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.FRIEND_PROFILE_IMAGE_UPDATE.commandName;
+        return CommandTypeOld.FRIEND_PROFILE_IMAGE_UPDATE.commandName;
     }
 
     public record AvatarInfo(

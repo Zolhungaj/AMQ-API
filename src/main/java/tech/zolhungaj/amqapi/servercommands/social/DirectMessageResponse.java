@@ -2,7 +2,7 @@ package tech.zolhungaj.amqapi.servercommands.social;
 
 import com.squareup.moshi.Json;
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis;
 
 /**
@@ -20,6 +20,6 @@ public record DirectMessageResponse(
 
     @Override
     public String commandName() {
-        return CommandType.DIRECT_MESSAGE_RESPONSE.commandName;
+        return CommandTypeOld.DIRECT_MESSAGE_RESPONSE.commandName;
     }
 }

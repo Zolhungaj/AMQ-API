@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 import tech.zolhungaj.amqapi.servercommands.gameroom.EnterLobby;
 import tech.zolhungaj.amqapi.servercommands.gameroom.SpectatorJoined;
 import tech.zolhungaj.amqapi.sharedobjects.gamesettings.GameSettings;
@@ -17,6 +17,6 @@ public class GameHosted extends EnterLobby implements Command {
 
 	@Override
 	public String commandName() {
-		return CommandType.HOST_GAME.commandName;
+		return CommandTypeOld.HOST_GAME.commandName;
 	}
 }

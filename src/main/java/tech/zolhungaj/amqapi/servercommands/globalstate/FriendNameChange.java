@@ -1,7 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
 
 public record FriendNameChange(
         String newName,
@@ -9,6 +9,6 @@ public record FriendNameChange(
 ) implements Command {
     @Override
     public String commandName() {
-        return CommandType.FRIEND_NAME_UPDATE.commandName;
+        return CommandTypeOld.FRIEND_NAME_UPDATE.commandName;
     }
 }
