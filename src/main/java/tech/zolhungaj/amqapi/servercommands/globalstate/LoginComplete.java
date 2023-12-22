@@ -78,7 +78,8 @@ public record LoginComplete(
         Boolean discordClaimed,
         int expandCount,
         List<RecentEmote> recentEmotes,
-        Boolean saleTax,
+        @Json(name = "saleTax")
+        SalesTax salesTax,
         @Json(name = "self") String selfName,
         int badgeLevel,
         Boolean guestAccount,
@@ -394,6 +395,13 @@ implements Command {
                     .map(Optional::get);
         }
     }
+
+    public record SalesTax(
+            @Json(name = "old")
+            double oldValue,
+            @Json(name = "new")
+            double newValue
+    ){}
 
     public record TutorialState (
             Boolean initialShow,
