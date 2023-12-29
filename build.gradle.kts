@@ -55,7 +55,7 @@ dependencies {
 	compileOnly("org.projectlombok:lombok:1.18.30")
 	annotationProcessor("org.projectlombok:lombok:1.18.30")
 	implementation("org.slf4j:slf4j-api:2.0.9")
-	implementation("org.slf4j:slf4j-simple:2.0.6")
+	implementation("org.slf4j:slf4j-simple:2.0.10")
 	testImplementation(kotlin("test"))
 }
 
