@@ -13,16 +13,11 @@ import tech.zolhungaj.amqapi.clientcommands.*;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.servercommands.*;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryList;
-import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryUpdated;
-import tech.zolhungaj.amqapi.servercommands.gameroom.*;
-import tech.zolhungaj.amqapi.servercommands.gameroom.game.*;
-import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.*;
 import tech.zolhungaj.amqapi.servercommands.globalstate.*;
 import tech.zolhungaj.amqapi.servercommands.objects.AvatarPose;
 import tech.zolhungaj.amqapi.servercommands.objects.ListStatus;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
 import tech.zolhungaj.amqapi.servercommands.objects.SongType;
-import tech.zolhungaj.amqapi.servercommands.social.*;
 import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult;
 import tech.zolhungaj.amqapi.sharedobjects.AnimeList;
 
@@ -88,13 +83,21 @@ public class AmqApi implements Runnable{
         this.forceConnect = forceConnect;
     }
 
-    public void registerCommand(Class<@CommandType Object> clazz){
+    public void registerCommand(Class<@CommandType ?> clazz){
         if(!clazz.isAnnotationPresent(CommandType.class)){
-            throw new IllegalArgumentException("Class " + clazz + " does not have a CommandName annotation");
+            throw new IllegalArgumentException("Class " + clazz + " does not have a CommandType annotation");
         }
         Stream.of(clazz.getAnnotationsByType(CommandType.class))
                 .map(CommandType::value)
-                .forEach(commandName -> nameToClassMap.put(commandName, clazz));
+                .forEach(commandName -> this.register(commandName, clazz));
+    }
+
+    private <@CommandType T> void register(String commandName, Class<T> clazz){
+        Class<?> currentClass = nameToClassMap.get(commandName);
+        if(currentClass != null && !currentClass.equals(clazz)){
+            throw new IllegalArgumentException("Command " + commandName + " is already registered to " + currentClass);
+        }
+        nameToClassMap.put(commandName, clazz);
     }
 
     public void sendCommand(@NonNull @CommandGroup @CommandName Object command){
@@ -172,20 +175,18 @@ public class AmqApi implements Runnable{
     }
 
     public <@CommandType T> void on(Class<T> clazz, Consumer<T> consumer){
-        if(!nameToClassMap.containsValue(clazz)){
-            throw new IllegalArgumentException("Class " + clazz.getName() + " is not registered");
-        }
+        registerCommand(clazz);
         this.onMap.putIfAbsent(clazz, new ArrayList<>());
         this.onMap.get(clazz).add(consumer);
     }
 
     public <@CommandType T> void once(Class<T> clazz, Predicate<T> predicate){
-        if(!nameToClassMap.containsValue(clazz)){
-            throw new IllegalArgumentException("Class " + clazz.getName() + " is not registered");
-        }
+        registerCommand(clazz);
         this.onceMap.putIfAbsent(clazz, new ArrayList<>());
         this.onceMap.get(clazz).add(predicate);
     }
+
+
 
     public void onJson(String command, Consumer<JSONObject> consumer){
         this.interceptJsonMap.putIfAbsent(command, new ArrayList<>());
@@ -207,9 +208,6 @@ public class AmqApi implements Runnable{
      */
     @SuppressWarnings("unchecked")
     public void handle(@CommandType Object command){
-        if(!nameToClassMap.containsValue(command.getClass())){
-            throw new IllegalArgumentException("Class " + command.getClass().getName() + " is not registered");
-        }
         log.info("{}, {}", command, command.getClass());
         interceptCommandList.forEach(c -> c.accept(command));
         if(onMap.containsKey(command.getClass())){
@@ -233,137 +231,25 @@ public class AmqApi implements Runnable{
         }
     }
 
-    private Command serverCommandToCommand(Client.ServerCommand serverCommand) throws IOException {
+    private Object serverCommandToCommand(Client.ServerCommand serverCommand) throws IOException {
         String commandName = serverCommand.command();
         JSONObject data = serverCommand.data();
         if(interceptJsonMap.containsKey(commandName)){
             interceptJsonMap.get(commandName).forEach(consumer -> consumer.accept(data));
         }
         interceptJsonList.forEach(consumer -> consumer.accept(data));
-
-        CommandTypeOld commandType = CommandTypeOld.forName(commandName);
+        Class<?> clazz = nameToClassMap.get(commandName);
         log.info("""
                 ServerCommand: {}
                 data: {}
-                commandType: {}
-                """, serverCommand, data, commandType);
-        if(commandType == null){
-            return new NotStartedCommand(commandName, data);
+                class: {}
+                """, serverCommand, data, clazz);
+        if(clazz == null){
+            return new UnregisteredCommand(commandName, data);
         }
-        String dataAsString = data.toString();
         try{
-            Class<? extends Command> clazz = switch(commandType){
-                case CHAT_MESSAGES -> GameChatUpdate.class;
-                case GAME_INVITE -> GameInvite.class;
-                case ONLINE_PLAYERS -> OnlinePlayerCountChange.class;
-                case LOGIN_COMPLETE -> LoginComplete.class;
-                case RANKED_STATE_CHANGE -> RankedGameStateChanged.class;
-                case RANKED_LEADERBOARD_UPDATE -> RankedLeaderboardUpdate.class;
-                case FRIEND_SOCIAL_STATUS_UPDATE -> FriendSocialStatusUpdate.class;
-                case DIRECT_MESSAGE -> DirectMessage.class;
-                case DIRECT_MESSAGE_RESPONSE -> DirectMessageResponse.class;
-                case FORCED_LOGOFF -> ForcedLogoff.class;
-                case EXPAND_LIBRARY_ENTRIES -> ExpandLibraryEntryList.class;
-                case EXPAND_LIBRARY_UPDATE -> ExpandLibraryEntryUpdated.class;
-                case NEW_FRIEND -> FriendAdded.class;
-                case REMOVED_FRIEND -> FriendRemoved.class;
-                case FRIEND_STATE_UPDATE -> FriendOnlineChange.class;
-                case FRIEND_REQUEST_ACKNOWLEDGEMENT -> FriendRequestResponse.class;
-                case FRIEND_NAME_UPDATE -> FriendNameChange.class;
-                case FRIEND_PROFILE_IMAGE_UPDATE -> FriendProfileImageChange.class;
-                case FRIEND_REQUEST -> FriendRequestReceived.class;
-                case SINGLE_CHAT_MESSAGE -> GameChatMessage.class;
-                case SYSTEM_CHAT_MESSAGE -> GameChatSystemMessage.class;
-                case NEW_SPECTATOR -> SpectatorJoined.class;
-                case SPECTATOR_LEFT -> SpectatorLeft.class;
-                case PLAYER_CHANGED_TO_SPECTATOR -> PlayerChangedToSpectator.class;
-                case SPECTATOR_CHANGED_TO_PLAYER -> SpectatorChangedToPlayer.class;
-                case PLAYER_LEFT -> PlayerLeft.class;
-                case POPOUT_MESSAGE -> PopoutMessage.class;
-                case RANKED_CHAMPIONS_UPDATED -> RankedChampionsUpdate.class;
-                case NEW_DONATION -> NewDonation.class;
-                case ALL_ONLINE_USERS -> AllOnlineUsers.class;
-                case ONLINE_USER_CHANGE -> OnlineUserChange.class;
-                case FILE_SERVER_STATE_CHANGE -> FileServerStatus.class;
-                case SERVER_RESTART -> ServerRestartWarning.class;
-                case NEW_QUEST_EVENTS -> NewQuestEvents.class;
-                case PLAYER_READY_CHANGE -> PlayerReadyChange.class;
-                case NEW_PLAYER -> NewPlayer.class;
-                case AVATAR_DRIVE_UPDATE -> AvatarDriveUpdate.class;
-                case HOST_GAME -> GameHosted.class;
-                case PLAYER_PROFILE -> PlayerProfile.class;
-                case AVATAR_CHANGE -> PlayerChangedAvatar.class;
-                case ALERT -> Alert.class;
-                case PLAYER_REJOIN -> PlayerRejoin.class;
-                case HTML_ALERT -> HtmlAlert.class;
-                case SELF_NAME_UPDATE -> SelfNameChange.class;
-                case UNKNOWN_ERROR -> ServerUnknownError.class;
-                case RANKED_SCORE_UPDATE -> RankedScoreUpdate.class;
-                case TICKET_ROLL_RESULT -> TicketRollResult.class;
-                case GAME_STARTING -> GameStarting.class;
-                case QUIZ_READY -> QuizReady.class;
-                case QUIZ_NEXT_VIDEO_INFO -> NextVideoInfo.class;
-                case QUIZ_WAITING_BUFFERING -> WaitingForBuffering.class;
-                case PLAY_NEXT_SONG -> PlayNextSong.class;
-                case QUIZ_SKIP_MESSAGE -> QuizSkipMessage.class;
-                case GUESS_PHASE_OVER -> GuessPhaseOver.class;
-                case PLAYER_ANSWERS -> AnswerReveal.class;
-                case ANSWER_RESULTS -> AnswerResults.class;
-                case SEND_FEEDBACK -> SongFeedbackRequest.class;
-                case PLAYER_ANSWERED -> PlayersAnswered.class;
-                case QUIZ_END_RESULT -> QuizEndResult.class;
-                case QUIZ_OVER -> QuizOver.class;
-                case QUIZ_NO_SONGS -> QuizNoSongs.class;
-                case QUIZ_FATAL_ERROR -> QuizFatalError.class;
-                case //TODO: implement each of these
-                        BATTLE_ROYALE_READY,
-                        BATTLE_ROYALE_BEGIN,
-                        BATTLE_ROYALE_SPAWN_OBJECT,
-                        BATTLE_ROYALE_DELETE_OBJECT,
-                        BATTLE_ROYALE_ADD_COLLECTED_NAME,
-                        BATTLE_ROYALE_DELETE_COLLECTED_NAME,
-                        BATTLE_ROYALE_CONTAINER_CONTENT,
-                        BATTLE_ROYALE_CONTAINER_DELETE_ENTRY,
-                        BATTLE_ROYALE_SPAWN_PLAYER,
-                        BATTLE_ROYALE_UPDATE_PLAYER_POSITION,
-                        BATTLE_ROYALE_DELETE_PLAYER,
-                        BATTLE_ROYALE_PHASE_OVER,
-                        BATTLE_ROYALE_FIX_POSITION,
-                        BATTLE_ROYALE_TILE_COUNT,
-                        BATTLE_ROYALE_TILE_UPDATE_SPECTATOR_COUNT,
-                        BATTLE_ROYALE_RETURN_TO_MAP,
-                        PLAYER_NAME_CHANGE,
-                        JOIN_GAME,
-                        SAVED_QUIZ_SETTINGS_DELETED,
-                        SAVE_QUIZ_SETTINGS,
-                        USE_AVATAR_RESPONSE,
-                        UNLOCK_AVATAR,
-                        LOCK_AVATAR,
-                        UNLOCK_EMOTE,
-                        LOCK_EMOTE,
-                        ADD_FAVOURITE_AVATAR_RESPONSE,
-                        DELETE_FAVOURITE_AVATAR_RESPONSE,
-                        TICKET_ROLL_ERROR,
-                        AVATAR_DRIVE_LEADERBOARD,
-                        PATREON_UPDATE,
-                        FREE_AVATAR_DONATION_RESPONSE,
-                        QUIZ_NO_PLAYERS_AUTO_CLOSE,
-                        UPDATE_MAL_LAST_UPDATE,
-                        UPDATE_ANILIST_LAST_UPDATE,
-                        UPDATE_KITSU_LAST_UPDATE,
-                        ANIME_LIST_UPDATE_RESPONSE,
-                        NICKNAME_AVAILABILITY_RESPONSE,
-                        CHANGE_NICKNAME_RESPONSE,
-                        DIRECT_MESSAGE_ALERT,
-                        SERVER_MESSAGE,
-                        PLAYER_ONLINE_UPDATE
-                        -> throw new IllegalArgumentException();
-            };
-            return MOSHI.adapter(clazz).fromJson(dataAsString);
-        } catch (IllegalArgumentException e){
-            log.error("",e);
-            return new NotImplementedCommand(commandName, data);
-        } catch(JsonDataException e){
+            return MOSHI.adapter(clazz).fromJson(data.toString());
+        }catch(JsonDataException e){
             log.warn("Something went wrong", e);
             return new ErrorParsingCommand(commandName, data, e);
         }
@@ -376,7 +262,7 @@ public class AmqApi implements Runnable{
             this.client = newClient;
             while(!Thread.interrupted()){
                 Client.ServerCommand serverCommand = client.pollCommand(Duration.ofMinutes(5));
-                Command command = serverCommandToCommand(serverCommand);
+                Object command = serverCommandToCommand(serverCommand);
                 if(command == null){
                     continue;
                 }

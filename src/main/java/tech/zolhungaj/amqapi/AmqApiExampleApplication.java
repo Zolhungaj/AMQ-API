@@ -7,23 +7,92 @@ import tech.zolhungaj.amqapi.clientcommands.lobby.StartGame;
 import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostMultiplayerRoom;
 import tech.zolhungaj.amqapi.clientcommands.social.GetProfile;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
-import tech.zolhungaj.amqapi.servercommands.NotImplementedCommand;
-import tech.zolhungaj.amqapi.servercommands.NotStartedCommand;
-import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatMessage;
-import tech.zolhungaj.amqapi.servercommands.gameroom.GameChatUpdate;
-import tech.zolhungaj.amqapi.sharedobjects.gamesettings.GameSettings;
-import tech.zolhungaj.amqapi.sharedobjects.gamesettings.SongSelection;
-import tech.zolhungaj.amqapi.sharedobjects.gamesettings.SongTypeSelection;
+import tech.zolhungaj.amqapi.servercommands.UnregisteredCommand;
+import tech.zolhungaj.amqapi.servercommands.expandlibrary.*;
+import tech.zolhungaj.amqapi.servercommands.gameroom.*;
+import tech.zolhungaj.amqapi.servercommands.gameroom.game.*;
+import tech.zolhungaj.amqapi.servercommands.gameroom.lobby.*;
+import tech.zolhungaj.amqapi.servercommands.globalstate.*;
+import tech.zolhungaj.amqapi.servercommands.social.*;
+import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult;
+import tech.zolhungaj.amqapi.sharedobjects.gamesettings.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 @Slf4j
 public class AmqApiExampleApplication {
+
+	private static final List<Class<?>> registerList = List.of(
+			ExpandLibraryEntryList.class,
+			ExpandLibraryEntryUpdated.class,
+			AnswerResults.class,
+			AnswerReveal.class,
+			GameStarting.class,
+			GuessPhaseOver.class,
+			NextVideoInfo.class,
+			PlayerRejoin.class,
+			PlayersAnswered.class,
+			PlayNextSong.class,
+			QuizEndResult.class,
+			QuizFatalError.class,
+			QuizNoSongs.class,
+			QuizOver.class,
+			QuizReady.class,
+			QuizSkipMessage.class,
+			SongFeedbackRequest.class,
+			WaitingForBuffering.class,
+			GameHosted.class,
+			NewPlayer.class,
+			PlayerChangedAvatar.class,
+			PlayerChangedToSpectator.class,
+			PlayerReadyChange.class,
+			SpectatorChangedToPlayer.class,
+			GameChatMessage.class,
+			GameChatSystemMessage.class,
+			GameChatUpdate.class,
+			PlayerLeft.class,
+			SpectatorJoined.class,
+			SpectatorLeft.class,
+			Alert.class,
+			AllOnlineUsers.class,
+			AvatarDriveUpdate.class,
+			FileServerStatus.class,
+			ForcedLogoff.class,
+			FriendAdded.class,
+			FriendNameChange.class,
+			FriendOnlineChange.class,
+			FriendProfileImageChange.class,
+			HtmlAlert.class,
+			LoginComplete.class,
+			NewDonation.class,
+			NewQuestEvents.class,
+			OnlinePlayerCountChange.class,
+			OnlineUserChange.class,
+			PopoutMessage.class,
+			RankedChampionsUpdate.class,
+			RankedGameStateChanged.class,
+			RankedLeaderboardUpdate.class,
+			RankedScoreUpdate.class,
+			SelfNameChange.class,
+			ServerRestartWarning.class,
+			ServerUnknownError.class,
+			DirectMessage.class,
+			DirectMessageResponse.class,
+			FriendRemoved.class,
+			FriendRequestReceived.class,
+			FriendRequestResponse.class,
+			FriendSocialStatusUpdate.class,
+			GameInvite.class,
+			PlayerProfile.class,
+			TicketRollResult.class
+	);
+
 
 	public static void main(String[] args) throws InterruptedException{
 		if(args.length < 2){
@@ -33,17 +102,10 @@ public class AmqApiExampleApplication {
 		String password = args[1];
 		boolean force = true;
 		var api = new AmqApi(username, password, force);
+		registerList.forEach(api::registerCommand);
 		api.onAllCommands(command -> {
 			var fileExtension = ".json";
-			if(command instanceof NotImplementedCommand notImplementedCommand) {
-				var path = Path.of("UNIMPLEMENTED-" + notImplementedCommand.commandName().replace(" ", "-") + fileExtension);
-				try{
-					Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-					Files.writeString(path, notImplementedCommand.data().toString(4), StandardOpenOption.APPEND);
-				}catch (IOException e){
-					log.error("UNIMPLEMENTED file write error", e);
-				}
-			}else if (command instanceof ErrorParsingCommand errorParsingCommand){
+			if (command instanceof ErrorParsingCommand errorParsingCommand){
 				var path = Path.of("ERROR-" + errorParsingCommand.commandName().replace(" ", "-") + fileExtension);
 				try{
 					log.error("Something is wrong with the input data, writing to {} for inspection", path, errorParsingCommand.error());
@@ -54,16 +116,16 @@ public class AmqApiExampleApplication {
 				}catch (IOException e){
 					log.error("ERROR file write error", e);
 				}
-			} else if (command instanceof NotStartedCommand notStartedCommand){
+			} else if (command instanceof UnregisteredCommand unregisteredCommand){
 				log.info("""
                     Unknown command:
                         command: {}
                         data: {}
-                    """, notStartedCommand.commandName(), notStartedCommand.data());
-				var path = Path.of("UNINITIATED-" +notStartedCommand.commandName().replace(" ", "-") + fileExtension);
+                    """, unregisteredCommand.commandName(), unregisteredCommand.data());
+				var path = Path.of("UNINITIATED-" + unregisteredCommand.commandName().replace(" ", "-") + fileExtension);
 				try{
 					Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-					Files.writeString(path, notStartedCommand.data().toString(4), StandardOpenOption.APPEND);
+					Files.writeString(path, unregisteredCommand.data().toString(4), StandardOpenOption.APPEND);
 				}catch (IOException e){
 					log.error("UNINITIATED file write error", e);
 				}
