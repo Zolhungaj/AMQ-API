@@ -1,11 +1,11 @@
 plugins {
 	java
 	`maven-publish`
-	kotlin("jvm") version "1.9.21"
+	kotlin("jvm") version "1.9.22"
 }
 
 group = "tech.zolhungaj"
-version = "0.14.0"
+version = "0.15.0"
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
@@ -52,8 +52,8 @@ dependencies {
 		// excluding org.json because the one imported in socket-io has flaws
 		exclude (group = "org.json", module = "json")
 	}
-	compileOnly("org.projectlombok:lombok:1.18.24")
-	annotationProcessor("org.projectlombok:lombok:1.18.24")
+	compileOnly("org.projectlombok:lombok:1.18.30")
+	annotationProcessor("org.projectlombok:lombok:1.18.30")
 	implementation("org.slf4j:slf4j-api:2.0.9")
 	implementation("org.slf4j:slf4j-simple:2.0.6")
 	testImplementation(kotlin("test"))
