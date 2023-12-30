@@ -1,10 +1,6 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
-import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 
-public class ServerUnknownError implements Command {
-    public String commandName() {
-        return CommandTypeOld.UNKNOWN_ERROR.commandName;
-    }
-}
+@CommandType("unknown error")
+public class ServerUnknownError{}
