@@ -208,7 +208,7 @@ public class AmqApi implements Runnable{
      */
     @SuppressWarnings("unchecked")
     public void handle(@CommandType Object command){
-        log.info("{}, {}", command, command.getClass());
+        log.debug("{}, {}", command, command.getClass());
         interceptCommandList.forEach(c -> c.accept(command));
         if(onMap.containsKey(command.getClass())){
             List<Consumer<@CommandType ?>> consumers = onMap.get(command.getClass());
@@ -239,7 +239,7 @@ public class AmqApi implements Runnable{
         }
         interceptJsonList.forEach(consumer -> consumer.accept(data));
         Class<?> clazz = nameToClassMap.get(commandName);
-        log.info("""
+        log.debug("""
                 ServerCommand: {}
                 data: {}
                 class: {}

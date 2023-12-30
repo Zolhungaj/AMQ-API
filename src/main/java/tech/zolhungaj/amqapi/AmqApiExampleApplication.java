@@ -118,16 +118,16 @@ public class AmqApiExampleApplication {
 				}
 			} else if (command instanceof UnregisteredCommand unregisteredCommand){
 				log.info("""
-                    Unknown command:
+                    Unregistered command:
                         command: {}
                         data: {}
                     """, unregisteredCommand.commandName(), unregisteredCommand.data());
-				var path = Path.of("UNINITIATED-" + unregisteredCommand.commandName().replace(" ", "-") + fileExtension);
+				var path = Path.of("UNREGISTERED-" + unregisteredCommand.commandName().replace(" ", "-") + fileExtension);
 				try{
 					Files.writeString(path, "\n\n", StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 					Files.writeString(path, unregisteredCommand.data().toString(4), StandardOpenOption.APPEND);
 				}catch (IOException e){
-					log.error("UNINITIATED file write error", e);
+					log.error("UNREGISTERED file write error", e);
 				}
 			}
 		});
