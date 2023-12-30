@@ -1,8 +1,7 @@
 package tech.zolhungaj.amqapi.servercommands.social;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis;
 
 /**
@@ -11,15 +10,9 @@ import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis
  * @param target recipient of message
  * @param message plaintext message
  */
+@CommandType("chat message response")
 public record DirectMessageResponse(
         DirectMessageEmojis emojis,
         @Json(name = "msg") String message,
         String target
-) implements Command {
-
-
-    @Override
-    public String commandName() {
-        return CommandTypeOld.DIRECT_MESSAGE_RESPONSE.commandName;
-    }
-}
+){}

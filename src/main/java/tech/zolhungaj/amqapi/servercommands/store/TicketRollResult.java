@@ -1,19 +1,19 @@
 package tech.zolhungaj.amqapi.servercommands.store;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandTypeOld;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.Emote;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
 
 import java.util.List;
 
+@CommandType("ticket roll result")
 public record TicketRollResult(
         List<? extends Reward> rewardList,
         int ticketCount,
         @Json(name = "avatarTokens")
         int newCurrentAvatarTokens
-) implements Command {
+){
     public sealed interface Reward {
         @Json(name = "type")
         String rewardType();//avatar, color, emote(?)
@@ -47,10 +47,4 @@ public record TicketRollResult(
             int rhythmReward
 
     )implements Reward {}
-    @Override
-    public String commandName() {
-        return CommandTypeOld.TICKET_ROLL_RESULT.commandName;
-    }
-
-
 }
