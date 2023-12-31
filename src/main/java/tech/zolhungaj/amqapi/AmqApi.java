@@ -12,12 +12,12 @@ import tech.zolhungaj.amqapi.client.DummyClient;
 import tech.zolhungaj.amqapi.clientcommands.*;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.servercommands.*;
-import tech.zolhungaj.amqapi.servercommands.expandlibrary.ExpandLibraryEntryList;
 import tech.zolhungaj.amqapi.servercommands.globalstate.*;
 import tech.zolhungaj.amqapi.servercommands.objects.AvatarPose;
 import tech.zolhungaj.amqapi.servercommands.objects.ListStatus;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
 import tech.zolhungaj.amqapi.servercommands.objects.SongType;
+import tech.zolhungaj.amqapi.servercommands.objects.expand.ExpandSongStatus;
 import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult;
 import tech.zolhungaj.amqapi.sharedobjects.AnimeList;
 
@@ -55,7 +55,7 @@ public class AmqApi implements Runnable{
             .add(NewQuestEvents.QuestEventState.class, IntegerEnumJsonAdapter.create(NewQuestEvents.QuestEventState.class))
             .add(AmqRanked.RankedSeries.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedSeries.class))
             .add(AmqRanked.RankedState.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedState.class))
-            .add(ExpandLibraryEntryList.ExpandSongStatus.class, IntegerEnumJsonAdapter.create(ExpandLibraryEntryList.ExpandSongStatus.class).withUnknownFallback(ExpandLibraryEntryList.ExpandSongStatus.UNKNOWN))
+            .add(ExpandSongStatus.class, IntegerEnumJsonAdapter.create(ExpandSongStatus.class).withUnknownFallback(ExpandSongStatus.UNKNOWN))
             .add(SongType.class, IntegerEnumJsonAdapter.create(SongType.class).withUnknownFallback(SongType.UNKNOWN))
             .add(AnimeList.class, IntegerEnumJsonAdapter.create(AnimeList.class))
             .add(AvatarPose.class, IntegerEnumJsonAdapter.create(AvatarPose.class))
