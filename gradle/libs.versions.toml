@@ -1,0 +1,27 @@
+[versions]
+apache-http = "4.5.14"
+jackson = "2.16.1"
+moshi = "1.15.0"
+org-json = "20231013"
+slf4j = "2.0.10"
+lombok = "1.18.30"
+socket-io = "2.1.0"
+
+[libraries]
+apache-httpclient = { module = "org.apache.httpcomponents:httpclient", version.ref = "apache-http" }
+
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+
+json = { module = "org.json:json", version.ref = "org-json" }
+
+socket-io-client = { module = "io.socket:socket.io-client", version.ref = "socket-io" }
+
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshi" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
