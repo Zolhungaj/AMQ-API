@@ -1,24 +1,22 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.game;
+package tech.zolhungaj.amqapi.servercommands.gameroom.game
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerAnswerResult;
-import tech.zolhungaj.amqapi.servercommands.objects.ProgressBarState;
-import tech.zolhungaj.amqapi.servercommands.objects.SongInfo;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerAnswerResult
+import tech.zolhungaj.amqapi.servercommands.objects.ProgressBarState
+import tech.zolhungaj.amqapi.servercommands.objects.SongInfo
 
-import java.util.List;
-import java.util.Map;
-
+@JvmRecord
 @CommandType("answer results")
-public record AnswerResults(
-        @Json(name = "watched")
-        boolean isWatched,
-        @Json(name = "groupMap")
-        Map<String, List<Integer>> groupMap,
-        @Json(name = "players")
-        List<PlayerAnswerResult> players,
-        @Json(name = "songInfo")
-        SongInfo songInfo,
-        @Json(name = "progressBarState")
-        ProgressBarState progressBarState
-){}
+data class AnswerResults(
+    @Json(name = "watched")
+    val isWatched: Boolean,
+    @Json(name = "groupMap")
+    val groupMap: Map<String, List<Int>>,
+    @Json(name = "players")
+    val players: List<PlayerAnswerResult>,
+    @Json(name = "songInfo")
+    val songInfo: SongInfo,
+    @Json(name = "progressBarState")
+    val progressBarState: ProgressBarState
+)

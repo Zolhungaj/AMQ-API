@@ -1,24 +1,22 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.game;
+package tech.zolhungaj.amqapi.servercommands.gameroom.game
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.ProgressBarState;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.ProgressBarState
 
-import java.util.List;
-import java.util.Optional;
-
+@JvmRecord
 @CommandType("play next song")
-public record PlayNextSong(
-        @Json(name = "songNumber")
-        int songNumber,
-        @Json(name = "onLastSong")
-        boolean onLastSong,
-        @Json(name = "multipleChoiceNames")
-        Optional<List<String>> multipleChoiceNames,
-        @Json(name = "time")
-        double time,
-        @Json(name = "extraGuessTime")
-        int extraGuessTime,
-        @Json(name = "progressBarState")
-        ProgressBarState progressBarState
-){}
+data class PlayNextSong(
+    @Json(name = "songNumber")
+    val songNumber: Int,
+    @Json(name = "onLastSong")
+    val onLastSong: Boolean,
+    @Json(name = "multipleChoiceNames")
+    val multipleChoiceNames: List<String>?,
+    @Json(name = "time")
+    val time: Double,
+    @Json(name = "extraGuessTime")
+    val extraGuessTime: Int,
+    @Json(name = "progressBarState")
+    val progressBarState: ProgressBarState
+)

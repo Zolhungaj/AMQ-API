@@ -1,12 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.game;
+package tech.zolhungaj.amqapi.servercommands.gameroom.game
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
-import java.util.List;
-
+@JvmRecord
 @CommandType("player answered")
-public record PlayersAnswered(
-        @Json(name = "array") //from Client.pollCommand
-        List<Integer> gamePlayerIds
-){}
+data class PlayersAnswered(
+    @Json(name = "array")
+    val gamePlayerIds: List<Int>
+)

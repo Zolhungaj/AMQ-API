@@ -1,17 +1,18 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.game;
+package tech.zolhungaj.amqapi.servercommands.gameroom.game
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.VideoInfo;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.VideoInfo
 
+@JvmRecord
 @CommandType("quiz next video info")
-public record NextVideoInfo(
-        @Json(name = "playbackSpeed")
-        double playbackSpeed,
-        @Json(name = "startPont")
-        double startPoint,
-        @Json(name = "videoInfo")
-        VideoInfo videoInfo,
-        @Json(name = "playLength")
-        int playLength
-){}
+data class NextVideoInfo(
+    @Json(name = "playbackSpeed")
+    val playbackSpeed: Double,
+    @Json(name = "startPont")
+    val startPoint: Double,
+    @Json(name = "videoInfo")
+    val videoInfo: VideoInfo,
+    @Json(name = "playLength")
+    val playLength: Int
+)

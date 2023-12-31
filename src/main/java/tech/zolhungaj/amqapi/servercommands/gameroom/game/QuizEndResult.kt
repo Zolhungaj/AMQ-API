@@ -1,13 +1,12 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.game;
+package tech.zolhungaj.amqapi.servercommands.gameroom.game
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerEndResult;
-import tech.zolhungaj.amqapi.servercommands.objects.ProgressBarState;
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerEndResult
+import tech.zolhungaj.amqapi.servercommands.objects.ProgressBarState
 
-import java.util.List;
-
+@JvmRecord
 @CommandType("quiz end result")
-public record QuizEndResult(
-        List<PlayerEndResult> resultStates,
-        ProgressBarState progressBarState
-){}
+data class QuizEndResult(
+    val resultStates: List<PlayerEndResult>,
+    val progressBarState: ProgressBarState
+)

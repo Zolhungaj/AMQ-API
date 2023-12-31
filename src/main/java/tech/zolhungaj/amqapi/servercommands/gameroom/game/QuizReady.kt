@@ -1,8 +1,9 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.game;
+package tech.zolhungaj.amqapi.servercommands.gameroom.game
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("quiz ready")
-public record QuizReady(
-        int numberOfSongs
-){}
+data class QuizReady(
+    val numberOfSongs: Int
+)
