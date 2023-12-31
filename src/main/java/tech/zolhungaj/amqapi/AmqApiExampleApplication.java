@@ -90,7 +90,9 @@ public class AmqApiExampleApplication {
 			FriendSocialStatusUpdate.class,
 			GameInvite.class,
 			PlayerProfile.class,
-			TicketRollResult.class
+			TicketRollResult.class,
+			PlayerJoinedQueue.class,
+			PlayerLeftQueue.class
 	);
 
 
