@@ -1,19 +1,15 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 
 import java.util.List;
 
+@CommandType("new quest events")
 public record NewQuestEvents(
         @Json(name = "events")
         List<EventsItem> quests
-        ) implements Command {
-    @Override
-    public String commandName() {
-        return CommandType.NEW_QUEST_EVENTS.commandName;
-    }
+){
     public record EventsItem(
             @Json(name = "questEvent")
             QuestEventState questEventState,

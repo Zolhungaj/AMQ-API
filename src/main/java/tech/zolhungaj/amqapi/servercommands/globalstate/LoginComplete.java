@@ -1,15 +1,13 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
-
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.JsonWriter;
-import tech.zolhungaj.amqapi.servercommands.Command;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.*;
 import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.constants.Emojis;
+import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.objects.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@CommandType("login complete")
 public record LoginComplete(
         Boolean gameAdmin,
         List<QuestDescription> questDescriptions,
@@ -88,8 +87,7 @@ public record LoginComplete(
         @Json(name = "canReconnectNexus") Boolean canReconnectToNexus,
         @Json(name = "nexusStatBaseMax") int nexusStatsBaseMaximum,
         @Json(name ="nexusAccess") Boolean hasNexusAccess
-)
-implements Command {
+){
     public Optional<Instant> aniListLastUpdateInstant(){
         return aniListLastUpdate.map(Instant::parse);
     }
@@ -100,12 +98,6 @@ implements Command {
         return malLastUpdate.map(Instant::parse);
     }
 
-
-
-    @Override
-    public String commandName() {
-        return CommandType.LOGIN_COMPLETE.commandName;
-    }
 
     public record QuestDescription(
             int ticketReward,

@@ -1,14 +1,8 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
-import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 
+@CommandType("force logoff")
 public record ForcedLogoff(
         String reason
-)implements Command {
-
-    @Override
-    public String commandName() {
-        return CommandType.FORCED_LOGOFF.commandName;
-    }
-}
+){}

@@ -1,20 +1,15 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 
 import java.util.Optional;
 
+@CommandType("friend profile image change")
 public record FriendProfileImageChange(
         @Json(name = "name") String playerName,
         AvatarInfo profileImage
-) implements Command {
-    @Override
-    public String commandName() {
-        return CommandType.FRIEND_PROFILE_IMAGE_UPDATE.commandName;
-    }
-
+){
     public record AvatarInfo(
             @Json(name = "profileEmoteId") Optional<Integer> emoteId,
             String avatarName,

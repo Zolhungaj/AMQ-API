@@ -1,12 +1,12 @@
 package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
 
 import java.util.Optional;
 
+@CommandType("New Player")
 public record NewPlayer(
 
 	@Json(name = "level")
@@ -29,9 +29,4 @@ public record NewPlayer(
 
 	@Json(name = "inGame")
 	Boolean inGame
-) implements Command {
-	@Override
-	public String commandName() {
-		return CommandType.NEW_PLAYER.commandName;
-	}
-}
+){}

@@ -1,7 +1,6 @@
 package tech.zolhungaj.amqapi.servercommands.social;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.sharedobjects.AnimeList;
 
@@ -9,6 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@CommandType("player profile")
 public record PlayerProfile(
         @Json(name = "name")
         String nickname,
@@ -40,7 +40,7 @@ public record PlayerProfile(
         DisplayedAnimeList displayedAnimeList,
         @Json(name = "songCount")
         SongCount songCount
-) implements Command {
+){
 
     public PlayerProfile{
         if(chatGlowActive == null){
@@ -55,10 +55,6 @@ public record PlayerProfile(
         if(rankedChatColorUnlocked == null){
             rankedChatColorUnlocked = Optional.empty();
         }
-    }
-    @Override
-    public String commandName() {
-        return CommandType.PLAYER_PROFILE.commandName;
     }
 
     public record ProfileAvatar(

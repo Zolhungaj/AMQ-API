@@ -1,12 +1,12 @@
 package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
 
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
 
 import java.util.Optional;
 
+@CommandType("Spectator Change To Player")
 public record SpectatorChangedToPlayer(
         @Json(name = "name")
         String playerName,
@@ -16,9 +16,4 @@ public record SpectatorChangedToPlayer(
         Boolean ready,
         Boolean inGame,
         Optional<Integer> teamNumber
-) implements Command {
-    @Override
-    public String commandName() {
-        return CommandType.SPECTATOR_CHANGED_TO_PLAYER.commandName;
-    }
-}
+){}

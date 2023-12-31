@@ -1,13 +1,14 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
-import java.util.List;
 import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.Command;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveContribution;
-import tech.zolhungaj.amqapi.servercommands.objects.Donation;
 import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveNomination;
+import tech.zolhungaj.amqapi.servercommands.objects.Donation;
 
+import java.util.List;
+
+@CommandType("new donation")
 public record NewDonation(
     List<AvatarDriveNomination> top5Nominations,
     double total,
@@ -17,9 +18,4 @@ public record NewDonation(
     List<AvatarDriveContribution> top5Weekly,
     Donation donation,
     List<AvatarDriveContribution> top5AllTime
-) implements Command {
-    @Override
-    public String commandName() {
-        return CommandType.NEW_DONATION.commandName;
-    }
-}
+){}
