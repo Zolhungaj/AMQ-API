@@ -61,6 +61,7 @@ public class AmqApi implements Runnable{
             .add(AvatarPose.class, IntegerEnumJsonAdapter.create(AvatarPose.class))
             .add(ListStatus.class, IntegerEnumJsonAdapter.create(ListStatus.class))
             .add(LoginComplete.QuestDescription.QuestStateWeekSlot.class, new LoginComplete.QuestDescription.QuestStateWeekSlotAdapter())
+            .addLast(new com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory())
             .build();
     private final Map<String, Class<@CommandType ?>> nameToClassMap = new HashMap<>();
     private final Map<Class<@CommandType ?>, List<Consumer<@CommandType ?>>> onMap = new HashMap<>();

@@ -8,7 +8,7 @@ import tech.zolhungaj.amqapi.servercommands.objects.expand.ExpandLibraryEntry
 @CommandType("expandLibrary questions")
 data class ExpandLibraryEntryList(
     val success : Boolean,
-    val issue : String,
+    val issue : String?,
     @Json(name = "questions")
     val entries : List<ExpandLibraryEntry>
 )
