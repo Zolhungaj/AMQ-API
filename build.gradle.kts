@@ -42,20 +42,21 @@ repositories {
 }
 
 dependencies {
-	implementation("org.apache.httpcomponents:httpclient:4.5.14")
-	implementation("com.fasterxml.jackson.core:jackson-core:2.16.1")
-	implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
-	implementation("org.json:json:20231013")
-	implementation("com.squareup.moshi:moshi:1.15.0")
-	implementation("com.squareup.moshi:moshi-adapters:1.15.0")
-	implementation("io.socket:socket.io-client:2.1.0") {
+	implementation(libs.apache.httpclient)
+	implementation(libs.jackson.core)
+	implementation(libs.jackson.databind)
+	implementation(libs.json)
+	implementation(libs.moshi)
+	implementation(libs.moshi.kotlin)
+	implementation(libs.moshi.adapters)
+	implementation(libs.socket.io.client) {
 		// excluding org.json because the one imported in socket-io has flaws
 		exclude (group = "org.json", module = "json")
 	}
-	compileOnly("org.projectlombok:lombok:1.18.30")
-	annotationProcessor("org.projectlombok:lombok:1.18.30")
-	implementation("org.slf4j:slf4j-api:2.0.10")
-	implementation("org.slf4j:slf4j-simple:2.0.10")
+	implementation(libs.slf4j.api)
+	implementation(libs.slf4j.simple)
+	compileOnly(libs.lombok)
+	annotationProcessor(libs.lombok)
 	testImplementation(kotlin("test"))
 }
 

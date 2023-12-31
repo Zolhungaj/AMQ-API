@@ -1,6 +1,7 @@
 package tech.zolhungaj.amqapi;
 
 import lombok.extern.slf4j.Slf4j;
+import tech.zolhungaj.amqapi.clientcommands.expandlibrary.LoadExpandLibraryAndStartListeningForChanges;
 import tech.zolhungaj.amqapi.clientcommands.lobby.Kick;
 import tech.zolhungaj.amqapi.clientcommands.lobby.SendPublicChatMessage;
 import tech.zolhungaj.amqapi.clientcommands.lobby.StartGame;
@@ -133,6 +134,7 @@ public class AmqApiExampleApplication {
 				}
 			}
 		});
+		api.on(ExpandLibraryEntryList.class, expandLibraryEntryList -> log.info("{}", expandLibraryEntryList));
 		Consumer<GameChatMessage> gcmConsumer = message -> {
 			if(!message.sender().equals(username)){
 				api.sendCommand(new SendPublicChatMessage("Yo"));
@@ -158,6 +160,8 @@ public class AmqApiExampleApplication {
 		log.info("{}", kick);
 		Thread apiThread = new Thread(api);
 		apiThread.start();
+		Thread.sleep(5000);
+		api.sendCommand(new LoadExpandLibraryAndStartListeningForChanges());
 		Thread.sleep(5000);
 		api.sendCommand(new HostMultiplayerRoom(
 				GameSettings.DEFAULT.toBuilder()
