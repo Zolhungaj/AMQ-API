@@ -7,7 +7,7 @@ import tech.zolhungaj.amqapi.servercommands.CommandType
 @CommandType("friend request")
 data class FriendRequestResponse(
     @Json(name = "name")
-    val playerName: String,
+    val playerName: String?,
     val result: Result,
     val reason: String?
 ) {
