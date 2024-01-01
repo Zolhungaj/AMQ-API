@@ -18,7 +18,7 @@ data class SongInfo(
     @Json(name = "animeScore") val animeScore: Optional<Double>,
     @Json(name = "type") val type: SongType,
 
-    @Json(name = "urlMap") val urlMap: Map<String, Map<String, String>>,
+    @Json(name = "videoTargetMap") val videoTargetMap: Map<String, Map<String, String>>,
 
     @Json(name = "typeNumber") val typeNumber: Int,
     @Json(name = "annId") val annId: Int,
