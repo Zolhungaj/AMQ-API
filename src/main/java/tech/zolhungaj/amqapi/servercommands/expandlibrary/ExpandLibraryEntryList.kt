@@ -10,5 +10,5 @@ data class ExpandLibraryEntryList(
     val success : Boolean,
     val issue : String?,
     @Json(name = "questions")
-    val entries : List<ExpandLibraryEntry>
+    val entries : List<ExpandLibraryEntry>?
 )

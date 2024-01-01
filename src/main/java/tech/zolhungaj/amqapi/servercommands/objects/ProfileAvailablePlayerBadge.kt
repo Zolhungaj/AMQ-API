@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 @JvmRecord
 data class ProfileAvailablePlayerBadge(
     @Json(name = "unlocked")
-    val isUnlocked: Boolean,
+    val isUnlocked: Boolean?,
     val showInChat: Boolean?,
     @Json(name = "slot")
     val slotId: Int?,
