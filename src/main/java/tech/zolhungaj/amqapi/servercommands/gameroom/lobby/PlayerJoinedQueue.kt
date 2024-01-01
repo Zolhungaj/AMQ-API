@@ -1,9 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
+package tech.zolhungaj.amqapi.servercommands.gameroom.lobby
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("new player in game queue")
-public record PlayerJoinedQueue(
-        @Json(name = "name") String playerName
-){}
+data class PlayerJoinedQueue(
+    @Json(name = "name")
+    val playerName: String
+)

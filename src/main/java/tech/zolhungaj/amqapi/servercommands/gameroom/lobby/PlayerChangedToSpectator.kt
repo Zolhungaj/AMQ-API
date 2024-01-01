@@ -1,11 +1,12 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
+package tech.zolhungaj.amqapi.servercommands.gameroom.lobby
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerIdentifier;
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerIdentifier
 
+@JvmRecord
 @CommandType("Player Changed To Spectator")
-public record PlayerChangedToSpectator(
-        PlayerIdentifier spectatorDescription,
-        PlayerIdentifier playerDescription,
-        Boolean isHost
-){}
+data class PlayerChangedToSpectator(
+    val spectatorDescription: PlayerIdentifier,
+    val playerDescription: PlayerIdentifier,
+    val isHost: Boolean
+)

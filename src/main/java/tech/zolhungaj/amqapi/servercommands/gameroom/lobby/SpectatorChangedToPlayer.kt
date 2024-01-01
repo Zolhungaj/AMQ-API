@@ -1,19 +1,18 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
+package tech.zolhungaj.amqapi.servercommands.gameroom.lobby
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar
 
-import java.util.Optional;
-
+@JvmRecord
 @CommandType("Spectator Change To Player")
-public record SpectatorChangedToPlayer(
-        @Json(name = "name")
-        String playerName,
-        int gamePlayerId,
-        int level,
-        PlayerAvatar avatar,
-        Boolean ready,
-        Boolean inGame,
-        Optional<Integer> teamNumber
-){}
+data class SpectatorChangedToPlayer(
+    @Json(name = "name")
+    val playerName: String,
+    val gamePlayerId: Int,
+    val level: Int,
+    val avatar: PlayerAvatar,
+    val ready: Boolean,
+    val inGame: Boolean,
+    val teamNumber: Int?
+)

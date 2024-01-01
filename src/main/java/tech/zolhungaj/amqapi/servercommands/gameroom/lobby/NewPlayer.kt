@@ -1,32 +1,24 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
+package tech.zolhungaj.amqapi.servercommands.gameroom.lobby
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar
 
-import java.util.Optional;
-
+@JvmRecord
 @CommandType("New Player")
-public record NewPlayer(
-
-	@Json(name = "level")
-	int level,
-
-	@Json(name = "ready")
-	Boolean ready,
-
-	@Json(name = "name")
-	String playerName,
-
-	@Json(name = "teamNumber")
-	Optional<Integer> teamNumber,
-
-	@Json(name = "gamePlayerId")
-	int gamePlayerId,
-
-	@Json(name = "avatar")
-	PlayerAvatar avatar,
-
-	@Json(name = "inGame")
-	Boolean inGame
-){}
+data class NewPlayer(
+    @Json(name = "level")
+    val level: Int,
+    @Json(name = "ready")
+    val ready: Boolean,
+    @Json(name = "name")
+    val playerName: String,
+    @Json(name = "teamNumber")
+    val teamNumber: Int?,
+    @Json(name = "gamePlayerId")
+    val gamePlayerId: Int,
+    @Json(name = "avatar")
+    val avatar: PlayerAvatar,
+    @Json(name = "inGame")
+    val inGame: Boolean
+) 

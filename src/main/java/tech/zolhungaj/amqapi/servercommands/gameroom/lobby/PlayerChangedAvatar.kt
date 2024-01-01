@@ -1,10 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
+package tech.zolhungaj.amqapi.servercommands.gameroom.lobby
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar;
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerAvatar
 
+@JvmRecord
 @CommandType("avatar change")
-public record PlayerChangedAvatar(
-        int gamePlayerId,
-        PlayerAvatar avatar
-){}
+data class PlayerChangedAvatar(
+    val gamePlayerId: Int,
+    val avatar: PlayerAvatar
+)

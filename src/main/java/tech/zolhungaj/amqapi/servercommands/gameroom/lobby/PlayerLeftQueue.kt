@@ -1,9 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
+package tech.zolhungaj.amqapi.servercommands.gameroom.lobby
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("player left queue")
-public record PlayerLeftQueue(
-        @Json(name = "name") String playerName
-){}
+data class PlayerLeftQueue(
+    @Json(name = "name")
+    val playerName: String
+)

@@ -1,9 +1,10 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom.lobby;
+package tech.zolhungaj.amqapi.servercommands.gameroom.lobby
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("Player Ready Change")
-public record PlayerReadyChange(
-        Boolean ready,
-        int gamePlayerId
-){}
+data class PlayerReadyChange(
+    val ready: Boolean,
+    val gamePlayerId: Int
+)
