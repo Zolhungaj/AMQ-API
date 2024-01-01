@@ -7,6 +7,8 @@ import tech.zolhungaj.amqapi.clientcommands.lobby.SendPublicChatMessage;
 import tech.zolhungaj.amqapi.clientcommands.lobby.StartGame;
 import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostMultiplayerRoom;
 import tech.zolhungaj.amqapi.clientcommands.social.GetProfile;
+import tech.zolhungaj.amqapi.clientcommands.social.RemoveFriend;
+import tech.zolhungaj.amqapi.clientcommands.social.SendFriendRequest;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.UnregisteredCommand;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.*;
@@ -163,6 +165,10 @@ public class AmqApiExampleApplication {
 		Thread.sleep(5000);
 		api.sendCommand(new LoadExpandLibraryAndStartListeningForChanges());
 		Thread.sleep(5000);
+		api.sendCommand(new RemoveFriend("Zolhungaj"));
+		Thread.sleep(2000);
+		api.sendCommand(new SendFriendRequest("Zolhungaj"));
+		Thread.sleep(2000);
 		api.sendCommand(new HostMultiplayerRoom(
 				GameSettings.DEFAULT.toBuilder()
 						.songSelection(SongSelection.of(2, 1, 2, 5))

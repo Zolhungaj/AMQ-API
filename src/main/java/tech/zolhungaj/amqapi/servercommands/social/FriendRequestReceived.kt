@@ -1,9 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.social;
+package tech.zolhungaj.amqapi.servercommands.social
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
-@CommandType("new friend request recived")//sic
-public record FriendRequestReceived(
-        @Json(name = "name") String playerName
-){}
+@JvmRecord
+@CommandType("new friend request recived") //sic
+data class FriendRequestReceived(
+    @Json(name = "name")
+    val playerName: String
+)

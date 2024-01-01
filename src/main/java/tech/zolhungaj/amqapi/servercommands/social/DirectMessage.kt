@@ -1,16 +1,13 @@
-package tech.zolhungaj.amqapi.servercommands.social;
+package tech.zolhungaj.amqapi.servercommands.social
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis;
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis
 
-
-/**
- * Event that happens when receiving a direct message
- */
+@JvmRecord
 @CommandType("chat message")
-public record DirectMessage(
-        DirectMessageEmojis emojis,
-        String sender,
-        String message,
-        Boolean modMessage
-){}
+data class DirectMessage(
+    val emojis: DirectMessageEmojis,
+    val sender: String,
+    val message: String,
+    val modMessage: Boolean
+)

@@ -1,8 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands.social;
+package tech.zolhungaj.amqapi.servercommands.social
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis
 
 /**
  * Event that happens as an acknowledgement of a recently sent direct message
@@ -10,9 +10,11 @@ import tech.zolhungaj.amqapi.servercommands.objects.messages.DirectMessageEmojis
  * @param target recipient of message
  * @param message plaintext message
  */
+@JvmRecord
 @CommandType("chat message response")
-public record DirectMessageResponse(
-        DirectMessageEmojis emojis,
-        @Json(name = "msg") String message,
-        String target
-){}
+data class DirectMessageResponse(
+    val emojis: DirectMessageEmojis,
+    @Json(name = "msg")
+    val message: String,
+    val target: String
+)

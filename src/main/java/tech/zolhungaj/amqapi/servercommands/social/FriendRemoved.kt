@@ -1,9 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.social;
+package tech.zolhungaj.amqapi.servercommands.social
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("friend removed")
-public record FriendRemoved(
-        @Json(name = "name") String playerName
-){}
+data class FriendRemoved(
+    @Json(name = "name")
+    val playerName: String
+)

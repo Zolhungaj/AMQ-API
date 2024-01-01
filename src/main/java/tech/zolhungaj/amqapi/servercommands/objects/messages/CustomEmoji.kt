@@ -1,6 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.objects.messages;
+package tech.zolhungaj.amqapi.servercommands.objects.messages
 
-public record CustomEmoji(
-        String id,
-        String name
-){}
+import com.squareup.moshi.Json
+
+@JvmRecord
+data class CustomEmoji(
+    @Json(name = "id")
+    val emojiId: Int,
+    @Json(name = "name")
+    val emojiName: String
+)

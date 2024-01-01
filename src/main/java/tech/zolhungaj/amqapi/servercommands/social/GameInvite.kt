@@ -1,9 +1,10 @@
-package tech.zolhungaj.amqapi.servercommands.social;
+package tech.zolhungaj.amqapi.servercommands.social
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("game invite")
-public record GameInvite(
-        int gameId,
-        String sender
-){}
+data class GameInvite(
+    val gameId: Int,
+    val sender: String
+)
