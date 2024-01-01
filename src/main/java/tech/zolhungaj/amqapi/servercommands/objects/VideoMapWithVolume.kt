@@ -1,7 +1,5 @@
 package tech.zolhungaj.amqapi.servercommands.objects
 
-import java.util.*
-
 @JvmRecord
 data class VideoMapWithVolume(
     val video1080p: VideoWithVolumeAndResolution?,
@@ -15,6 +13,7 @@ data class VideoMapWithVolume(
         map[480],
         map[0]
     )
+
     companion object {
         @JvmField
         val VALID_RESOLUTIONS: List<Int> = listOf(1080, 720, 480, 0)

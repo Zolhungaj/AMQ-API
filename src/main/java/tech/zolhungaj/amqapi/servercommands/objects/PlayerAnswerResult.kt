@@ -15,5 +15,5 @@ data class PlayerAnswerResult(
     @Json(name = "position") val position: Int
 ) {
     val showScore: Int?
-        get() = if(showScoreJson == 0) null else showScoreJson
+        get() = if (showScoreJson == 0) null else showScoreJson
 }

@@ -1,7 +1,6 @@
 package tech.zolhungaj.amqapi.servercommands.objects
 
 import com.squareup.moshi.Json
-import java.util.*
 
 @JvmRecord
 data class StoreAvatarColor(

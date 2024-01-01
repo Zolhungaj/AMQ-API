@@ -82,47 +82,53 @@ public record LoginComplete(
         List<NexusBuff> nexusBuffs,
         @Json(name = "canReconnectNexus") Boolean canReconnectToNexus,
         @Json(name = "nexusStatBaseMax") int nexusStatsBaseMaximum,
-        @Json(name ="nexusAccess") Boolean hasNexusAccess
-){
-    public Optional<Instant> aniListLastUpdateInstant(){
+        @Json(name = "nexusAccess") Boolean hasNexusAccess
+) {
+    public Optional<Instant> aniListLastUpdateInstant() {
         return aniListLastUpdate.map(Instant::parse);
     }
-    public Optional<Instant> kitsuLastUpdateInstant(){
+
+    public Optional<Instant> kitsuLastUpdateInstant() {
         return kitsuLastUpdate.map(Instant::parse);
     }
-    public Optional<Instant> malLastUpdateInstant(){
+
+    public Optional<Instant> malLastUpdateInstant() {
         return malLastUpdate.map(Instant::parse);
     }
 
 
-    public record SavedQuizSetting (
+    public record SavedQuizSetting(
             String name,
             String settingString,
             int id
-    ){}
+    ) {
+    }
 
-    public record PatreonBadgeInfo (
+    public record PatreonBadgeInfo(
             PatreonBadge next,
             PatreonBadge current
-    ){}
+    ) {
+    }
 
-    public record PatreonBadge (
+    public record PatreonBadge(
             Boolean special,
             String fileName,
             String name,
             int id,
             int type,
             String unlockDescription
-    ){}
+    ) {
+    }
 
-    public record TicketReward (
+    public record TicketReward(
             int tier,
             TicketRewardDescription description,
             String type,
             int rhythm
-    ){}
-    
-    public record TicketRewardDescription (
+    ) {
+    }
+
+    public record TicketRewardDescription(
             Optional<Integer> tierId,
             @Json(name = "name")
             Optional<String> rewardName,
@@ -140,8 +146,8 @@ public record LoginComplete(
             Optional<Integer> sizeModifier,
             Optional<String> optionName,
             Optional<Integer> characterId
-    ){
-        public TicketRewardDescription{
+    ) {
+        public TicketRewardDescription {
             /*
              * Until a <a href="https://github.com/square/moshi/pull/1412">fix is merged</a>
              * all objects here are nullable, and this is a workaround to make them consistently Optional
@@ -168,8 +174,10 @@ public record LoginComplete(
     public record SuperAvatar(
             int characterId,
             List<StoreAvatar> avatars
-    ){}
-    public record UserSettings (
+    ) {
+    }
+
+    public record UserSettings(
             Boolean autoHideInserts,
             Boolean disableEmojis,
             int animeList,
@@ -191,9 +199,10 @@ public record LoginComplete(
             Boolean useCompleted,
             Boolean useDropped,
             Boolean autoHideUnwatched
-    ){}
+    ) {
+    }
 
-    public record FriendEntry (
+    public record FriendEntry(
             Optional<Boolean> avatarProfileImage,
             String avatarName,
             String colorName,
@@ -205,104 +214,113 @@ public record LoginComplete(
             String optionName,
             Optional<PlayerGameState> gameState,
             PlayerStatus status
-    ){
-        public FriendEntry{
+    ) {
+        public FriendEntry {
             if (avatarProfileImage == null) avatarProfileImage = Optional.empty();
             if (profileEmoteId == null) profileEmoteId = Optional.empty();
             if (gameState == null) gameState = Optional.empty();
         }
     }
 
-    public record RankedChampions (
+    public record RankedChampions(
             @Json(name = "1") List<RankedChampion> central,
             @Json(name = "2") List<RankedChampion> western,
             @Json(name = "3") List<RankedChampion> eastern
-    ){}
+    ) {
+    }
 
-    public record RankedState (
+    public record RankedState(
             ActiveRankedGameModes games,
             @Json(name = "serieId")
             Optional<RankedSeries> rankedSeries,
             @Json(name = "state")
             tech.zolhungaj.amqapi.constants.RankedState state
-    ){
-        public RankedState{
+    ) {
+        public RankedState {
             if (rankedSeries == null) rankedSeries = Optional.empty();
         }
     }
 
-    public record ActiveRankedGameModes (
+    public record ActiveRankedGameModes(
             Boolean expert,
             Boolean novice
-    ){}
+    ) {
+    }
 
 
-    public record EmoteGroup (
+    public record EmoteGroup(
             int orderNumber,
             List<Emote> emotes
-    ){}
+    ) {
+    }
 
-    public record AnimeTag (
+    public record AnimeTag(
             String name,
             int id
-    ){}
+    ) {
+    }
 
     public record RankedLeaderboard(
             @Json(name = "1") List<RankedLeaderboardEntry> central,
             @Json(name = "2") List<RankedLeaderboardEntry> western,
             @Json(name = "3") List<RankedLeaderboardEntry> eastern
-    ){}
+    ) {
+    }
 
-    public record RollTarget (
+    public record RollTarget(
             String fileName,
             String name,
             int id
-    ){}
+    ) {
+    }
 
-    public record XPInfo (
+    public record XPInfo(
             double xpPercent, //literally just xpIntoLevel / xpForLevel
             int lastGain,
             int xpForLevel,
             int xpIntoLevel
-    ){
-        public int xpForNextLevel(){
+    ) {
+        public int xpForNextLevel() {
             return xpForLevel - xpIntoLevel;
         }
     }
 
-    public record AnimeGenre (
+    public record AnimeGenre(
             String name,
             int id
-    ){}
+    ) {
+    }
 
-    public record AvatarDonation (
+    public record AvatarDonation(
             String avatarName,
             double amount,
             String username
-    ){}
+    ) {
+    }
 
-    public record CustomEmoji (
+    public record CustomEmoji(
             Boolean validated,
             String name,
             Boolean active,
             int id,
             int type
-    ){}
+    ) {
+    }
 
 
-
-    public record RecentEmote (
+    public record RecentEmote(
             Optional<Integer> emoteId, //see EmoteGroup -> Emote
             Optional<Integer> emojiId,
             Optional<String> shortCode
-    ){
-        public Optional<URI> emojiURI(){
+    ) {
+        public Optional<URI> emojiURI() {
             return emojiId
                     .map(Emojis::getEmojiURI)
                     .filter(Optional::isPresent)
                     .map(Optional::get);
         }
-        public Optional<String> shortCodeEmoji(){
+
+        public Optional<String> shortCodeEmoji() {
             return shortCode
                     .map(Emojis::getEmojiFromShortcode)
                     .filter(Optional::isPresent)
@@ -315,9 +333,10 @@ public record LoginComplete(
             double oldValue,
             @Json(name = "new")
             double newValue
-    ){}
+    ) {
+    }
 
-    public record TutorialState (
+    public record TutorialState(
             Boolean initialShow,
             Boolean firstGameComplete,
             Boolean teamPlayed,
@@ -327,20 +346,22 @@ public record LoginComplete(
             Boolean rankedCompleted,
             Boolean lootingPlayed,
             Boolean speedPlayed
-    ){}
+    ) {
+    }
 
-    public record RewardAlert (
+    public record RewardAlert(
             String fileName,
             String name,
             int userRewardAlertId
-    ){}
-
+    ) {
+    }
 
 
     public record FavoriteAvatar(
             int favoriteId,
             @Json(name = "avatar") AvatarIdentifier avatarIdentifier,
             @Json(name = "background") AvatarBackgroundIdentifier avatarBackgroundIdentifier
-    ){}
+    ) {
+    }
 
 }
