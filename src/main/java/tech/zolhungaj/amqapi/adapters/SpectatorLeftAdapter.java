@@ -19,7 +19,14 @@ public class SpectatorLeftAdapter extends JsonAdapter<SpectatorLeft> {
         while(jsonReader.peek() == JsonReader.Token.NAME) {
             String name = jsonReader.nextName();
             switch (name) {
-                case "kicked" -> kicked = jsonReader.nextBoolean();
+                case "kicked" -> kicked = switch (jsonReader.peek()){
+                    case BOOLEAN -> jsonReader.nextBoolean();
+                    case NULL -> {
+                        jsonReader.nextNull();
+                        yield null;
+                    }
+                    default -> throw new IOException("Expected a boolean or null but got a " + jsonReader.peek().name());
+                };
                 case "newHost" -> newHost = switch (jsonReader.peek()) {
                     case NULL -> {
                         jsonReader.nextNull();
