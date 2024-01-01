@@ -2,33 +2,19 @@ package tech.zolhungaj.amqapi;
 
 
 import com.squareup.moshi.*;
-import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-import tech.zolhungaj.amqapi.adapters.IntegerEnumJsonAdapter;
+import tech.zolhungaj.amqapi.adapters.*;
 import tech.zolhungaj.amqapi.client.Client;
 import tech.zolhungaj.amqapi.client.DummyClient;
 import tech.zolhungaj.amqapi.clientcommands.*;
-import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.servercommands.*;
-import tech.zolhungaj.amqapi.servercommands.globalstate.*;
-import tech.zolhungaj.amqapi.servercommands.objects.AvatarPose;
-import tech.zolhungaj.amqapi.servercommands.objects.ListStatus;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
-import tech.zolhungaj.amqapi.servercommands.objects.SongType;
-import tech.zolhungaj.amqapi.servercommands.objects.expand.ExpandSongStatus;
-import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult;
-import tech.zolhungaj.amqapi.sharedobjects.AnimeList;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
@@ -38,31 +24,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class AmqApi implements Runnable{
-    private static final Moshi MOSHI = new Moshi
-            .Builder()
-            .add(new CustomBooleanAdapter())
-            .add(new CustomOptionalBooleanAdapter())
-            .add(new CustomOptionalStringAdapter())
-            .add(new CustomLocalDateAdapter())
-            .add(new CustomOffsetDateTimeAdapter())
-            .add(new OptionalFactory())
-            .add(PolymorphicJsonAdapterFactory.of(TicketRollResult.Reward.class, "rewardType")
-                    .withSubtype(TicketRollResult.SkinReward.class, "avatar")
-                    .withSubtype(TicketRollResult.ColorReward.class, "color")
-                    .withSubtype(TicketRollResult.EmoteReward.class, "emote")
-            )
-            .add(PlayerStatus.class, IntegerEnumJsonAdapter.create(PlayerStatus.class))
-            .add(NewQuestEvents.QuestEventState.class, IntegerEnumJsonAdapter.create(NewQuestEvents.QuestEventState.class))
-            .add(AmqRanked.RankedSeries.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedSeries.class))
-            .add(AmqRanked.RankedState.class, IntegerEnumJsonAdapter.create(AmqRanked.RankedState.class))
-            .add(ExpandSongStatus.class, IntegerEnumJsonAdapter.create(ExpandSongStatus.class).withUnknownFallback(ExpandSongStatus.UNKNOWN))
-            .add(SongType.class, IntegerEnumJsonAdapter.create(SongType.class).withUnknownFallback(SongType.UNKNOWN))
-            .add(AnimeList.class, IntegerEnumJsonAdapter.create(AnimeList.class))
-            .add(AvatarPose.class, IntegerEnumJsonAdapter.create(AvatarPose.class))
-            .add(ListStatus.class, IntegerEnumJsonAdapter.create(ListStatus.class))
-            .add(LoginComplete.QuestDescription.QuestStateWeekSlot.class, new LoginComplete.QuestDescription.QuestStateWeekSlotAdapter())
-            .addLast(new com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory())
-            .build();
+    private final Moshi moshi;
     private final Map<String, Class<@CommandType ?>> nameToClassMap = new HashMap<>();
     private final Map<Class<@CommandType ?>, List<Consumer<@CommandType ?>>> onMap = new HashMap<>();
     private final Map<Class<@CommandType ?>, List<Predicate<@CommandType ?>>> onceMap = new HashMap<>();
@@ -82,6 +44,7 @@ public class AmqApi implements Runnable{
         this.username = username;
         this.password = password;
         this.forceConnect = forceConnect;
+        moshi = new MoshiFactory().create();
     }
 
     public void registerCommand(Class<@CommandType ?> clazz){
@@ -209,7 +172,7 @@ public class AmqApi implements Runnable{
      */
     @SuppressWarnings("unchecked")
     public void handle(@CommandType Object command){
-        log.debug("{}, {}", command, command.getClass());
+        log.info("{}, {}", command, command.getClass());
         interceptCommandList.forEach(c -> c.accept(command));
         if(onMap.containsKey(command.getClass())){
             List<Consumer<@CommandType ?>> consumers = onMap.get(command.getClass());
@@ -249,7 +212,7 @@ public class AmqApi implements Runnable{
             return new UnregisteredCommand(commandName, data);
         }
         try{
-            return MOSHI.adapter(clazz).fromJson(data.toString());
+            return moshi.adapter(clazz).fromJson(data.toString());
         }catch(JsonDataException e){
             log.warn("Something went wrong", e);
             return new ErrorParsingCommand(commandName, data, e);
@@ -283,188 +246,6 @@ public class AmqApi implements Runnable{
         var dummyClient = new DummyClient();
         this.client = dummyClient;
         return dummyClient;
-    }
-
-
-    private static class CustomOptionalBooleanAdapter extends JsonAdapter<Optional<Boolean>> {
-        @Override
-        @FromJson
-        public Optional<Boolean> fromJson(JsonReader reader) throws IOException {
-            return switch(reader.peek()){
-                case BOOLEAN -> Optional.of(reader.nextBoolean());
-                case NUMBER -> {
-                    int i = reader.nextInt();
-                    if(i == 0){
-                        yield Optional.of(false);
-                    }else if(i == 1){
-                        yield Optional.of(true);
-                    }else{
-                        throw new JsonDataException("Integer " + i + " is out of range [0-1]");
-                    }
-                }
-                case NULL -> {
-                    reader.nextNull();
-                    yield Optional.empty();
-                }
-                default -> throw new JsonDataException("Expected an Integer but got a " + reader.peek().name());
-            };
-        }
-
-        @Override
-        @ToJson
-        public void toJson(JsonWriter writer, Optional<Boolean> value) throws IOException {
-            if(Objects.requireNonNull(value).isPresent()){
-                writer.value(Boolean.TRUE.equals(value.get()) ? 1 : 0);
-            }else{
-                writer.nullValue();
-            }
-        }
-    }
-
-    private static class CustomBooleanAdapter extends JsonAdapter<Boolean> {
-        @Override
-        @FromJson
-        public Boolean fromJson(JsonReader reader) throws IOException {
-            return switch(reader.peek()){
-                case BOOLEAN -> reader.nextBoolean();
-                case NUMBER -> {
-                    int i = reader.nextInt();
-                    if(i == 0){
-                        yield false;
-                    }else if(i==1){
-                        yield true;
-                    }else{
-                        throw new JsonDataException("Integer " + i + " is out of range [0-1]");
-                    }
-                }
-                case NULL -> {
-                    reader.nextNull();
-                    yield false;
-                }
-                default -> throw new JsonDataException("Expected an Integer but got a " + reader.peek().name());
-            };
-        }
-
-        @Override
-        @ToJson
-        public void toJson(JsonWriter writer, Boolean value) throws IOException {
-            writer.value(Boolean.TRUE.equals(value) ? 1 : 0);
-        }
-    }
-
-    private static class CustomLocalDateAdapter extends JsonAdapter<LocalDate> {
-        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        @Override
-        @FromJson
-        public LocalDate fromJson(JsonReader reader) throws IOException {
-            if(reader.peek() == JsonReader.Token.STRING){
-                return LocalDate.parse(reader.nextString(), FORMATTER);
-            }else{
-                throw new JsonDataException("Expected an String, but got a " + reader.peek().name());
-            }
-        }
-
-        @Override
-        @ToJson
-        public void toJson(JsonWriter writer, LocalDate value) throws IOException {
-            writer.value(FORMATTER.format(value));
-        }
-    }
-
-    private static class CustomOffsetDateTimeAdapter extends JsonAdapter<OffsetDateTime> {
-        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-        @Override
-        @FromJson
-        public OffsetDateTime fromJson(JsonReader reader) throws IOException {
-            if(reader.peek() == JsonReader.Token.STRING){
-                return OffsetDateTime.parse(reader.nextString(), FORMATTER);
-            }else{
-                throw new JsonDataException("Expected an String, but got a " + reader.peek().name());
-            }
-        }
-
-        @Override
-        @ToJson
-        public void toJson(JsonWriter writer, OffsetDateTime value) throws IOException {
-            writer.value(FORMATTER.format(value));
-        }
-    }
-
-    //uber cursed to fix the server sending a false boolean instead of a string in like one place
-    private static class CustomOptionalStringAdapter extends JsonAdapter<Optional<String>> {
-        @Override
-        @FromJson
-        public Optional<String> fromJson(JsonReader reader) throws IOException {
-            return switch(reader.peek()){
-                case STRING -> Optional.of(reader.nextString());
-                case NULL -> {
-                    reader.nextNull();
-                    yield Optional.empty();
-                }
-                case BOOLEAN -> {
-                    boolean cursedBoolean = reader.nextBoolean();
-                    if(!cursedBoolean){
-                        yield Optional.empty();
-                    }
-                    throw new JsonDataException("Expected a false but got a true");
-                }
-                default -> throw new JsonDataException("Expected a Boolean or String but got a " + reader.peek().name());
-            };
-        }
-
-        @Override
-        @ToJson
-        public void toJson(JsonWriter writer, Optional<String> value) throws IOException {
-            if(Objects.requireNonNull(value).isPresent()){
-                writer.value(value.get());
-            }else{
-                writer.nullValue();
-            }
-        }
-    }
-
-    private static class OptionalFactory implements JsonAdapter.Factory {
-        @Override
-        public JsonAdapter<?> create(Type type, Set<? extends Annotation> annotations, Moshi moshi) {
-            if (!annotations.isEmpty()) return null;
-            if (!(type instanceof ParameterizedType)) return null;
-
-            Class<?> rawType = Types.getRawType(type);
-            if (rawType != Optional.class) return null;
-
-            Type optionalType = ((ParameterizedType) type).getActualTypeArguments()[0];
-
-            JsonAdapter<?> optionalTypeAdapter = moshi.adapter(optionalType).nullSafe();
-
-            return new OptionalJsonAdapter<>(optionalTypeAdapter);
-        }
-
-        private static class OptionalJsonAdapter<T> extends JsonAdapter<Optional<T>> {
-
-            private final JsonAdapter<T> optionalTypeAdapter;
-
-            public OptionalJsonAdapter(JsonAdapter<T> optionalTypeAdapter) {
-                this.optionalTypeAdapter = optionalTypeAdapter;
-            }
-
-            @Override
-            public Optional<T> fromJson(JsonReader reader) throws IOException {
-                T instance = optionalTypeAdapter.fromJson(reader);
-                return Optional.ofNullable(instance);
-            }
-
-            @Override
-            public void toJson(JsonWriter writer, Optional<T> value) throws IOException {
-                if(Objects.isNull(value)){
-                    writer.nullValue();
-                }
-                else if (value.isPresent()) {
-                    optionalTypeAdapter.toJson(writer, value.get());
-                } else {
-                    writer.nullValue();
-                }
-            }
-        }
     }
 }
 

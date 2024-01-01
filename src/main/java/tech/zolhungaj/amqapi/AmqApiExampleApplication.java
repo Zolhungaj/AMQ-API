@@ -7,6 +7,8 @@ import tech.zolhungaj.amqapi.clientcommands.lobby.SendPublicChatMessage;
 import tech.zolhungaj.amqapi.clientcommands.lobby.StartGame;
 import tech.zolhungaj.amqapi.clientcommands.roombrowser.HostMultiplayerRoom;
 import tech.zolhungaj.amqapi.clientcommands.social.GetProfile;
+import tech.zolhungaj.amqapi.clientcommands.social.RemoveFriend;
+import tech.zolhungaj.amqapi.clientcommands.social.SendFriendRequest;
 import tech.zolhungaj.amqapi.servercommands.ErrorParsingCommand;
 import tech.zolhungaj.amqapi.servercommands.UnregisteredCommand;
 import tech.zolhungaj.amqapi.servercommands.expandlibrary.*;
@@ -28,6 +30,7 @@ import java.util.function.Predicate;
 
 @Slf4j
 public class AmqApiExampleApplication {
+	private static final String OTHER_ACCOUNT = "Zolhungaj";
 
 	private static final List<Class<?>> registerList = List.of(
 			ExpandLibraryEntryList.class,
@@ -93,7 +96,8 @@ public class AmqApiExampleApplication {
 			PlayerProfile.class,
 			TicketRollResult.class,
 			PlayerJoinedQueue.class,
-			PlayerLeftQueue.class
+			PlayerLeftQueue.class,
+			DirectMessageAlert.class
 	);
 
 
@@ -155,7 +159,7 @@ public class AmqApiExampleApplication {
 		api.once(GameChatMessage.class, gcmPredicate);
 		api.once(GameChatUpdate.class, gcuPredicate);
 		SendPublicChatMessage message = new SendPublicChatMessage("Hello World");
-		Kick kick = new Kick("Zolhungaj");
+		Kick kick = new Kick(OTHER_ACCOUNT);
 		log.info("{}", message);
 		log.info("{}", kick);
 		Thread apiThread = new Thread(api);
@@ -163,6 +167,10 @@ public class AmqApiExampleApplication {
 		Thread.sleep(5000);
 		api.sendCommand(new LoadExpandLibraryAndStartListeningForChanges());
 		Thread.sleep(5000);
+		api.sendCommand(new RemoveFriend(OTHER_ACCOUNT));
+		Thread.sleep(2000);
+		api.sendCommand(new SendFriendRequest(OTHER_ACCOUNT));
+		Thread.sleep(2000);
 		api.sendCommand(new HostMultiplayerRoom(
 				GameSettings.DEFAULT.toBuilder()
 						.songSelection(SongSelection.of(2, 1, 2, 5))
@@ -176,7 +184,7 @@ public class AmqApiExampleApplication {
 		api.sendCommand(message);
 		Thread.sleep(5000);
 		api.sendCommand(kick);
-		api.sendCommand(new GetProfile("Zolhungaj"));
+		api.sendCommand(new GetProfile(OTHER_ACCOUNT));
 		api.sendCommand(new GetProfile("HermesBOT"));
 		apiThread.join();
 		System.exit(0);
