@@ -16,5 +16,6 @@ data class PlayerAvatarDescription(
     val sizeModifier: Int,
     val optionName: String,
     val optionActive: Boolean,
-    val active: Boolean
+    val active: Boolean,
+    val animated: Boolean,
 )

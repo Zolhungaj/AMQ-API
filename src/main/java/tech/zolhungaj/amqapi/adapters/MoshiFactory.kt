@@ -37,7 +37,7 @@ class MoshiFactory {
                     QuestEventStateType::class.java))
             .add(
                 RankedSeries::class.java, IntegerEnumJsonAdapter.create(
-                    RankedSeries::class.java))
+                    RankedSeries::class.java).withUnknownFallback(null))
             .add(
                 RankedState::class.java, IntegerEnumJsonAdapter.create(
                     RankedState::class.java))
