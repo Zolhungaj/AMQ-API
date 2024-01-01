@@ -1,12 +1,12 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("html alert")
-public record HtmlAlert(
-        String title,
-        String message,
-        @Json(name = "storeTransactionTrigger")
-        boolean isFromStoreTransactionTrigger
-){}
+data class HtmlAlert(
+    val title: String,
+    val message: String,
+    @Json(name = "storeTransactionTrigger") val isFromStoreTransactionTrigger: Boolean
+)

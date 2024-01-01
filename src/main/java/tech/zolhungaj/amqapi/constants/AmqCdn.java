@@ -244,7 +244,7 @@ public final class AmqCdn {
     }
 
     public static URI createAvatarBackgroundUrl(StoreAvatar avatar, BACKGROUND_SIZE size){
-        return createAvatarBackgroundUrl(avatar.backgroundVertical(), size);
+        return createAvatarBackgroundUrl(avatar.backgroundVertical, size);
     }
 
     public static URI createAvatarBackgroundUrl(String filename, BACKGROUND_SIZE size){

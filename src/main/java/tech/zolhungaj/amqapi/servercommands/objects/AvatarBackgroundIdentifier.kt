@@ -1,6 +1,7 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-public record AvatarBackgroundIdentifier(
-        int avatarId,
-        int colorId
-){}
+@JvmRecord
+data class AvatarBackgroundIdentifier(
+    val avatarId: Int,
+    val colorId: Int
+)

@@ -1,13 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("server restart")
-public record ServerRestartWarning(
-        @Json(name = "msg")
-        String message,
-        @Json(name = "time")
-        int timeInMinutes
-){
-}
+data class ServerRestartWarning(
+    @Json(name = "msg") val message: String,
+    @Json(name = "time") val timeInMinutes: Int
+)

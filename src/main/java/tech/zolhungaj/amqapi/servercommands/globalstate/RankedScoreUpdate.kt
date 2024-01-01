@@ -1,22 +1,16 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.RankedScoreState
+import java.util.*
 
-import java.util.Optional;
-
+@JvmRecord
 @CommandType("ranked score update")
-public record RankedScoreUpdate(
-        int position,
-        Optional<RankedState> oldState,
-        RankedState newState,
-        @Json(name = "oldBadge")
-        String oldBadgeFilename,
-        @Json(name = "newBadge")
-        String newBadgeFilename
-){
-    public record RankedState(
-            int rank,
-            int score
-    ){}
-}
+data class RankedScoreUpdate(
+    val position: Int,
+    val oldState: RankedScoreState?,
+    val newState: RankedScoreState,
+    @Json(name = "oldBadge") val oldBadgeFilename: String,
+    @Json(name = "newBadge") val newBadgeFilename: String
+)

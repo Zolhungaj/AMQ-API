@@ -1,15 +1,14 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import org.jetbrains.annotations.NotNull;
+import com.squareup.moshi.Json
 
-public record RankedLeaderboardEntry(
-        int score,
-        String name,
-        int position
-) implements Comparable<RankedLeaderboardEntry>
-{
-    @Override
-    public int compareTo(@NotNull RankedLeaderboardEntry o) {
-        return this.position() - o.position();
+@JvmRecord
+data class RankedLeaderboardEntry(
+    val score: Int,
+    @Json(name = "name") val playerName: String,
+    val position: Int
+) : Comparable<RankedLeaderboardEntry> {
+    override fun compareTo(other: RankedLeaderboardEntry): Int {
+        return this.position - other.position
     }
 }

@@ -1,16 +1,12 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-public record AvatarDriveContributionCombo(
+@JvmRecord
+data class AvatarDriveContributionCombo(
+    @Json(name = "avatarName") val avatarName: String,
 
-	@Json(name = "avatarName")
-	String avatarName,
+    @Json(name = "amount") val amount: Double,
 
-	@Json(name = "amount")
-	double amount,
-
-	@Json(name = "username")
-	String username
-) {
-}
+    @Json(name = "username") val username: String
+) 

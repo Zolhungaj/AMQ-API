@@ -1,8 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-public record Donation(
-    String avatarName,
-    double amount,
-    String username
-) {
-}
+import com.squareup.moshi.Json
+
+@JvmRecord
+data class Donation(
+    val avatarName: String,
+    val amount: Double,
+    @Json(name = "username")
+    val playerName: String
+) 

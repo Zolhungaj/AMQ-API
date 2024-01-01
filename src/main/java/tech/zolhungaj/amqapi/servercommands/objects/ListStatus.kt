@@ -1,8 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-public enum ListStatus {
+enum class ListStatus {
     @Json(name = "1")
     WATCHING,
     @Json(name = "2")

@@ -1,7 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-public record AvatarIdentifier(
-        int avatarId,
-        int colorId,
-        Boolean optionActive
-){}
+@JvmRecord
+data class AvatarIdentifier(
+    val avatarId: Int,
+    val colorId: Int,
+    val optionActive: Boolean
+)

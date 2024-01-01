@@ -1,8 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-public enum PlayerStatus {
+enum class PlayerStatus(val text: String) {
     @Json(name = "0")
     OFFLINE("Offline"),
     @Json(name = "1")
@@ -11,9 +11,4 @@ public enum PlayerStatus {
     DO_NOT_DISTURB("Do Not Disturb"),
     @Json(name = "3")
     AWAY("Away")
-    ;
-    public final String text;
-    PlayerStatus(String text){
-        this.text = text;
-    }
 }

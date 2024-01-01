@@ -1,9 +1,9 @@
-package tech.zolhungaj.amqapi.servercommands.objects.messages;
+package tech.zolhungaj.amqapi.servercommands.objects.messages
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-public record Badge(
-        @Json(name = "fileName") String filename,
-        @Json(name = "name") String badgeName
-) {
-}
+@JvmRecord
+data class Badge(
+    @Json(name = "fileName") val filename: String,
+    @Json(name = "name") val badgeName: String
+)

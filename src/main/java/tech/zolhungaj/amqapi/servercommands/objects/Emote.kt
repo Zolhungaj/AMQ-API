@@ -1,9 +1,10 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-public record Emote (
-        int tierId,
-        @Json(name = "name") String emoteName,
-        int emoteId
-){}
+@JvmRecord
+data class Emote(
+    val tierId: Int,
+    @Json(name = "name") val emoteName: String,
+    val emoteId: Int
+)

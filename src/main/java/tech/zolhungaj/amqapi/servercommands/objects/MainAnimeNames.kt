@@ -1,13 +1,10 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
+import java.util.*
 
-import java.util.Optional;
-
-public record MainAnimeNames(
-        @Json(name = "romaji")
-        Optional<String> romaji,
-        @Json(name = "english")
-        Optional<String> english) {
-
-}
+@JvmRecord
+data class MainAnimeNames(
+    @Json(name = "romaji") val romaji: String?,
+    @Json(name = "english") val english: String?
+) 

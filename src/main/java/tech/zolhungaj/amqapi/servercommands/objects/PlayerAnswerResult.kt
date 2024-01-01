@@ -1,30 +1,19 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
-import java.util.Optional;
+import com.squareup.moshi.Json
 
-public record PlayerAnswerResult(
-        @Json(name = "positionSlot")
-        int positionSlot,
-        @Json(name = "score")
-        int score,
-        @Json(name = "correct")
-        boolean correct,
-        @Json(name = "pose")
-        AvatarPose pose,
-        @Json(name = "level")
-        int level,
-        @Json(name = "listStatus")
-        Optional<ListStatus> listStatus,
-        @Json(name = "showScore")
-        Optional<Integer> showScore,
-        @Json(name = "gamePlayerId")
-        int gamePlayerId,
-        @Json(name = "position")
-        int position) {
-        public PlayerAnswerResult{
-                if(showScore == null) showScore = Optional.empty();
-                if(showScore.isPresent() && showScore.get() == 0) showScore = Optional.empty();
-                if(listStatus == null) listStatus = Optional.empty();
-        }
+@JvmRecord
+data class PlayerAnswerResult(
+    @Json(name = "positionSlot") val positionSlot: Int,
+    @Json(name = "score") val score: Int,
+    @Json(name = "correct") val correct: Boolean,
+    @Json(name = "pose") val pose: AvatarPose,
+    @Json(name = "level") val level: Int,
+    @Json(name = "listStatus") val listStatus: ListStatus?,
+    @Json(name = "showScore") private val showScoreJson: Int?,
+    @Json(name = "gamePlayerId") val gamePlayerId: Int,
+    @Json(name = "position") val position: Int
+) {
+    val showScore: Int?
+        get() = if(showScoreJson == 0) null else showScoreJson
 }

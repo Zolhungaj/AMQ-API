@@ -1,8 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-public enum AvatarPose {
+enum class AvatarPose {
     @Json(name = "1")
     BASIC,
     @Json(name = "2")

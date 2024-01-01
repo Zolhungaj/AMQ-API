@@ -1,11 +1,13 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.constants.AmqRanked;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.constants.RankedSeries
+import tech.zolhungaj.amqapi.constants.RankedState
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("ranked game state change")
-public record RankedGameStateChanged(
-        @Json(name = "serieId") AmqRanked.RankedSeries rankedSeries,
-        @Json(name = "state") AmqRanked.RankedState state
-){}
+data class RankedGameStateChanged(
+    @Json(name = "serieId") val rankedSeries: RankedSeries,
+    @Json(name = "state") val state: RankedState
+)

@@ -1,53 +1,34 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import com.squareup.moshi.Json
+import java.util.*
 
-import com.squareup.moshi.Json;
+@JvmRecord
+data class SongInfo(
+    @Json(name = "songName") val songName: String,
+    @Json(name = "animeGenre") val animeGenre: List<String>,
 
-public record SongInfo(
-        @Json(name = "songName")
-        String songName,
-        @Json(name = "animeGenre")
-        List<String> animeGenre,
+    @Json(name = "animeNames") val mainAnimeNames: MainAnimeNames,
+    @Json(name = "artist") val artist: String,
 
-        @Json(name = "animeNames")
-        MainAnimeNames mainAnimeNames,
-        @Json(name = "artist")
-        String artist,
+    @Json(name = "animeDifficulty") val animeDifficulty: Double?,
 
-        @Json(name = "animeDifficulty")
-        Optional<Double> animeDifficulty,
+    @Json(name = "altAnimeNames") val alternativeAnimeNames: List<String>,
 
-        @Json(name = "altAnimeNames")
-        List<String> alternativeAnimeNames,
+    @Json(name = "animeScore") val animeScore: Optional<Double>,
+    @Json(name = "type") val type: SongType,
 
-        @Json(name = "animeScore")
-        Optional<Double> animeScore,
-        @Json(name = "type")
-        SongType type,
+    @Json(name = "urlMap") val urlMap: Map<String, Map<String, String>>,
 
-        @Json(name = "urlMap")
-        Map<String, Map<String, String>> urlMap,
+    @Json(name = "typeNumber") val typeNumber: Int,
+    @Json(name = "annId") val annId: Int,
 
-        @Json(name = "typeNumber")
-        int typeNumber,
-        @Json(name = "annId")
-        int annId,
+    @Json(name = "vintage") val vintage: String,
+    @Json(name = "animeTags") val animeTags: List<String>,
 
-        @Json(name = "vintage")
-        String vintage,
-        @Json(name = "animeTags")
-        List<String> animeTags,
+    @Json(name = "siteIds") val siteIds: AnimeListSiteShowIds,
+    @Json(name = "animeType") val animeType: String,
+    @Json(name = "highRisk") val highRisk: Boolean,
 
-        @Json(name = "siteIds")
-        AnimeListSiteShowIds siteIds,
-        @Json(name = "animeType")
-        String animeType,
-        @Json(name = "highRisk")
-        Boolean highRisk,
-
-        @Json(name = "altAnimeNamesAnswers")
-        List<String> alternativeAnimeNamesAnswers)
-{}
+    @Json(name = "altAnimeNamesAnswers") val alternativeAnimeNamesAnswers: List<String>
+) 

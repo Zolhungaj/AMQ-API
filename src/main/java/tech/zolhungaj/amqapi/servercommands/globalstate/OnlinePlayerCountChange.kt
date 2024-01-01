@@ -1,8 +1,9 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("online player count change")
-public record OnlinePlayerCountChange(
-        int count
-){}
+data class OnlinePlayerCountChange(
+    val count: Int
+)

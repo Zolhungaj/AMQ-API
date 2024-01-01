@@ -1,23 +1,22 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*
 
-public record VideoMapWithVolume(
-        Optional<VideoWithVolumeAndResolution> video1080p,
-        Optional<VideoWithVolumeAndResolution> video720p,
-        Optional<VideoWithVolumeAndResolution> video480p,
-        Optional<VideoWithVolumeAndResolution> audio
+@JvmRecord
+data class VideoMapWithVolume(
+    val video1080p: VideoWithVolumeAndResolution?,
+    val video720p: VideoWithVolumeAndResolution?,
+    val video480p: VideoWithVolumeAndResolution?,
+    val audio: VideoWithVolumeAndResolution?
 ) {
-    public static List<Integer> VALID_RESOLUTIONS = List.of(1080, 720, 480, 0);
-
-    public static VideoMapWithVolume of(Map<Integer, VideoWithVolumeAndResolution> map) {
-        return new VideoMapWithVolume(
-                Optional.ofNullable(map.get(1080)),
-                Optional.ofNullable(map.get(720)),
-                Optional.ofNullable(map.get(480)),
-                Optional.ofNullable(map.get(0))
-        );
+    constructor(map: Map<Int, VideoWithVolumeAndResolution>) : this(
+        map[1080],
+        map[720],
+        map[480],
+        map[0]
+    )
+    companion object {
+        @JvmField
+        val VALID_RESOLUTIONS: List<Int> = listOf(1080, 720, 480, 0)
     }
 }

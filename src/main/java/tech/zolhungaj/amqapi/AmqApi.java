@@ -2,7 +2,6 @@ package tech.zolhungaj.amqapi;
 
 
 import com.squareup.moshi.*;
-import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -10,17 +9,7 @@ import tech.zolhungaj.amqapi.adapters.*;
 import tech.zolhungaj.amqapi.client.Client;
 import tech.zolhungaj.amqapi.client.DummyClient;
 import tech.zolhungaj.amqapi.clientcommands.*;
-import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.servercommands.*;
-import tech.zolhungaj.amqapi.servercommands.globalstate.*;
-import tech.zolhungaj.amqapi.servercommands.objects.AvatarPose;
-import tech.zolhungaj.amqapi.servercommands.objects.ListStatus;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus;
-import tech.zolhungaj.amqapi.servercommands.objects.SongType;
-import tech.zolhungaj.amqapi.servercommands.objects.expand.ExpandSongStatus;
-import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult;
-import tech.zolhungaj.amqapi.sharedobjects.AnimeList;
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

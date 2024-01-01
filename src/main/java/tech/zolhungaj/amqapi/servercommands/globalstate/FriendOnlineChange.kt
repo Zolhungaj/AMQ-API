@@ -1,10 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("friend state change")
-public record FriendOnlineChange (
-        @Json(name = "name") String playerName,
-        Boolean online
-){}
+data class FriendOnlineChange(
+    @Json(name = "name") val playerName: String,
+    val online: Boolean
+)

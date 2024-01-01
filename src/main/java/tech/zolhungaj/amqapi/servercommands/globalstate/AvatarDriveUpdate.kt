@@ -1,13 +1,12 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveContributionCombo;
-import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveNomination;
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveContributionCombo
+import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveNomination
 
-import java.util.List;
-
+@JvmRecord
 @CommandType("avatar drive changes")
-public record AvatarDriveUpdate(
-        List<AvatarDriveNomination> top5Nominations,
-        List<AvatarDriveContributionCombo> recent8
-){}
+data class AvatarDriveUpdate(
+    val top5Nominations: List<AvatarDriveNomination>,
+    val recent8: List<AvatarDriveContributionCombo>
+)

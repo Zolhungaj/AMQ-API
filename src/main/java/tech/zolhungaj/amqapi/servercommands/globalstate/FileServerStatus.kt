@@ -1,11 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("server state change")
-public record FileServerStatus(
-        @Json(name = "name")
-        String serverName,
-        boolean online
-){}
+data class FileServerStatus(
+    @Json(name = "name") val serverName: String,
+    val online: Boolean
+)

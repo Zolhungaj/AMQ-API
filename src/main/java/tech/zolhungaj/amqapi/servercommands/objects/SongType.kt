@@ -1,8 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-public enum SongType {
+enum class SongType {
     @Json(name = "1")
     OPENING,
     @Json(name = "2")

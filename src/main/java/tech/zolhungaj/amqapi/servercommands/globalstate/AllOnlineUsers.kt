@@ -1,12 +1,10 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
-import java.util.List;
-
+@JvmRecord
 @CommandType("all online users")
-public record AllOnlineUsers(
-        @Json(name = "array")
-        List<String> list
-){}
+data class AllOnlineUsers(
+    @Json(name = "array") val list: List<String>
+)

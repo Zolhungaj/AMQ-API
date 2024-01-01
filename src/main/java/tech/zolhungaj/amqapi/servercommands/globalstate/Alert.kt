@@ -1,12 +1,12 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("alert")
-public record Alert(
-        String title,
-        String message,
-        @Json(name = "easyClose")
-        boolean allowOutsideClickToClose
-){}
+data class Alert(
+    val title: String,
+    val message: String,
+    @Json(name = "easyClose") val allowOutsideClickToClose: Boolean
+)

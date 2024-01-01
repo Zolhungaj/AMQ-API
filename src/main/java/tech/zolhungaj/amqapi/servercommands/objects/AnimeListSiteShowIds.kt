@@ -1,14 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-import java.util.Optional;
-
-public record AnimeListSiteShowIds(
-        @Json(name = "kitsuId")
-        Optional<Integer> kitsuId,
-        @Json(name = "annId")
-        Optional<Integer> animeNewsNetworkId,
-        @Json(name = "malId") Optional<Integer> myAnimeListId,
-        @Json(name = "aniListId") Optional<Integer> aniListId)
-{}
+@JvmRecord
+data class AnimeListSiteShowIds(
+    @Json(name = "kitsuId") val kitsuId: Int?,
+    @Json(name = "annId") val animeNewsNetworkId: Int?,
+    @Json(name = "malId") val myAnimeListId: Int?,
+    @Json(name = "aniListId") val aniListId: Int?
+) 

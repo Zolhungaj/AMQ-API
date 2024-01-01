@@ -1,15 +1,11 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate;
 
 import com.squareup.moshi.Json;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.JsonReader;
-import com.squareup.moshi.JsonWriter;
-import tech.zolhungaj.amqapi.constants.AmqRanked;
 import tech.zolhungaj.amqapi.constants.Emojis;
+import tech.zolhungaj.amqapi.constants.RankedSeries;
 import tech.zolhungaj.amqapi.servercommands.CommandType;
 import tech.zolhungaj.amqapi.servercommands.objects.*;
 
-import java.io.IOException;
 import java.net.URI;
 import java.time.Instant;
 import java.util.List;
@@ -96,80 +92,6 @@ public record LoginComplete(
     }
     public Optional<Instant> malLastUpdateInstant(){
         return malLastUpdate.map(Instant::parse);
-    }
-
-
-    public record QuestDescription(
-            int ticketReward,
-            int questId,
-            int targetState,
-            QuestStateWeekSlot weekSlot,
-            String name,
-            String description,
-            int state,
-            int noteReward
-    ){
-        public enum QuestStateWeekSlot{
-            MONDAY,
-            TUESDAY,
-            WEDNESDAY,
-            THURSDAY,
-            FRIDAY,
-            SATURDAY,
-            SUNDAY,
-            EVENT
-        }
-        public static class QuestStateWeekSlotAdapter extends JsonAdapter<QuestStateWeekSlot> {
-
-            @Override
-            public QuestStateWeekSlot fromJson(JsonReader reader) throws IOException {
-                return switch(reader.peek()){
-                    case NUMBER -> {
-                        int intValue = reader.nextInt();
-                        yield switch(intValue){
-                            case 0 -> QuestStateWeekSlot.MONDAY;
-                            case 1 -> QuestStateWeekSlot.TUESDAY;
-                            case 2 -> QuestStateWeekSlot.WEDNESDAY;
-                            case 3 -> QuestStateWeekSlot.THURSDAY;
-                            case 4 -> QuestStateWeekSlot.FRIDAY;
-                            case 5 -> QuestStateWeekSlot.SATURDAY;
-                            case 6 -> QuestStateWeekSlot.SUNDAY;
-                            default -> throw new IllegalStateException("Should be unreachable");
-                        };
-                    }
-                    case STRING -> {
-                        String stringValue = reader.nextString();
-                        yield switch(stringValue){
-                            case "event" -> QuestStateWeekSlot.EVENT;
-                            default -> throw new IllegalStateException("Unknown string value: " + stringValue);
-                        };
-                    }
-                    default -> throw new IllegalStateException("Unexpected type: " + reader.peek().name());
-                };
-            }
-
-            @Override
-            public void toJson(JsonWriter writer, QuestStateWeekSlot value) throws IOException {
-                if(value == null){
-                    writer.nullValue();
-                }
-                else if (value == QuestStateWeekSlot.EVENT){
-                    writer.value("event");
-                }else{
-                    int intValue = switch(value){
-                        case MONDAY -> 0;
-                        case TUESDAY -> 1;
-                        case WEDNESDAY -> 2;
-                        case THURSDAY -> 3;
-                        case FRIDAY -> 4;
-                        case SATURDAY -> 5;
-                        case SUNDAY -> 6;
-                        case EVENT -> throw new IllegalStateException("Should be unreachable");
-                    };
-                    writer.value(intValue);
-                }
-            }
-        }
     }
 
 
@@ -300,9 +222,9 @@ public record LoginComplete(
     public record RankedState (
             ActiveRankedGameModes games,
             @Json(name = "serieId")
-            Optional<AmqRanked.RankedSeries> rankedSeries,
+            Optional<RankedSeries> rankedSeries,
             @Json(name = "state")
-            AmqRanked.RankedState state
+            tech.zolhungaj.amqapi.constants.RankedState state
     ){
         public RankedState{
             if (rankedSeries == null) rankedSeries = Optional.empty();
@@ -420,4 +342,5 @@ public record LoginComplete(
             @Json(name = "avatar") AvatarIdentifier avatarIdentifier,
             @Json(name = "background") AvatarBackgroundIdentifier avatarBackgroundIdentifier
     ){}
+
 }

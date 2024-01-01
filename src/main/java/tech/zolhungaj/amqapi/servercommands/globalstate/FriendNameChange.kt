@@ -1,9 +1,10 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("friend name change")
-public record FriendNameChange(
-        String newName,
-        String oldName
-){}
+data class FriendNameChange(
+    val newName: String,
+    val oldName: String
+)

@@ -1,52 +1,31 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-import java.util.List;
-import java.util.Optional;
-
-public record StoreAvatar(
-        String colorName,
-        int outfitId,
-        Optional<Integer> patreonTierToUnlock,
-        int notePrice,
-        String lore,
-        Boolean limited,
-        String artist,
-        String badgeName,
-        @Json(name = "backgroundVert")
-        String backgroundVertical,
-        Boolean active,
-        List<AvatarColor> colors,
-        int defaultColorId,
-        String badgeFileName,
-        String avatarName,
-        Boolean defaultAvatar,
-        int avatarId,
-        String world,
-        Optional<Integer> tierId,
-        int realMoneyPrice,
-        String outfitName,
-        Boolean exclusive,
-        int sizeModifier,
-        String optionName
-){
-
-    public record AvatarColor (
-            Optional<String> editor,
-            Boolean limited,
-            int colorId,
-            Boolean active,
-            @Json(name = "backgroundVert")
-            String backgroundVertical,
-            Boolean defaultColor,
-            Optional<Integer> tierId,
-            int price,
-            Boolean eventColor, //Always 0?
-            Boolean unique,
-            String name,
-            Boolean exclusive,
-            int sizeModifier
-    ){}
-}
+@JvmRecord
+data class StoreAvatar(
+        val colorName: String,
+        val outfitId: Int,
+        val patreonTierToUnlock: Int?,
+        val notePrice: Int,
+        val lore: String,
+        val limited: Boolean,
+        val artist: String,
+        val badgeName: String,
+        @JvmField @Json(name = "backgroundVert") val backgroundVertical: String,
+        val active: Boolean,
+        val colors: List<StoreAvatarColor>,
+        val defaultColorId: Int,
+        val badgeFileName: String,
+        val avatarName: String,
+        val defaultAvatar: Boolean,
+        val avatarId: Int,
+        val world: String,
+        val tierId: Int?,
+        val realMoneyPrice: Int,
+        val outfitName: String,
+        val exclusive: Boolean,
+        val sizeModifier: Int,
+        val optionName: String
+)
 

@@ -1,29 +1,12 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.ProfileImageAvatarInfo
 
-import java.util.Optional;
-
+@JvmRecord
 @CommandType("friend profile image change")
-public record FriendProfileImageChange(
-        @Json(name = "name") String playerName,
-        AvatarInfo profileImage
-){
-    public record AvatarInfo(
-            @Json(name = "profileEmoteId") Optional<Integer> emoteId,
-            String avatarName,
-            String outfitName,
-            String optionName,
-            Boolean optionActive,
-            String colorName,
-            Optional<String> editor,
-            int colorId,
-            Boolean active,
-            String backgroundFileName,
-            Boolean colorActive,
-            int avatarId,
-            int sizeModifier,
-            int characterId
-    ) {}
-}
+data class FriendProfileImageChange(
+    @Json(name = "name") val playerName: String,
+    val profileImage: ProfileImageAvatarInfo
+)

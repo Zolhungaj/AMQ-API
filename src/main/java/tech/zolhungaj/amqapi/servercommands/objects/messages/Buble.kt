@@ -1,9 +1,7 @@
-package tech.zolhungaj.amqapi.servercommands.objects.messages;
+package tech.zolhungaj.amqapi.servercommands.objects.messages
 
-import java.util.List;
-
-public record Buble(
-        List<String> emoteIds,
-        List<String> shortCodes
-) {
-}
+@JvmRecord
+data class Buble(
+    val emoteIds: List<String>,
+    val shortCodes: List<String>
+)

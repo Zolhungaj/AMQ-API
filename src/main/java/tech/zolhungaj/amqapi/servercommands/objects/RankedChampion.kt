@@ -1,15 +1,13 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
-import org.jetbrains.annotations.NotNull;
+import com.squareup.moshi.Json
 
-public record RankedChampion (
-		@Json(name = "name") String championName,
-		int position
-) implements Comparable<RankedChampion>
-{
-	@Override
-	public int compareTo(@NotNull RankedChampion o) {
-		return this.position() - o.position();
-	}
+@JvmRecord
+data class RankedChampion(
+    @Json(name = "name") val playerName: String,
+    val position: Int
+) : Comparable<RankedChampion> {
+    override fun compareTo(other: RankedChampion): Int {
+        return this.position - other.position
+    }
 }

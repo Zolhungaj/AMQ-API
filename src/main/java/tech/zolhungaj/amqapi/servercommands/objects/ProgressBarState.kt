@@ -1,10 +1,9 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-public record ProgressBarState(
-        @Json(name = "length") double totalLength,
-        @Json(name = "played") double currentPosition
-) {
-
-}
+@JvmRecord
+data class ProgressBarState(
+    @field:Json(name = "length") @param:Json(name = "length") val totalLength: Double,
+    @field:Json(name = "played") @param:Json(name = "played") val currentPosition: Double
+) 

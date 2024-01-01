@@ -1,16 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
+import java.time.OffsetDateTime
 
-import java.time.OffsetDateTime;
-
-public record QuizIdentifier(
-		@Json(name = "quizId")
-		String quizUuid,
-		@Json(name = "startTime")
-		OffsetDateTime startTime,
-		@Json(name = "roomName")
-		String roomName
-) {
-
-}
+@JvmRecord
+data class QuizIdentifier(
+    @Json(name = "quizId") val quizUuid: String,
+    @Json(name = "startTime") val startTime: OffsetDateTime,
+    @Json(name = "roomName") val roomName: String
+) 

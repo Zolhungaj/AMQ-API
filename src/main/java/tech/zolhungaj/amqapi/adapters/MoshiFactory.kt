@@ -4,11 +4,10 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import tech.zolhungaj.amqapi.constants.AmqRanked
-import tech.zolhungaj.amqapi.constants.AmqRanked.RankedSeries
-import tech.zolhungaj.amqapi.servercommands.globalstate.LoginComplete.QuestDescription.QuestStateWeekSlot
-import tech.zolhungaj.amqapi.servercommands.globalstate.LoginComplete.QuestDescription.QuestStateWeekSlotAdapter
-import tech.zolhungaj.amqapi.servercommands.globalstate.NewQuestEvents.QuestEventState
+import tech.zolhungaj.amqapi.constants.RankedSeries
+import tech.zolhungaj.amqapi.constants.RankedState
+import tech.zolhungaj.amqapi.servercommands.objects.QuestStateWeekSlot
+import tech.zolhungaj.amqapi.servercommands.objects.QuestEventStateType
 import tech.zolhungaj.amqapi.servercommands.objects.*
 import tech.zolhungaj.amqapi.servercommands.objects.expand.ExpandSongStatus
 import tech.zolhungaj.amqapi.sharedobjects.AnimeList
@@ -33,9 +32,15 @@ class MoshiFactory {
                     .withSubtype(TicketEmoteReward::class.java, "emote")
             )
             .add(PlayerStatus::class.java, IntegerEnumJsonAdapter.create(PlayerStatus::class.java))
-            .add(QuestEventState::class.java, IntegerEnumJsonAdapter.create(QuestEventState::class.java))
-            .add(RankedSeries::class.java, IntegerEnumJsonAdapter.create(RankedSeries::class.java))
-            .add(AmqRanked.RankedState::class.java, IntegerEnumJsonAdapter.create(AmqRanked.RankedState::class.java))
+            .add(
+                QuestEventStateType::class.java, IntegerEnumJsonAdapter.create(
+                    QuestEventStateType::class.java))
+            .add(
+                RankedSeries::class.java, IntegerEnumJsonAdapter.create(
+                    RankedSeries::class.java))
+            .add(
+                RankedState::class.java, IntegerEnumJsonAdapter.create(
+                    RankedState::class.java))
             .add(
                 ExpandSongStatus::class.java,
                 IntegerEnumJsonAdapter.create(ExpandSongStatus::class.java)
@@ -49,7 +54,10 @@ class MoshiFactory {
             .add(AnimeList::class.java, IntegerEnumJsonAdapter.create(AnimeList::class.java))
             .add(AvatarPose::class.java, IntegerEnumJsonAdapter.create(AvatarPose::class.java))
             .add(ListStatus::class.java, IntegerEnumJsonAdapter.create(ListStatus::class.java))
-            .add(QuestStateWeekSlot::class.java, QuestStateWeekSlotAdapter())
+            .add(
+                QuestStateWeekSlot::class.java,
+                QuestStateWeekSlotAdapter()
+            )
             .addLast(KotlinJsonAdapterFactory())
             .build()
     }

@@ -1,8 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-public record PlayerEndResult(
-        AvatarPose pose,
-        int endPosition,
-        int gamePlayerId
-) {
-}
+@JvmRecord
+data class PlayerEndResult(
+    val pose: AvatarPose,
+    val endPosition: Int,
+    val gamePlayerId: Int
+)

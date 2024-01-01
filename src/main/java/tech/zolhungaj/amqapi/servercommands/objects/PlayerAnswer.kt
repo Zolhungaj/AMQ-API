@@ -1,9 +1,8 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-public record PlayerAnswer(
-        String answer,
-        AvatarPose pose,
-        int gamePlayerId
-) {
-
-}
+@JvmRecord
+data class PlayerAnswer(
+    val answer: String,
+    val pose: AvatarPose,
+    val gamePlayerId: Int
+)

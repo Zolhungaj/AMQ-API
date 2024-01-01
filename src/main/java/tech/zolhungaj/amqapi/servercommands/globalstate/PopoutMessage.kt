@@ -1,9 +1,10 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("popout message")
-public record PopoutMessage(
-	String header,
-	String message
-){}
+data class PopoutMessage(
+    val header: String,
+    val message: String
+)

@@ -1,34 +1,22 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
+import java.util.*
 
-import java.util.Optional;
-
-public record QuizPlayer(
-		@Json(name = "name")
-		String playerName,
-		@Json(name = "level")
-		int level,
-		@Json(name = "gamePlayerId")
-		int gamePlayerId,
-		@Json(name = "host")
-		boolean isHost,
-		@Json(name = "avatarInfo")
-		PlayerAvatar avatarInfo,
-		@Json(name = "inGame")
-		boolean inGame,
-		@Json(name = "teamPlayer") Optional<Boolean> teamPlayer,
-		@Json(name = "teamNumber") Optional<Integer> teamNumber,
-		@Json(name = "pose")
-		AvatarPose pose,
-		@Json(name = "score")
-		int score,
-		@Json(name = "teamCaptain")
-		Optional<Boolean> teamCaptain,
-		@Json(name = "multiChoiceActive")
-		boolean hasMultiChoiceActive,
-		@Json(name = "position") int position,
-		@Json(name = "positionSlot") Optional<Integer> positionSlot
-) {
-
-}
+@JvmRecord
+data class QuizPlayer(
+    @Json(name = "name") val playerName: String,
+    @Json(name = "level") val level: Int,
+    @Json(name = "gamePlayerId") val gamePlayerId: Int,
+    @Json(name = "host") val isHost: Boolean,
+    @Json(name = "avatarInfo") val avatarInfo: PlayerAvatar,
+    @Json(name = "inGame") val inGame: Boolean,
+    @Json(name = "teamPlayer") val teamPlayer: Boolean?,
+    @Json(name = "teamNumber") val teamNumber: Int?,
+    @Json(name = "pose") val pose: AvatarPose,
+    @Json(name = "score") val score: Int,
+    @Json(name = "teamCaptain") val teamCaptain: Boolean?,
+    @Json(name = "multiChoiceActive") val hasMultiChoiceActive: Boolean,
+    @Json(name = "position") val position: Int,
+    @Json(name = "positionSlot") val positionSlot: Int?
+) 

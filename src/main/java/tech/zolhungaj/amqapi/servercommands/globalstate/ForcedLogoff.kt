@@ -1,8 +1,9 @@
-package tech.zolhungaj.amqapi.servercommands.globalstate;
+package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
+@JvmRecord
 @CommandType("force logoff")
-public record ForcedLogoff(
-        String reason
-){}
+data class ForcedLogoff(
+    val reason: String
+)
