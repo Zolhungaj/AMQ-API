@@ -28,6 +28,8 @@ class MoshiFactory {
             .add(CustomLocalDateAdapter())
             .add(CustomOffsetDateTimeAdapter())
             .add(OptionalFactory())
+            .add(PlayerLeftAdapter())
+            .add(SpectatorLeftAdapter())
             .add(
                 PolymorphicJsonAdapterFactory.of(Reward::class.java, "rewardType")
                     .withSubtype(SkinReward::class.java, "avatar")

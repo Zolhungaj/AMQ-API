@@ -1,11 +1,10 @@
-package tech.zolhungaj.amqapi.servercommands.objects;
+package tech.zolhungaj.amqapi.servercommands.objects
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.Json
 
-import java.util.Optional;
-
-public record PlayerIdentifier(
-        @Json(name = "name") String playerName,
-        Optional<Integer> gamePlayerId
-) {
-}
+@JvmRecord
+data class PlayerIdentifier(
+    @Json(name = "name")
+    val playerName: String,
+    val gamePlayerId: Int?
+)
