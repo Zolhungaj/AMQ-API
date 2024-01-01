@@ -41,6 +41,7 @@ public class AmqApi implements Runnable{
     private static final Moshi MOSHI = new Moshi
             .Builder()
             .add(new CustomBooleanAdapter())
+            .add(new CustomKotlinBooleanAdapter())
             .add(new CustomOptionalBooleanAdapter())
             .add(new CustomOptionalStringAdapter())
             .add(new CustomLocalDateAdapter())
@@ -209,7 +210,7 @@ public class AmqApi implements Runnable{
      */
     @SuppressWarnings("unchecked")
     public void handle(@CommandType Object command){
-        log.debug("{}, {}", command, command.getClass());
+        log.info("{}, {}", command, command.getClass());
         interceptCommandList.forEach(c -> c.accept(command));
         if(onMap.containsKey(command.getClass())){
             List<Consumer<@CommandType ?>> consumers = onMap.get(command.getClass());
@@ -349,6 +350,20 @@ public class AmqApi implements Runnable{
         @ToJson
         public void toJson(JsonWriter writer, Boolean value) throws IOException {
             writer.value(Boolean.TRUE.equals(value) ? 1 : 0);
+        }
+    }
+
+    private static class CustomKotlinBooleanAdapter{
+        private static final CustomBooleanAdapter HELPER = new CustomBooleanAdapter();
+        @FromJson
+        boolean fromJson(JsonReader reader) throws IOException{
+            Boolean value = HELPER.fromJson(reader);
+            return Boolean.TRUE.equals(value); // null coalesces into false
+        }
+
+        @ToJson
+        public void toJson(JsonWriter writer, boolean value) throws IOException {
+            HELPER.toJson(writer, value);
         }
     }
 

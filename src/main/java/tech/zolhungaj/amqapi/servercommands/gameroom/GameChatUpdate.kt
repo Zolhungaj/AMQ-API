@@ -1,12 +1,11 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom;
+package tech.zolhungaj.amqapi.servercommands.gameroom
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.messages.Buble;
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.messages.Buble
 
-import java.util.List;
-
+@JvmRecord
 @CommandType("game chat update")
-public record GameChatUpdate(
-        List<GameChatMessage> messages,
-        List<Buble> bubles
-){}
+data class GameChatUpdate(
+    val messages: List<GameChatMessage>,
+    val bubles: List<Buble>
+)

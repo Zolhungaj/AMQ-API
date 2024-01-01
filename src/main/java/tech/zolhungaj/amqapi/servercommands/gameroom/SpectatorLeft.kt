@@ -1,17 +1,13 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom;
+package tech.zolhungaj.amqapi.servercommands.gameroom
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
-import java.util.Optional;
-
+@JvmRecord
 @CommandType("Spectator Left")
-public record SpectatorLeft(
-        Optional<Boolean> kicked,
-        Optional<String> newHost,
-        @Json(name = "spectator") String playerName
-){
-    public SpectatorLeft{
-        if(newHost == null) newHost = Optional.empty();
-    }
-}
+data class SpectatorLeft(
+    val kicked: Boolean,
+    val newHost: String?,
+    @Json(name = "spectator")
+    val playerName: String
+)

@@ -1,20 +1,13 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom;
+package tech.zolhungaj.amqapi.servercommands.gameroom
 
-import tech.zolhungaj.amqapi.servercommands.CommandType;
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerIdentifier;
+import tech.zolhungaj.amqapi.servercommands.CommandType
+import tech.zolhungaj.amqapi.servercommands.objects.PlayerIdentifier
 
-import java.util.Optional;
-
+@JvmRecord
 @CommandType("Player Left")
-public record PlayerLeft(
-        Boolean kicked,
-        Boolean disconnect,
-        Optional<String> newHost,
-        PlayerIdentifier player
-){
-    public PlayerLeft{
-        if(kicked == null) kicked = false;
-        if(disconnect == null) disconnect = false;
-        if(newHost == null) newHost = Optional.empty();
-    }
-}
+data class PlayerLeft(
+    val kicked: Boolean,
+    val disconnect: Boolean,
+    val newHost: String?,
+    val player: PlayerIdentifier
+)

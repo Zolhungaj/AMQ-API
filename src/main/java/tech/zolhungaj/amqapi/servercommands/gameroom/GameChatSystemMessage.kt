@@ -1,13 +1,14 @@
-package tech.zolhungaj.amqapi.servercommands.gameroom;
+package tech.zolhungaj.amqapi.servercommands.gameroom
 
-import com.squareup.moshi.Json;
-import tech.zolhungaj.amqapi.servercommands.CommandType;
+import com.squareup.moshi.Json
+import tech.zolhungaj.amqapi.servercommands.CommandType
 
-import java.util.Optional;
-
+@JvmRecord
 @CommandType("Game System Chat Message")
-public record GameChatSystemMessage(
-    String title,
-    @Json(name = "msg") Optional<String> message,
-    @Json(name = "teamMessage") Boolean isTeamMessage
-){}
+data class GameChatSystemMessage(
+    val title: String,
+    @Json(name = "msg")
+    val message: String?,
+    @Json(name = "teamMessage")
+    val isTeamMessage: Boolean
+)
