@@ -9,12 +9,8 @@ import tech.zolhungaj.amqapi.constants.AmqRanked.RankedSeries
 import tech.zolhungaj.amqapi.servercommands.globalstate.LoginComplete.QuestDescription.QuestStateWeekSlot
 import tech.zolhungaj.amqapi.servercommands.globalstate.LoginComplete.QuestDescription.QuestStateWeekSlotAdapter
 import tech.zolhungaj.amqapi.servercommands.globalstate.NewQuestEvents.QuestEventState
-import tech.zolhungaj.amqapi.servercommands.objects.AvatarPose
-import tech.zolhungaj.amqapi.servercommands.objects.ListStatus
-import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus
-import tech.zolhungaj.amqapi.servercommands.objects.SongType
+import tech.zolhungaj.amqapi.servercommands.objects.*
 import tech.zolhungaj.amqapi.servercommands.objects.expand.ExpandSongStatus
-import tech.zolhungaj.amqapi.servercommands.store.TicketRollResult.*
 import tech.zolhungaj.amqapi.sharedobjects.AnimeList
 import java.lang.reflect.Type
 
@@ -31,10 +27,10 @@ class MoshiFactory {
             .add(PlayerLeftAdapter())
             .add(SpectatorLeftAdapter())
             .add(
-                PolymorphicJsonAdapterFactory.of(Reward::class.java, "rewardType")
-                    .withSubtype(SkinReward::class.java, "avatar")
-                    .withSubtype(ColorReward::class.java, "color")
-                    .withSubtype(EmoteReward::class.java, "emote")
+                PolymorphicJsonAdapterFactory.of(TicketReward::class.java, "rewardType")
+                    .withSubtype(TicketSkinReward::class.java, "avatar")
+                    .withSubtype(TicketColorReward::class.java, "color")
+                    .withSubtype(TicketEmoteReward::class.java, "emote")
             )
             .add(PlayerStatus::class.java, IntegerEnumJsonAdapter.create(PlayerStatus::class.java))
             .add(QuestEventState::class.java, IntegerEnumJsonAdapter.create(QuestEventState::class.java))
