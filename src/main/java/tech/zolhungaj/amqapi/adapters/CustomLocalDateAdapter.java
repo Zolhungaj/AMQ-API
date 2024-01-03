@@ -12,7 +12,12 @@ public class CustomLocalDateAdapter extends JsonAdapter<LocalDate> {
     @Override
     @FromJson
     public LocalDate fromJson(JsonReader reader) throws IOException {
-        if (reader.peek() == JsonReader.Token.STRING) {
+        JsonReader.Token token = reader.peek();
+        if (token == JsonReader.Token.NULL) {
+            reader.nextNull();
+            return null;
+        }
+        else if (token == JsonReader.Token.STRING) {
             return LocalDate.parse(reader.nextString(), FORMATTER);
         } else {
             throw new JsonDataException("Expected an String, but got a " + reader.peek().name());
