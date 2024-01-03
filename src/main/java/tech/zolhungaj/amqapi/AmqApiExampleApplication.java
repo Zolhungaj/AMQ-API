@@ -101,7 +101,9 @@ public class AmqApiExampleApplication {
 			SkipVotePassed.class,
 			QuizSkippingToNextPhase.class,
 			QuizPaused.class,
-			QuizResumed.class
+			QuizResumed.class,
+			ReturnToLobbyVoteResult.class,
+			ReturnToLobbyVoteStarted.class
 	);
 
 
