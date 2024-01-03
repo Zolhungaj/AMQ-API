@@ -6,7 +6,8 @@ import com.squareup.moshi.Json
 data class VideoInfo(
     @Json(name = "videoMap") val videoMap: Map<String, Map<String, String>>,
     @Json(name = "videoVolumeMap") val videoVolumeMap: Map<String, Map<String, Int>>,
-    @Json(name = "id") val id: Int
+    @Json(name = "id") val id: Int,
+    @Json(name = "encrypted") val isEncrypted: Boolean?
 ) {
     fun catbox(): VideoMapWithVolume? {
         val videos = videoMap[CATBOX] ?: return null

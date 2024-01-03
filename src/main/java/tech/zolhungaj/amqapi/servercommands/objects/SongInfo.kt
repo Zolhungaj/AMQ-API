@@ -1,7 +1,6 @@
 package tech.zolhungaj.amqapi.servercommands.objects
 
 import com.squareup.moshi.Json
-import java.util.*
 
 @JvmRecord
 data class SongInfo(
@@ -15,7 +14,7 @@ data class SongInfo(
 
     @Json(name = "altAnimeNames") val alternativeAnimeNames: List<String>,
 
-    @Json(name = "animeScore") val animeScore: Optional<Double>,
+    @Json(name = "animeScore") val animeScore: Double?,
     @Json(name = "type") val type: SongType,
 
     @Json(name = "videoTargetMap") val videoTargetMap: Map<String, Map<String, String>>,

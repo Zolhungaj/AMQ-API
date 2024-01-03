@@ -97,7 +97,9 @@ public class AmqApiExampleApplication {
 			TicketRollResult.class,
 			PlayerJoinedQueue.class,
 			PlayerLeftQueue.class,
-			DirectMessageAlert.class
+			DirectMessageAlert.class,
+			SkipVotePassed.class,
+			QuizSkippingToNextPhase.class
 	);
 
 

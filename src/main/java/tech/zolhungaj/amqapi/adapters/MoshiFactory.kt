@@ -18,11 +18,8 @@ class MoshiFactory {
         val MOSHI: Moshi = Moshi.Builder()
             .add(CustomBooleanAdapter())
             .add(CustomKotlinBooleanAdapter())
-            .add(CustomOptionalBooleanAdapter())
-            .add(CustomOptionalStringAdapter())
             .add(CustomLocalDateAdapter())
             .add(CustomOffsetDateTimeAdapter())
-            .add(OptionalFactory())
             .add(PlayerLeftAdapter())
             .add(SpectatorLeftAdapter())
             .add(
