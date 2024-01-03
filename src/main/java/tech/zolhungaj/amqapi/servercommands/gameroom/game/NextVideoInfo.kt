@@ -9,7 +9,7 @@ import tech.zolhungaj.amqapi.servercommands.objects.VideoInfo
 data class NextVideoInfo(
     @Json(name = "playbackSpeed")
     val playbackSpeed: Double,
-    @Json(name = "startPont")
+    @Json(name = "startPont")//sic
     val startPoint: Double,
     @Json(name = "videoInfo")
     val videoInfo: VideoInfo,
