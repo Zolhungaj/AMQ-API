@@ -98,7 +98,8 @@ public class AmqApiExampleApplication {
 			PlayerJoinedQueue.class,
 			PlayerLeftQueue.class,
 			DirectMessageAlert.class,
-			SkipVotePassed.class
+			SkipVotePassed.class,
+			QuizSkippingToNextPhase.class
 	);
 
 
