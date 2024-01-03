@@ -201,7 +201,12 @@ public class AmqApi implements Runnable{
         if(interceptJsonMap.containsKey(commandName)){
             interceptJsonMap.get(commandName).forEach(consumer -> consumer.accept(data));
         }
-        interceptJsonList.forEach(consumer -> consumer.accept(data));
+        interceptJsonList.forEach(consumer -> {
+            JSONObject object = new JSONObject();
+            object.put("command", commandName);
+            object.put("data", data);
+            consumer.accept(object);
+        });
         Class<?> clazz = nameToClassMap.get(commandName);
         log.debug("""
                 ServerCommand: {}
