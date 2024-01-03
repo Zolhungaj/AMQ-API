@@ -9,5 +9,6 @@ data class PlayerGameState(
     @Json(name = "private") val isPrivateRoom: Boolean,
     @Json(name = "soloGame") val isSoloGame: Boolean?,
     @Json(name = "isRanked") val isRankedGame: Boolean?,
-    val inLobby: Boolean
+    val inLobby: Boolean,
+    val inEventLobby: Boolean,
 )
