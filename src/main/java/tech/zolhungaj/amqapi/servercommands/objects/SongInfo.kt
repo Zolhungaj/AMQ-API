@@ -10,7 +10,7 @@ data class SongInfo(
     @Json(name = "animeNames") val mainAnimeNames: MainAnimeNames,
     @Json(name = "artist") val artist: String,
 
-    @Json(name = "animeDifficulty") val animeDifficulty: Double?,
+    @Json(name = "animeDifficulty") val animeDifficulty: AnimeDifficulty,
 
     @Json(name = "altAnimeNames") val alternativeAnimeNames: List<String>,
 
