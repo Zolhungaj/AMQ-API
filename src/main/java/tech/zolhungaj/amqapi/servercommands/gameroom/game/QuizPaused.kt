@@ -6,6 +6,6 @@ import tech.zolhungaj.amqapi.servercommands.CommandType
 @JvmRecord
 @CommandType("quiz pause triggered")
 data class QuizPaused(
-    val playerName: String,
+    val playerName: String?,
     @Json(name = "noPlayerPause") val allPlayersDisconnected: Boolean?
 )
