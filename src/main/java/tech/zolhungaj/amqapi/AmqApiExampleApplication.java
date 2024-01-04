@@ -103,7 +103,8 @@ public class AmqApiExampleApplication {
 			QuizPaused.class,
 			QuizResumed.class,
 			ReturnToLobbyVoteResult.class,
-			ReturnToLobbyVoteStarted.class
+			ReturnToLobbyVoteStarted.class,
+			PlayerNameChanged.class
 	);
 
 
