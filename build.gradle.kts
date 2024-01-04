@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "tech.zolhungaj"
-version = "0.19.0"
+version = "0.20.0"
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
