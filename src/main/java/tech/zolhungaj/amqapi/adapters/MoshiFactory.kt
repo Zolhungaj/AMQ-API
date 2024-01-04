@@ -22,6 +22,7 @@ class MoshiFactory {
             .add(CustomOffsetDateTimeAdapter())
             .add(PlayerLeftAdapter())
             .add(SpectatorLeftAdapter())
+            .add(AnimeDifficultyAdapter())
             .add(
                 PolymorphicJsonAdapterFactory.of(TicketReward::class.java, "rewardType")
                     .withSubtype(TicketSkinReward::class.java, "avatar")
