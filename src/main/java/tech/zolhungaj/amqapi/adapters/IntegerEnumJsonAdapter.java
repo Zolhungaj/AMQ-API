@@ -96,7 +96,7 @@ public final class IntegerEnumJsonAdapter<T extends Enum<T>> extends JsonAdapter
         else if(reader.peek() == JsonReader.Token.BOOLEAN){
             //in some rare cases we get false as a falsy value
             boolean value = reader.nextBoolean();
-            if(!value){
+            if(value){
                 throw new JsonDataException(
                         "Expected boolean false but was true at path %s".formatted(path));
             }
