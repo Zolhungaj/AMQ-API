@@ -3,7 +3,7 @@ apache-http = "4.5.14"
 jackson = "2.16.1"
 moshi = "1.15.0"
 org-json = "20231013"
-slf4j = "2.0.10"
+slf4j = "2.0.11"
 lombok = "1.18.30"
 socket-io = "2.1.0"
 
