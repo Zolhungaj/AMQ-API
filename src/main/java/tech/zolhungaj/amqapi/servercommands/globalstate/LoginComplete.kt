@@ -13,7 +13,7 @@ data class LoginComplete(
     val savedQuizSettings: List<SavedQuizSetting>,
     val patreonBadgeInfo: PatreonBadgeInfo,
     val rewardAlert: RewardAlert?,
-    val driveTotal: Double,
+    val driveTotal: Double?,
     val top5AllTime: List<AvatarDriveContribution>,
     val displayArtContestPopUp: Boolean,
     @Json(name = "top5AvatarNominatios") val top5AvatarNominations: List<AvatarDriveNomination>,
