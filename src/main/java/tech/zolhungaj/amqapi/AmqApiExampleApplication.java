@@ -104,7 +104,8 @@ public class AmqApiExampleApplication {
 			QuizResumed.class,
 			ReturnToLobbyVoteResult.class,
 			ReturnToLobbyVoteStarted.class,
-			PlayerNameChanged.class
+			PlayerNameChanged.class,
+			DeletePlayerChatMessages.class
 	);
 
 
