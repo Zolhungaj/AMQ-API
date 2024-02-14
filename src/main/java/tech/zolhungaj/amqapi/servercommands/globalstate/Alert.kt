@@ -8,5 +8,5 @@ import tech.zolhungaj.amqapi.servercommands.CommandType
 data class Alert(
     val title: String,
     val message: String,
-    @Json(name = "easyClose") val allowOutsideClickToClose: Boolean
+    @Json(name = "easyClose") val allowOutsideClickToClose: Boolean?
 )
