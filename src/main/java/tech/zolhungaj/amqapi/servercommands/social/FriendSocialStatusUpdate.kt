@@ -11,6 +11,6 @@ data class FriendSocialStatusUpdate(
     @Json(name = "name")
     val playerName: String,
     @Json(name = "socialStatus")
-    val status: PlayerStatus,
+    val status: PlayerStatus = PlayerStatus.OFFLINE,
     val gameState: PlayerGameState?
 )

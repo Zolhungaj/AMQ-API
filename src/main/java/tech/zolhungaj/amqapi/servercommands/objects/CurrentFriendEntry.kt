@@ -13,6 +13,6 @@ data class CurrentFriendEntry(
     val optionActive: Boolean,
     val optionName: String,
     val gameState: PlayerGameState?,
-    val status: PlayerStatus,
+    val status: PlayerStatus = PlayerStatus.OFFLINE,
     val animated: Boolean
 )

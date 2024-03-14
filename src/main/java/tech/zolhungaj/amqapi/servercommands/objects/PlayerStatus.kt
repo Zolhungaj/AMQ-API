@@ -13,5 +13,8 @@ enum class PlayerStatus(val text: String) {
     DO_NOT_DISTURB("Do Not Disturb"),
 
     @Json(name = "3")
-    AWAY("Away")
+    AWAY("Away"),
+
+    @Json(name = "4")
+    INVISIBLE("Invisible"),
 }
