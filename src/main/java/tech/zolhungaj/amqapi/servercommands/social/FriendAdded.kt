@@ -10,6 +10,6 @@ import tech.zolhungaj.amqapi.servercommands.objects.PlayerStatus
 data class FriendAdded(
     @Json(name = "name") val playerName: String,
     val online: Boolean,
-    val status: PlayerStatus,
+    val status: PlayerStatus = PlayerStatus.OFFLINE,
     val gameState: PlayerGameState?
 )
