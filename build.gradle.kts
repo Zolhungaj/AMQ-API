@@ -1,7 +1,7 @@
 plugins {
 	java
 	`maven-publish`
-	kotlin("jvm") version "1.9.23"
+	kotlin("jvm") version "1.9.24"
 }
 
 group = "tech.zolhungaj"
