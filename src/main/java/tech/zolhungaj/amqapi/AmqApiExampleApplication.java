@@ -193,7 +193,7 @@ public class AmqApiExampleApplication {
 		Thread.sleep(5000);
 		api.sendCommand(kick);
 		api.sendCommand(new GetProfile(OTHER_ACCOUNT));
-		api.sendCommand(new GetProfile("HermesBOT"));
+		api.sendCommand(new GetProfile("AthenaBOT"));
 		apiThread.join();
 		System.exit(0);
 	}
