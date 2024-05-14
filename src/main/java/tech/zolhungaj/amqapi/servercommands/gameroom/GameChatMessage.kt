@@ -15,9 +15,9 @@ data class GameChatMessage(
     @Json(name = "teamMessage")
     val isTeamMessage: Boolean,
     @Json(name = "nameGlow")
-    val hasNameGlow: Boolean,
+    val nameGlow: String?,
     @Json(name = "nameColor")
-    val nameColor: Boolean,
+    val nameColor: String?,
     val badges: List<Badge>,
     val messageId: Int,
     val emojis: MessageEmoji,
