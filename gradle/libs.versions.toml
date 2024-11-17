@@ -5,7 +5,7 @@ moshi = "1.15.1"
 org-json = "20240303"
 slf4j = "2.0.16"
 lombok = "1.18.36"
-socket-io = "2.1.0"
+socket-io = "2.1.1"
 
 [libraries]
 apache-httpclient = { module = "org.apache.httpcomponents:httpclient", version.ref = "apache-http" }
