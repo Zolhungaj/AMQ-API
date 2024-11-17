@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "tech.zolhungaj"
-version = "0.27.0"
+version = "0.27.1"
 
 java {
 	toolchain {
