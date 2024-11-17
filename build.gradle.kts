@@ -8,7 +8,9 @@ group = "tech.zolhungaj"
 version = "0.26.0"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_17
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
 }
 configurations {
 	compileOnly {
@@ -65,5 +67,5 @@ tasks.test {
 }
 
 kotlin {
-	jvmToolchain(17)
+	jvmToolchain(21)
 }
