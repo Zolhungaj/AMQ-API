@@ -1,6 +1,6 @@
 [versions]
 apache-http = "4.5.14"
-jackson = "2.17.1"
+jackson = "2.18.1"
 moshi = "1.15.1"
 org-json = "20240303"
 slf4j = "2.0.16"
