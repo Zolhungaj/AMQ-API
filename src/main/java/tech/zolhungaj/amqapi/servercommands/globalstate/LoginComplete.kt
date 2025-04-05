@@ -39,7 +39,7 @@ data class LoginComplete(
     val blockedPlayers: List<String>,
     val emoteGroups: List<EmoteGroup>,
     val tickets: Int,
-    @Json(name = "top5Montly") val top5Monthly: List<AvatarDriveContribution>,
+    val top5Monthly: List<AvatarDriveContribution>,
     val serverStatuses: List<FileServerStatus>,
     val topAdmin: Boolean,
     val useRomajiNames: Boolean,

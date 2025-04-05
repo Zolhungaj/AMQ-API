@@ -1,6 +1,5 @@
 package tech.zolhungaj.amqapi.servercommands.globalstate
 
-import com.squareup.moshi.Json
 import tech.zolhungaj.amqapi.servercommands.CommandType
 import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveContribution
 import tech.zolhungaj.amqapi.servercommands.objects.AvatarDriveNomination
@@ -11,7 +10,7 @@ import tech.zolhungaj.amqapi.servercommands.objects.Donation
 data class NewDonation(
     val top5Nominations: List<AvatarDriveNomination>,
     val total: Double,
-    @Json(name = "top5Montly") val top5Monthly: List<AvatarDriveContribution>,
+    val top5Monthly: List<AvatarDriveContribution>,
     val top5Weekly: List<AvatarDriveContribution>,
     val donation: Donation,
     val top5AllTime: List<AvatarDriveContribution>

@@ -20,5 +20,13 @@ enum class RankedState(val message: String) {
     @Json(name = "7")
     CHAMP_FINISHED("Completed"),
     @Json(name = "8")
-    BREAK_DAY("Ranked Rest Day")
+    BREAK_DAY("Ranked Rest Day"),
+    @Json(name = "9")
+    THEMED_OFFLINE("Themed - Offline"),
+    @Json(name = "10")
+    THEMED_LOBBY("Themed - Lobby"),
+    @Json(name = "11")
+    THEMED_RUNNING("Themed - Playing"),
+    @Json(name = "12")
+    THEMED_FINISHED("Themed - Completed"),
 }
