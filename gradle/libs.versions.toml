@@ -1,4 +1,7 @@
 [versions]
+jdk = "24" #TODO: bump to 25 once kotlin hits 2.3
+kotlin = "2.2.20"
+
 apache-http = "4.5.14"
 jackson = "2.20.0"
 moshi = "1.15.2"
@@ -25,3 +28,6 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

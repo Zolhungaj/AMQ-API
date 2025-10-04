@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	java
 	`maven-publish`
-	kotlin("jvm") version "2.2.20"
+    alias(libs.plugins.kotlin.jvm)
 }
 
 group = "tech.zolhungaj"
@@ -11,7 +11,7 @@ version = "0.28.0"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(libs.versions.jdk.get().toInt())
 	}
 }
 configurations {
@@ -69,7 +69,7 @@ tasks.test {
 }
 
 kotlin {
-	jvmToolchain(21)
+	jvmToolchain(libs.versions.jdk.get().toInt())
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.compilerOptions {
