@@ -14,10 +14,10 @@ data class ProfileAvailablePlayerBadge(
     @Json(name = "fileName")
     val filename: String,
     @Json(name = "name")
-    val badgeName: String,
+    val badgeName: Localisation,
     @Json(name = "id")
     val badgeId: Int,
     @Json(name = "type")
     val badgeType: Int,
-    val unlockDescription: String
+    val unlockDescription: Localisation
 )
