@@ -11,7 +11,7 @@ data class StoreAvatar(
     val lore: String,
     val limited: Boolean,
     val artist: String,
-    val badgeName: String,
+    val badgeName: Localisation,
     @JvmField @Json(name = "backgroundVert") val backgroundVertical: String,
     val active: Boolean,
     val colors: List<StoreAvatarColor>,
