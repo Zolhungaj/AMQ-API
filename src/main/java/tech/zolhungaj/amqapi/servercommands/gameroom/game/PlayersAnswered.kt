@@ -7,5 +7,7 @@ import tech.zolhungaj.amqapi.servercommands.CommandType
 @CommandType("player answered")
 data class PlayersAnswered(
     @Json(name = "array")
-    val gamePlayerIds: List<Int>
-)
+    val timePerPlayerList: List<TimePerPlayer>
+){
+    data class TimePerPlayer(val answerTime: Double, val gamePlayerIds: List<Int>)
+}
