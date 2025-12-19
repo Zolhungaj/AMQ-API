@@ -1,4 +1,6 @@
 [versions]
+jdk = "25"
+kotlin = "2.3.0"
 apache-http = "4.5.14"
 jackson = "2.20.1"
 moshi = "1.15.2"
@@ -25,3 +27,7 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
