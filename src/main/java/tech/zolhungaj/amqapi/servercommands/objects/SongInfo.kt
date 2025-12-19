@@ -11,7 +11,7 @@ data class SongInfo(
     @Json(name = "artist") val artist: String,
 
     @Json(name = "animeDifficulty") val animeDifficulty: AnimeDifficulty,
-    @Json(name = "seasonInfo") val season: SeasonInfo,
+    @Json(name = "seasonInfo") val season: SeasonInfo?,
 
     @Json(name = "altAnimeNames") val alternativeAnimeNames: List<String>,
 
