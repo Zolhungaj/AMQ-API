@@ -1,7 +1,7 @@
 plugins {
 	java
 	`maven-publish`
-	kotlin("jvm") version "2.3.0"
+	alias(libs.plugins.kotlin.jvm)
 }
 
 group = "tech.zolhungaj"
@@ -9,7 +9,7 @@ version = "0.29.2"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(libs.versions.jdk.get())
 	}
 }
 configurations {
@@ -67,5 +67,5 @@ tasks.test {
 }
 
 kotlin {
-	jvmToolchain(21)
+	jvmToolchain(libs.versions.jdk.get().toInt())
 }
