@@ -9,8 +9,9 @@ data class QuizSkipMessage(
     @Json(name = "messageKey")
     val localisationKey: String,
     @Json(name = "messageData")
-    val count: Count
+    val count: Count?
 ){
+    @JvmRecord
     data class Count(
         @Json(name = "number")
         val votes: Int,
