@@ -6,6 +6,15 @@ import tech.zolhungaj.amqapi.servercommands.CommandType
 @JvmRecord
 @CommandType("quiz skip message")
 data class QuizSkipMessage(
-    @Json(name = "string")
-    val message: String
-)
+    @Json(name = "messageKey")
+    val localisationKey: String,
+    @Json(name = "messageData")
+    val count: Count
+){
+    data class Count(
+        @Json(name = "number")
+        val votes: Int,
+        @Json(name = "number2")
+        val votesToPass: Int
+    )
+}
