@@ -42,7 +42,8 @@ data class SongInfo(
 ){
     data class SeasonInfo(val number: String, val name: String)
     data class ArtistInfo(val name: String, val artistId: Int?, val groupId: Int?)
-    data class Vintage(val name: String, val data: VintageData){
+    @JvmRecord
+    data class Vintage(val key: String, val data: VintageData){
         data class VintageData(val year: Int)
     }
 }
