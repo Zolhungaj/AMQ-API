@@ -11,7 +11,7 @@ data class SongInfo(
     @Json(name = "artist") val artist: String,
 
     @Json(name = "animeDifficulty") val animeDifficulty: AnimeDifficulty,
-    @Json(name = "seasonInfo") val season: SeasonInfo,
+    @Json(name = "seasonInfo") val season: SeasonInfo?,
 
     @Json(name = "altAnimeNames") val alternativeAnimeNames: List<String>,
 
@@ -28,7 +28,7 @@ data class SongInfo(
     @Json(name = "typeNumber") val typeNumber: Int,
     @Json(name = "annId") val annId: Int,
 
-    @Json(name = "vintage") val vintage: Localisation,
+    @Json(name = "vintage") val vintage: Vintage,
     @Json(name = "animeTags") val animeTags: List<String>,
 
     @Json(name = "siteIds") val siteIds: AnimeListSiteShowIds,
@@ -42,4 +42,7 @@ data class SongInfo(
 ){
     data class SeasonInfo(val number: String, val name: String)
     data class ArtistInfo(val name: String, val artistId: Int?, val groupId: Int?)
+    data class Vintage(val name: String, val data: VintageData){
+        data class VintageData(val year: Int)
+    }
 }
