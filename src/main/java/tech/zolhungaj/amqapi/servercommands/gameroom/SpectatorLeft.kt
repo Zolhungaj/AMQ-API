@@ -9,5 +9,7 @@ data class SpectatorLeft(
     val kicked: Boolean,
     val newHost: String?,
     @Json(name = "spectator")
-    val playerName: String
+    val playerName: String,
+    @Json(name = "readyPingCooldown")
+    val readyPingCooldownInSeconds: Int?
 )
