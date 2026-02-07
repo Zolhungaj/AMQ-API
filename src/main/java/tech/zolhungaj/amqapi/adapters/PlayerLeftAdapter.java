@@ -17,6 +17,7 @@ public class PlayerLeftAdapter extends JsonAdapter<PlayerLeft> {
         Boolean disconnect = null;
         String newHost = null;
         PlayerIdentifier player = null;
+        Integer readyPingCooldown = null;
         jsonReader.beginObject();
         while(jsonReader.peek() == JsonReader.Token.NAME) {
             String name = jsonReader.nextName();
@@ -58,6 +59,7 @@ public class PlayerLeftAdapter extends JsonAdapter<PlayerLeft> {
                     }
                     player = new PlayerIdentifier(playerName, gamePlayerId);
                 }
+                case "readyPingCooldown" -> readyPingCooldown = jsonReader.nextInt();
                 default -> throw new IOException("Unexpected field: " + name);
             }
         }
@@ -65,7 +67,7 @@ public class PlayerLeftAdapter extends JsonAdapter<PlayerLeft> {
         if(player == null){
             throw new IOException("player was null");
         }
-        return new PlayerLeft(Boolean.TRUE.equals(kicked), Boolean.TRUE.equals(disconnect), newHost, player);
+        return new PlayerLeft(Boolean.TRUE.equals(kicked), Boolean.TRUE.equals(disconnect), newHost, player, readyPingCooldown);
     }
 
     @Override
