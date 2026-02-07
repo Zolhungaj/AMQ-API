@@ -151,7 +151,10 @@ public record GameSettings(
 	int bossPowerUps,
 	@JsonProperty("bossMaxSongs")
 	@Json(name = "bossMaxSongs")
-	int bossMaxSongs
+	int bossMaxSongs,
+	@JsonProperty("songPool")
+	@Json(name = "songPool")
+	int songPool
 ) {
 	public enum ScoreType{
 		COUNT(1),
@@ -203,6 +206,19 @@ public record GameSettings(
 		}
 		static final AnsweringMode DEFAULT = TYPING;
 	}
+
+	public enum SongPool{
+		ALL_SONGS(1),
+		SINGLE_PLAYER_LIST(2),
+		CUSTOM_LIST(3),
+		COMMUNITY_QUIZ(4);
+		public final int value;
+		SongPool(int value){
+			this.value = value;
+		}
+		static final SongPool DEFAULT = ALL_SONGS;
+	}
+
 	public static int DEFAULT_NUMBER_OF_SONGS = 20;
 	public static int DEFAULT_ROOM_SIZE = 8;
 	public static int DEFAULT_TEAM_SIZE = 1;
@@ -232,6 +248,7 @@ public record GameSettings(
 			.lives(DEFAULT_LIVES)
 			.songSelection(SongSelection.DEFAULT)
 			.numberOfSongs(DEFAULT_NUMBER_OF_SONGS)
+			.songPool(SongPool.DEFAULT.value)
 			.songTypeSelection(SongTypeSelection.DEFAULT)
 			.roomName("DEFAULT")
 			.inventorySize(InventorySize.DEFAULT)
