@@ -40,7 +40,7 @@ data class SongInfo(
 
     @Json(name = "altAnimeNamesAnswers") val alternativeAnimeNamesAnswers: List<String>
 ){
-    data class SeasonInfo(val number: String, val name: String)
+    data class SeasonInfo(val number: String?, val name: String)
     data class ArtistInfo(val name: String, val artistId: Int?, val groupId: Int?)
     @JvmRecord
     data class Vintage(val key: String, val data: VintageData){
