@@ -9,5 +9,6 @@ data class PlayerLeft(
     val kicked: Boolean,
     val disconnect: Boolean,
     val newHost: String?,
-    val player: PlayerIdentifier
+    val player: PlayerIdentifier,
+    val readyPingCooldownInSeconds: Int?
 )

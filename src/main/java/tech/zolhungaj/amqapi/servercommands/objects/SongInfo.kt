@@ -16,11 +16,11 @@ data class SongInfo(
     @Json(name = "altAnimeNames") val alternativeAnimeNames: List<String>,
 
     @Json(name = "animeScore") val animeScore: Double?,
-    @Json(name = "composerInfo") val composerInfo: ArtistInfo,
+    @Json(name = "composerInfo") val composerInfo: ArtistInfo?,
 
     @Json(name = "type") val type: SongType,
     @Json(name = "dub") val isDub: Boolean,
-    @Json(name = "artistInfo") val artistInfo: ArtistInfo,
+    @Json(name = "artistInfo") val artistInfo: ArtistInfo?,
 
 
     @Json(name = "videoTargetMap") val videoTargetMap: Map<String, Map<String, String>>,
@@ -32,7 +32,7 @@ data class SongInfo(
     @Json(name = "animeTags") val animeTags: List<String>,
 
     @Json(name = "siteIds") val siteIds: AnimeListSiteShowIds,
-    @Json(name = "arrangerInfo") val arrangerInfo: ArtistInfo,
+    @Json(name = "arrangerInfo") val arrangerInfo: ArtistInfo?,
 
     @Json(name = "animeType") val animeType: String,
     @Json(name = "highRisk") val isHighRisk: Boolean,
@@ -40,7 +40,7 @@ data class SongInfo(
 
     @Json(name = "altAnimeNamesAnswers") val alternativeAnimeNamesAnswers: List<String>
 ){
-    data class SeasonInfo(val number: String, val name: String)
+    data class SeasonInfo(val number: String?, val name: String)
     data class ArtistInfo(val name: String, val artistId: Int?, val groupId: Int?)
     @JvmRecord
     data class Vintage(val key: String, val data: VintageData){

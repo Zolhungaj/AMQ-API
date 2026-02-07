@@ -15,6 +15,7 @@ public class SpectatorLeftAdapter extends JsonAdapter<SpectatorLeft> {
         Boolean kicked = null;
         String newHost = null;
         String spectator = null;
+        Integer readyPingCooldown = null;
         jsonReader.beginObject();
         while(jsonReader.peek() == JsonReader.Token.NAME) {
             String name = jsonReader.nextName();
@@ -43,6 +44,7 @@ public class SpectatorLeftAdapter extends JsonAdapter<SpectatorLeft> {
                     default -> throw new IOException("Expected a String, false or null but got a " + jsonReader.peek().name());
                 };
                 case "spectator" -> spectator = jsonReader.nextString();
+                case "readyPingCooldown" -> readyPingCooldown = jsonReader.nextInt();
                 default -> throw new IOException("Unexpected field: " + name);
             }
         }
@@ -50,7 +52,7 @@ public class SpectatorLeftAdapter extends JsonAdapter<SpectatorLeft> {
         if(spectator == null){
             throw new IOException("spectator was null");
         }
-        return new SpectatorLeft(Boolean.TRUE.equals(kicked), newHost, spectator);
+        return new SpectatorLeft(Boolean.TRUE.equals(kicked), newHost, spectator, readyPingCooldown);
     }
 
     @Override
