@@ -48,7 +48,7 @@ public record Vintage(
 		}
 	}
 
-	public static int MIN_YEAR = 1944;
+	public static int MIN_YEAR = 1924;
 	public static int MAX_YEAR = LocalDate.now().getYear(); //should work forever
 	public static SeasonRange DEFAULT_RANGE = SeasonRange.of(MIN_YEAR, Season.WINTER, MAX_YEAR, Season.AUTUMN);
 	public static Vintage DEFAULT = new Vintage(List.of(), DEFAULT_RANGE);
