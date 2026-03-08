@@ -26,27 +26,38 @@ public record SongDifficulty(
 	boolean advancedOn
 ) {
 	public enum Difficulty{
+		BEGINNER,
 		EASY,
 		MEDIUM,
 		HARD,
+		EXPERT,
 		ALL
 	}
 	public record DifficultyToggle(
+			@JsonProperty("beginner")
+			@Json(name = "beginner")
+			boolean beginner,
 
 			@JsonProperty("easy")
-	@Json(name = "easy")
+			@Json(name = "easy")
 			boolean easy,
+
 			@JsonProperty("medium")
-	@Json(name = "medium")
+			@Json(name = "medium")
 			boolean medium,
 			@JsonProperty("hard")
-	@Json(name = "hard")
-			boolean hard
+
+			@Json(name = "hard")
+			boolean hard,
+
+			@JsonProperty("expert")
+			@Json(name = "expert")
+			boolean expert
 	){}
 	public static int MIN = 0;
 	public static int MAX = 100;
 	public static List<Integer> DEFAULT_RANGE = List.of(MIN,MAX);
-	public static DifficultyToggle DEFAULT_TOGGLE = new DifficultyToggle(true, true, true);
+	public static DifficultyToggle DEFAULT_TOGGLE = new DifficultyToggle(true, true, true, true, true);
 	public static SongDifficulty DEFAULT = new SongDifficulty(DEFAULT_TOGGLE, DEFAULT_RANGE, false);
 
 	public static SongDifficulty of(Difficulty... difficulties){
@@ -56,12 +67,14 @@ public record SongDifficulty(
 	public static SongDifficulty of(Collection<Difficulty> difficulties){
 		final DifficultyToggle toggle;
 		if(difficulties.contains(Difficulty.ALL)){
-			toggle = new DifficultyToggle(true, true, true);
+			toggle = new DifficultyToggle(true, true, true, true, true);
 		}else{
 			toggle = new DifficultyToggle(
+					difficulties.contains(Difficulty.BEGINNER),
 					difficulties.contains(Difficulty.EASY),
 					difficulties.contains(Difficulty.MEDIUM),
-					difficulties.contains(Difficulty.HARD)
+					difficulties.contains(Difficulty.HARD),
+					difficulties.contains(Difficulty.EXPERT)
 			);
 		}
 

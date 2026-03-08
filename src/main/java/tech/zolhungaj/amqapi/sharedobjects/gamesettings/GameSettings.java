@@ -154,7 +154,10 @@ public record GameSettings(
 	int bossMaxSongs,
 	@JsonProperty("songPool")
 	@Json(name = "songPool")
-	int songPool
+	int songPool,
+	@Json(name = "animePopularity")
+	@JsonProperty("animePopularity")
+	AnimePopularity animePopularity
 ) {
 	public enum ScoreType{
 		COUNT(1),
@@ -262,5 +265,6 @@ public record GameSettings(
 			.bossLives(DEFAULT_BOSS_LIVES)
 			.bossPowerUps(DEFAULT_BOSS_POWER_UPS)
 			.bossMaxSongs(DEFAULT_BOSS_MAX_SONGS)
+			.animePopularity(AnimePopularity.DEFAULT)
 			.build();
 }
