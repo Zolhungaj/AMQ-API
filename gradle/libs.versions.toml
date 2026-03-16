@@ -1,6 +1,6 @@
 [versions]
 jdk = "25"
-kotlin = "2.3.10"
+kotlin = "2.3.20"
 apache-http = "4.5.14"
 jackson = "2.21.1"
 moshi = "1.15.2"
