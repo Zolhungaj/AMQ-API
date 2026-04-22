@@ -6,7 +6,7 @@ jackson = "2.21.2"
 moshi = "1.15.2"
 org-json = "20251224"
 slf4j = "2.0.17"
-lombok = "1.18.44"
+lombok = "1.18.46"
 socket-io = "2.1.2"
 
 [libraries]
