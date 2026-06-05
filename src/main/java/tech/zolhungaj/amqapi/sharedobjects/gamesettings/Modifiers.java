@@ -39,7 +39,11 @@ public record Modifiers(
 		boolean allowDubSongs,
 		@JsonProperty("fullSongRange")
 		@Json(name = "fullSongRange")
-		boolean useFullSongRange
+		boolean useFullSongRange,
+
+		@JsonProperty("quizJoin")
+		@Json(name = "quizJoin")
+		boolean allowQuizJoin
 
 
 ) {
@@ -52,6 +56,7 @@ public record Modifiers(
 		ALLOW_REBROADCAST_SONGS,
 		ALLOW_DUB_SONGS,
 		USE_FULL_SONG_RANGE,
+		ALLOW_QUIZ_JOIN,
 		ALL
 	}
 
@@ -73,6 +78,7 @@ public record Modifiers(
 					true,
 					true,
 					true,
+					true,
 					true);
 		}
 		return new Modifiers(
@@ -83,7 +89,8 @@ public record Modifiers(
 				modifiers.contains(Modifier.ALLOW_DUPLICATE_SHOWS),
 				modifiers.contains(Modifier.ALLOW_REBROADCAST_SONGS),
 				modifiers.contains(Modifier.ALLOW_DUB_SONGS),
-				modifiers.contains(Modifier.USE_FULL_SONG_RANGE)
+				modifiers.contains(Modifier.USE_FULL_SONG_RANGE),
+				modifiers.contains(Modifier.ALLOW_QUIZ_JOIN)
 		);
 	}
 	public Modifiers with(Modifier... categories){
@@ -131,6 +138,9 @@ public record Modifiers(
 		}
 		if(useFullSongRange){
 			set.add(Modifier.USE_FULL_SONG_RANGE);
+		}
+		if(allowQuizJoin){
+			set.add(Modifier.ALLOW_QUIZ_JOIN);
 		}
 		return set;
 	}

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
 	java
 	`maven-publish`
@@ -5,7 +7,7 @@ plugins {
 }
 
 group = "tech.zolhungaj"
-version = "0.34.0"
+version = "0.35.0"
 
 java {
 	toolchain {
@@ -68,4 +70,8 @@ tasks.test {
 
 kotlin {
 	jvmToolchain(libs.versions.jdk.get().toInt())
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.compilerOptions {
+    freeCompilerArgs.set(listOf("-Xannotation-default-target=param-property"))
 }
