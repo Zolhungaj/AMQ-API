@@ -160,7 +160,7 @@ public record GameSettings(
 	AnimePopularity animePopularity,
 	@JsonProperty("guessMode")
 	@Json(name = "guessMode")
-	int guessMode //TODO: map these beyond 1=default
+	GuessMode guessMode
 ) {
 	public enum ScoreType{
 		COUNT(1),
@@ -269,6 +269,6 @@ public record GameSettings(
 			.bossPowerUps(DEFAULT_BOSS_POWER_UPS)
 			.bossMaxSongs(DEFAULT_BOSS_MAX_SONGS)
 			.animePopularity(AnimePopularity.DEFAULT)
-			.guessMode(1)//TODO
+			.guessMode(GuessMode.DEFAULT)
 			.build();
 }
