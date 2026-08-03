@@ -26,9 +26,9 @@ jobs:
           distribution: 'microsoft'
           cache: gradle
       - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@v6
+        uses: gradle/actions/wrapper-validation@v6.2.0
       - name: Publish package
-        uses: gradle/actions/setup-gradle@v6
+        uses: gradle/actions/setup-gradle@v6.2.0
       - name: publish
         run: ./gradlew publish
         env:
